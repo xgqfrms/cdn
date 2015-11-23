@@ -1,6 +1,6 @@
 # cdn
 ## CDN for everyone who want speed his website!
-* **license under CC licensing!**
+* license under CC licensing!
 
 # Disclaimer
 
@@ -8,5 +8,4 @@
 *   Adapt — remix, transform, and build upon the material
 *    for any purpose, even commercially.
 
-**    The licensor cannot revoke these freedoms as long as you follow the license terms.**
-
+##   The licensor cannot revoke these freedoms as long as you follow the license terms.
