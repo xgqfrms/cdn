@@ -1,3 +1,4 @@
+## [www.emoji-cheat-sheet.com](www.emoji-cheat-sheet.com)
 # cdn 
 ## [website] (http://xgqfrms.github.io/cdn/index.html)
 ## CDN for everyone who want speed his website!
