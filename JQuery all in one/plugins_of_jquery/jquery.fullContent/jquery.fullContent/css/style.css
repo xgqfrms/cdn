@@ -1,0 +1,114 @@
+/* 
+Name: Jquery Full Content
+Authors: Zeh Fernandes
+Date: 2012-05-04
+*/
+
+/* TYPOGRAPHY */
+/* ----------------------------------------- */
+
+@font-face {
+		font-family: 'FuturaLT-Condensed';
+		src: url('../fontes/futuralt-condensed.eot');
+		src: url('../fontes/futuralt-condensed.eot?#iefix') format('embedded-opentype'),
+				 url('../fontes/futuralt-condensed.woff') format('woff'),
+				 url('../fontes/futuralt-condensed.ttf') format('truetype'),
+				 url('../fontes/futuralt-condensed.svg#futuralt-condensed') format('svg');
+		font-weight: normal;
+		font-style: normal;
+}
+		
+@font-face {
+		font-family: 'GillSansLight';
+		src: url('../fontes/gillsanslight.eot');
+		src: url('../fontes/gillsanslight.eot?#iefix') format('embedded-opentype'),
+				 url('../fontes/gillsanslight.woff') format('woff'),
+				 url('../fontes/gillsanslight.ttf') format('truetype'),
+				 url('../fontes/gillsanslight.svg#gillsanslight') format('svg');
+		font-weight: normal;
+		font-style: normal;
+}
+
+
+/* ALL */
+/* ----------------------------------------- */
+
+body { background: url(../images/bg.jpg); overflow-x: hidden; overflow-y: hidden; color: #fff; font-family: 'GillSansLight', HeveticaNeue-Light, sans-serif; }
+.scrollv { overflow-y: auto !important; }
+
+.wrap { width: 80%; margin: 0 auto; }
+
+h1, h2 { font-weight: normal; text-transform: uppercase; text-align: center; }
+
+h1 { font-family: 'FuturaLT-Condensed'; font-size: 111px; letter-spacing: -5px; padding-top: 30px; }
+h2 { font-family: 'GillSansLight'; font-size: 50px; letter-spacing: -2px;   }
+h3 { font-family: 'GillSansLight'; font-size: 22px; font-weight: normal; text-align: center; padding-top: 5px;  }
+
+h3 a, h2 a  { color: #775995; text-decoration: none; }
+h3 a:hover, h2 a:hover { text-decoration: underline; }
+
+.options { list-style: none; margin-top: 8%; overflow: hidden; }
+.options li { float: left;  width: 33%; height: 350px; }
+.options li:last-child { margin-right: 0; }
+
+.options a { display: block; width: 250px; height: 165px; border-radius: 50%; border: 2px solid #fff; 
+			color: #fff; text-decoration: none; font-size: 25px; text-align: center; padding-top: 85px; font-family: 'GillSansLight';  
+			margin: 0 auto; }
+	.options a big { display: block; font-size: 50px; }
+	.options a:hover { background: rgba(217,45,237,0.15); }
+
+code { 
+color: white;
+text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+padding: 20px;
+background: rgba(255, 255, 255, 0.3);
+clear: both;
+position: relative;
+display: block;
+margin: 10px 0;
+border-radius: 10px;
+}
+
+p { font-size: 16px; color: #fff; padding-top: 15px; }
+
+/* SPECIFICS */
+/* ----------------------------------------- */
+.big li { width: 50%; height: auto; }
+.big li a { width: 300px; height: 190px; padding-top: 110px; margin: 0 5%; }
+.big li:first-child a { float: right; }
+
+.small li { width: 100%; height: auto; }
+.small li a  { width: 180px; height: 115px; padding-top: 65px; font-size: 20px; }
+.small a big { font-size: 35px }
+
+.documentation h2 { padding: 40px 0 20px 0; } 
+.download h2:first-child, .documentation h2:first-child, .what h2:first-child { padding-top: 8%; }
+
+.list { font-size: 25px; list-style: disc; margin: 3% 10%}
+.list li { margin: 10px 0; }
+
+.documentation .wrap { overflow: hidden; padding-bottom: 50px; }
+
+
+/* MEDIA QUERIES */
+/* ----------------------------------------- */
+
+@media screen and (max-width: 1000px) {
+ 
+h1 { font-size: 90px }
+h2 { font-size: 40px; letter-spacing: normal; }
+
+.home, .download { overflow-y: scroll; }
+
+.options li { 
+	float: none;
+	display: inline-block;
+	width: 100%;
+	height: auto;
+	margin-bottom: 3%;
+}
+
+.big li a { 
+	float:none !important;
+	margin: 0 auto; 
+}
