@@ -1,0 +1,1804 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Chapter 8: Paths
+
+  $Id: paths.html,v 1.94 2011/08/10 02:10:32 cmccorma Exp $
+
+  Note: This document is generated from ../master/paths.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Paths – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="coords.html">Previous</a> ⋅ <a href="shapes.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>8 Paths</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#Introduction">8.1 Introduction</a></li>
+<li><a href="#PathElement">8.2 The <span class="element-name">‘path’</span> element</a></li>
+<li><a href="#PathData">8.3 Path data</a><ul class="toc">
+<li><a href="#PathDataGeneralInformation">8.3.1 General information about path data</a></li>
+<li><a href="#PathDataMovetoCommands">8.3.2 The <strong>"moveto"</strong> commands</a></li>
+<li><a href="#PathDataClosePathCommand">8.3.3 The <strong>"closepath"</strong> command</a></li>
+<li><a href="#PathDataLinetoCommands">8.3.4 The <strong>"lineto"</strong> commands</a></li>
+<li><a href="#PathDataCurveCommands">8.3.5 The curve commands</a></li>
+<li><a href="#PathDataCubicBezierCommands">8.3.6 The cubic Bézier curve commands</a></li>
+<li><a href="#PathDataQuadraticBezierCommands">8.3.7 The quadratic Bézier curve commands</a></li>
+<li><a href="#PathDataEllipticalArcCommands">8.3.8 The elliptical arc curve commands</a></li>
+<li><a href="#PathDataBNF">8.3.9 The grammar for path data</a></li></ul></li>
+<li><a href="#DistanceAlongAPath">8.4 Distance along a path</a></li>
+<li><a href="#DOMInterfaces">8.5 DOM interfaces</a><ul class="toc">
+<li><a href="#InterfaceSVGPathSeg">8.5.1 Interface SVGPathSeg</a></li>
+<li><a href="#InterfaceSVGPathSegClosePath">8.5.2 Interface SVGPathSegClosePath</a></li>
+<li><a href="#InterfaceSVGPathSegMovetoAbs">8.5.3 Interface SVGPathSegMovetoAbs</a></li>
+<li><a href="#InterfaceSVGPathSegMovetoRel">8.5.4 Interface SVGPathSegMovetoRel</a></li>
+<li><a href="#InterfaceSVGPathSegLinetoAbs">8.5.5 Interface SVGPathSegLinetoAbs</a></li>
+<li><a href="#InterfaceSVGPathSegLinetoRel">8.5.6 Interface SVGPathSegLinetoRel</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoCubicAbs">8.5.7 Interface SVGPathSegCurvetoCubicAbs</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoCubicRel">8.5.8 Interface SVGPathSegCurvetoCubicRel</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoQuadraticAbs">8.5.9 Interface SVGPathSegCurvetoQuadraticAbs</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoQuadraticRel">8.5.10 Interface SVGPathSegCurvetoQuadraticRel</a></li>
+<li><a href="#InterfaceSVGPathSegArcAbs">8.5.11 Interface SVGPathSegArcAbs</a></li>
+<li><a href="#InterfaceSVGPathSegArcRel">8.5.12 Interface SVGPathSegArcRel</a></li>
+<li><a href="#InterfaceSVGPathSegLinetoHorizontalAbs">8.5.13 Interface SVGPathSegLinetoHorizontalAbs</a></li>
+<li><a href="#InterfaceSVGPathSegLinetoHorizontalRel">8.5.14 Interface SVGPathSegLinetoHorizontalRel</a></li>
+<li><a href="#InterfaceSVGPathSegLinetoVerticalAbs">8.5.15 Interface SVGPathSegLinetoVerticalAbs</a></li>
+<li><a href="#InterfaceSVGPathSegLinetoVerticalRel">8.5.16 Interface SVGPathSegLinetoVerticalRel</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoCubicSmoothAbs">8.5.17 Interface SVGPathSegCurvetoCubicSmoothAbs</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoCubicSmoothRel">8.5.18 Interface SVGPathSegCurvetoCubicSmoothRel</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">8.5.19 Interface SVGPathSegCurvetoQuadraticSmoothAbs</a></li>
+<li><a href="#InterfaceSVGPathSegCurvetoQuadraticSmoothRel">8.5.20 Interface SVGPathSegCurvetoQuadraticSmoothRel</a></li>
+<li><a href="#InterfaceSVGPathSegList">8.5.21 Interface SVGPathSegList</a></li>
+<li><a href="#InterfaceSVGAnimatedPathData">8.5.22 Interface SVGAnimatedPathData</a></li>
+<li><a href="#InterfaceSVGPathElement">8.5.23 Interface SVGPathElement</a></li></ul></li></ul>
+
+
+
+<h2 id="Introduction">8.1 Introduction</h2>
+
+    <p>Paths represent the outline of a shape which can be filled,
+    stroked, used as a clipping path, or any combination of the
+    three. (See <a href="painting.html">Filling, Stroking and Paint
+    Servers</a> and <a href="masking.html">Clipping, Masking and
+    Compositing</a>.)</p>
+    <p>A path is described using the concept of a current point. In
+    an analogy with drawing on paper, the current point can be
+    thought of as the location of the pen. The position of the pen
+    can be changed, and the outline of a shape (open or closed) can
+    be traced by dragging the pen in either straight lines or
+    curves.</p>
+    <p>Paths represent the geometry of the outline of an object,
+    defined in terms of <em>moveto</em> (set a new current point),
+    <em>lineto</em> (draw a straight line), <em>curveto</em> (draw
+    a curve using a cubic Bézier), <em>arc</em> (elliptical
+    or circular arc) and <em>closepath</em> (close the current
+    shape by drawing a line to the last <em>moveto</em>) elements.
+    Compound paths (i.e., a path with multiple subpaths) are
+    possible to allow effects such as "donut holes" in objects.</p>
+    <p>This chapter describes the syntax, behavior and DOM
+    interfaces for SVG paths. Various implementation notes for SVG
+    paths can be found in <a href="implnote.html#PathElementImplementationNotes"><span class="element-name">‘path’</span> element implementation
+    notes</a> and <a href="implnote.html#ArcImplementationNotes">Elliptical arc
+    implementation notes</a>.</p>
+    <p>A path is defined in SVG using the <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element.</p>
+
+<h2 id="PathElement">8.2 The <span class="element-name">‘path’</span> element</h2>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘path’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermGraphicsElement">Graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="paths.html#DAttribute"><span class="attr-name">‘d’</span></a></li><li><a href="paths.html#PathLengthAttribute"><span class="attr-name">‘pathLength’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="paths.html#InterfaceSVGPathElement">SVGPathElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="DAttribute"><span class="adef">d</span> = "<em>path data</em>"</dt><dd>The definition of the outline of a shape. See <a href="#PathData">Path data</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: yes.</span>
+        Path data animation is only possible when each path data
+        specification within an animation specification has exactly
+        the same list of path data commands as the <a href="paths.html#DAttribute"><span class="attr-name">‘d’</span></a> attribute. If an animation is
+        specified and the list of path data commands is not the
+        same, then the animation specification is in error (see <a href="implnote.html#ErrorProcessing">Error Processing</a>).
+        The animation engine interpolates each parameter to each
+        path data command separately based on the attributes to the
+        given animation element. Flags and booleans are
+        interpolated as fractions between zero and one, with any
+        non-zero value considered to be a value of one/true.</dd><dt id="PathLengthAttribute"><span class="adef">pathLength</span> = "<a href="types.html#DataTypeNumber">&lt;number&gt;</a>"</dt><dd>The author's computation of the total length of the
+        path, in user units. This value is used to calibrate the
+        user agent's own <a href="paths.html#DistanceAlongAPath">distance-along-a-path</a>
+        calculations with that of the author. The user agent will
+        scale all distance-along-a-path computations by the ratio
+        of <a href="paths.html#PathLengthAttribute"><span class="attr-name">‘pathLength’</span></a> to the user
+        agent's own computed value for total path length. <a href="paths.html#PathLengthAttribute"><span class="attr-name">‘pathLength’</span></a> potentially affects
+        calculations for <a href="text.html#TextOnAPath">text on a path</a>,
+        <a href="animate.html#AnimateMotionElement">motion animation</a> and
+        various <a href="painting.html#StrokeProperties">stroke operations</a>.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error
+        processing</a>).<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<h2 id="PathData">8.3 Path data</h2>
+
+<h3 id="PathDataGeneralInformation">8.3.1 General information about path data</h3>
+
+    <p>A path is defined by including a <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>
+    element which contains a <span class="attr-value">d="(path data)"</span>
+    attribute, where the <a href="paths.html#DAttribute"><span class="attr-name">‘d’</span></a> attribute contains the
+    <em>moveto</em>, <em>line</em>, <em>curve</em> (both cubic and
+    quadratic Béziers), <em>arc</em> and <em>closepath</em>
+    instructions.</p>
+    <p><span class="example-ref">Example triangle01</span>
+    specifies a path in the shape of a triangle. (The
+    <strong>M</strong> indicates a <em>moveto</em>, the
+    <strong>L</strong>s indicate <em>lineto</em>s, and the
+    <strong>z</strong> indicates a <em>closepath</em>).</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="4cm" height="4cm" viewBox="0 0 400 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;title&gt;Example triangle01- simple example of a 'path'&lt;/title&gt;
+  &lt;desc&gt;A path that draws a triangle&lt;/desc&gt;
+  &lt;rect x="1" y="1" width="398" height="398"
+        fill="none" stroke="blue" /&gt;
+  &lt;path d="M 100 100 L 300 100 L 200 300 z"
+        fill="red" stroke="blue" stroke-width="3" /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example triangle01</caption><tr><td><img alt="Example triangle01 — simple example of a 'path'" src="images/paths/triangle01.png"/></td></tr></table><p class="view-as-svg"><a href="images/paths/triangle01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+    <p>Path data can contain newline characters and thus can be
+    broken up into multiple lines to improve readability. Because
+    of line length limitations with certain related tools, it is
+    recommended that SVG generators split long path data strings
+    across multiple lines, with each line not exceeding 255
+    characters. Also note that newline characters are only allowed
+    at certain places within path data.</p>
+    <p>The syntax of path data is concise in order to allow for
+    minimal file size and efficient downloads, since many SVG files
+    will be dominated by their path data. Some of the ways that SVG
+    attempts to minimize the size of path data are as follows:</p>
+    <ul><li>All instructions are expressed as one character (e.g., a
+      <em>moveto</em> is expressed as an <strong>M</strong>).</li><li>Superfluous white space and separators such as commas can
+      be eliminated (e.g., "M 100 100 L 200 200" contains
+      unnecessary spaces and could be expressed more compactly as
+      "M100 100L200 200").</li><li>The command letter can be eliminated on subsequent
+      commands if the same command is used multiple times in a row
+      (e.g., you can drop the second "L" in "M 100 200 L 200 100 L
+      -100 -200" and use "M 100 200 L 200 100 -100 -200"
+      instead).</li><li>Relative versions of all commands are available
+      (uppercase means absolute coordinates, lowercase means
+      relative coordinates).</li><li>Alternate forms of <em>lineto</em> are available to
+      optimize the special cases of horizontal and vertical lines
+      (absolute and relative).</li><li>Alternate forms of <em>curve</em> are available to
+      optimize the special cases where some of the control points
+      on the current segment can be determined automatically from
+      the control points on the previous segment.</li></ul>
+    <p>The path data syntax is a prefix notation (i.e., commands
+    followed by parameters). The only allowable decimal point is a
+    Unicode 
+    U+0046 FULL STOP (".") character (also referred to in Unicode as
+    PERIOD, dot and decimal point) and no other delimiter
+    characters are allowed [<a href="refs.html#ref-UNICODE">UNICODE</a>].
+    (For example, the following is an
+    invalid numeric value in a path data stream: "13,000.56".
+    Instead, say: "13000.56".)</p>
+    <p>For the relative versions of the commands, all coordinate
+    values are relative to the current point at the start of the
+    command.</p>
+    <p>In the tables below, the following notation is used:</p>
+    <ul><li>(): grouping of parameters</li><li>+: 1 or more of the given parameter(s) is required</li></ul>
+    <p>The following sections list the commands.</p>
+    
+    <h3 id="PathDataMovetoCommands">8.3.2 The <strong>"moveto"</strong> commands</h3>
+    <p>The "moveto" commands (<strong>M</strong> or
+    <strong>m</strong>) establish a new current point. The effect
+    is as if the "pen" were lifted and moved to a new location. A
+    path data segment (if there is one) must begin with a "moveto"
+    command. Subsequent "moveto" commands (i.e., when the "moveto"
+    is not the first command) represent the start of a new
+    <em>subpath</em>:</p>
+    <table summary="moveto command" class="PathDataTable" border="1" cellspacing="2" cellpadding="5"><tr><th>Command</th><th>Name</th><th>Parameters</th><th>Description</th></tr><tr><td><strong>M</strong> (absolute)<br/>
+         <strong>m</strong> (relative)</td><td>moveto</td><td>(x y)+</td><td>
+          Start a new sub-path at the given (x,y) coordinate.
+          <strong>M</strong> (uppercase) indicates that absolute
+          coordinates will follow; <strong>m</strong> (lowercase)
+          indicates that relative coordinates will follow. If a moveto is
+          followed by multiple pairs of coordinates, the subsequent pairs
+          are treated as implicit lineto commands. Hence, implicit lineto
+          commands will be relative if the moveto is relative, and
+          absolute if the moveto is absolute. If a relative moveto
+          (<strong>m</strong>) appears as the first element of the path,
+          then it is treated as a pair of absolute coordinates. In this
+          case, subsequent pairs of coordinates are treated as relative
+          even though the initial moveto is interpreted as an absolute moveto.
+        </td></tr></table>
+    
+    <h3 id="PathDataClosePathCommand">8.3.3 The <strong>"closepath"</strong> command</h3>
+    <p>The "closepath" (<strong>Z</strong> or <strong>z</strong>)
+    ends the current subpath and causes an automatic straight line
+    to be drawn from the current point to the initial point of the
+    current subpath. If a "closepath" is followed immediately by a
+    "moveto", then the "moveto" identifies the start point of the
+    next subpath. If a "closepath" is followed immediately by any
+    other command, then the next subpath starts at the same initial
+    point as the current subpath.</p>
+    <p>When a subpath ends in a "closepath," it differs in behavior
+    from what happens when "manually" closing a subpath via a
+    "lineto" command in how <a href="painting.html#StrokeLinejoinProperty"><span class="prop-name">‘stroke-linejoin’</span></a>
+    and <a href="painting.html#StrokeLinecapProperty"><span class="prop-name">‘stroke-linecap’</span></a> are implemented. With "closepath", the end of the final segment
+    of the subpath is "joined" with the start of the initial
+    segment of the subpath using the current value of <a href="painting.html#StrokeLinejoinProperty"><span class="prop-name">‘stroke-linejoin’</span></a>.
+    If you instead "manually" close the subpath via a "lineto"
+    command, the start of the first segment and the end of the last
+    segment are not joined but instead are each capped using the
+    current value of <a href="painting.html#StrokeLinecapProperty"><span class="prop-name">‘stroke-linecap’</span></a>.
+    At the end of the command, the new current point is set to the
+    initial point of the current subpath.</p>
+    <table summary="closepath command" class="PathDataTable" border="1" cellspacing="2" cellpadding="5"><tr><th>Command</th><th>Name</th><th>Parameters</th><th>Description</th></tr><tr><td><strong>Z</strong> or<br/>
+         <strong>z</strong></td><td>closepath</td><td>(none)</td><td>Close the current subpath by drawing a straight line from the
+        current point to current subpath's initial point. Since the Z and z
+        commands take no parameters, they have an identical effect.</td></tr></table>
+    
+    <h3 id="PathDataLinetoCommands">8.3.4 The <strong>"lineto"</strong> commands</h3>
+    <p>The various "lineto" commands draw straight lines from the
+    current point to a new point:</p>
+    <table summary="lineto command" class="PathDataTable" border="1" cellspacing="2" cellpadding="5"><tr><th>Command</th><th>Name</th><th>Parameters</th><th>Description</th></tr><tr><td><strong>L</strong> (absolute)<br/>
+         <strong>l</strong> (relative)</td><td>lineto</td><td>(x y)+</td><td>Draw a line from the current point to the given (x,y)
+        coordinate which becomes the new current point.
+        <strong>L</strong> (uppercase) indicates that absolute
+        coordinates will follow; <strong>l</strong> (lowercase)
+        indicates that relative coordinates will follow. A number
+        of coordinates pairs may be specified to draw a polyline.
+        At the end of the command, the new current point is set to
+        the final set of coordinates provided.</td></tr><tr><td><strong>H</strong> (absolute)<br/>
+         <strong>h</strong> (relative)</td><td>horizontal lineto</td><td>x+</td><td>Draws a horizontal line from the current point (cpx,
+        cpy) to (x, cpy). <strong>H</strong> (uppercase) indicates
+        that absolute coordinates will follow; <strong>h</strong>
+        (lowercase) indicates that relative coordinates will
+        follow. Multiple x values can be provided (although usually
+        this doesn't make sense). At the end of the command, the
+        new current point becomes (x, cpy) for the final value of
+        x.</td></tr><tr><td><strong>V</strong> (absolute)<br/>
+         <strong>v</strong> (relative)</td><td>vertical lineto</td><td>y+</td><td>Draws a vertical line from the current point (cpx, cpy)
+        to (cpx, y). <strong>V</strong> (uppercase) indicates that
+        absolute coordinates will follow; <strong>v</strong>
+        (lowercase) indicates that relative coordinates will
+        follow. Multiple y values can be provided (although usually
+        this doesn't make sense). At the end of the command, the
+        new current point becomes (cpx, y) for the final value of
+        y.</td></tr></table>
+
+    <h3 id="PathDataCurveCommands">8.3.5 The curve commands</h3>
+    <p>These three groups of commands draw curves:</p>
+    <ul><li><a href="paths.html#PathDataCubicBezierCommands">Cubic
+      Bézier commands</a> (<strong>C</strong>,
+      <strong>c</strong>, <strong>S</strong> and
+      <strong>s</strong>). A cubic Bézier segment is defined
+      by a start point, an end point, and two control points.</li><li><a href="paths.html#PathDataQuadraticBezierCommands">Quadratic
+      Bézier commands</a> (<strong>Q</strong>,
+      <strong>q</strong>, <strong>T</strong> and
+      <strong>t</strong>). A quadratic Bézier segment is
+      defined by a start point, an end point, and one control
+      point.</li><li><a href="paths.html#PathDataEllipticalArcCommands">Elliptical
+      arc commands</a> (<strong>A</strong> and <strong>a</strong>).
+      An elliptical arc segment draws a segment of an ellipse.</li></ul>
+
+    <h3 id="PathDataCubicBezierCommands">8.3.6 The cubic Bézier curve commands</h3>
+    <p>The cubic Bézier commands are as follows:</p>
+    <table summary="cubic Bézier command" class="PathDataTable" border="1" cellspacing="2" cellpadding="5"><tr><th>Command</th><th>Name</th><th>Parameters</th><th>Description</th></tr><tr><td><strong>C</strong> (absolute)<br/>
+         <strong>c</strong> (relative)</td><td>curveto</td><td>(x1 y1 x2 y2 x y)+</td><td>Draws a cubic Bézier curve from the current
+        point to (x,y) using (x1,y1) as the control point at the
+        beginning of the curve and (x2,y2) as the control point at
+        the end of the curve. <strong>C</strong> (uppercase)
+        indicates that absolute coordinates will follow;
+        <strong>c</strong> (lowercase) indicates that relative
+        coordinates will follow. Multiple sets of coordinates may
+        be specified to draw a polybézier. At the end of the
+        command, the new current point becomes the final (x,y)
+        coordinate pair used in the polybézier.</td></tr><tr><td><strong>S</strong> (absolute)<br/>
+         <strong>s</strong> (relative)</td><td>shorthand/smooth curveto</td><td>(x2 y2 x y)+</td><td>Draws a cubic Bézier curve from the current
+        point to (x,y). The first control point is assumed to be
+        the reflection of the second control point on the previous
+        command relative to the current point. (If there is no
+        previous command or if the previous command was not an C,
+        c, S or s, assume the first control point is coincident
+        with the current point.) (x2,y2) is the second control
+        point (i.e., the control point at the end of the curve).
+        <strong>S</strong> (uppercase) indicates that absolute
+        coordinates will follow; <strong>s</strong> (lowercase)
+        indicates that relative coordinates will follow. Multiple
+        sets of coordinates may be specified to draw a
+        polybézier. At the end of the command, the new
+        current point becomes the final (x,y) coordinate pair used
+        in the polybézier.</td></tr></table>
+    <p><span class="example-ref">Example cubic01</span> shows some
+    simple uses of cubic Bézier commands within a path. The
+    example uses an internal CSS style sheet to assign styling
+    properties. Note that the control point for the "S" command is
+    computed automatically as the reflection of the control point
+    for the previous "C" command relative to the start point of the
+    "S" command.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="5cm" height="4cm" viewBox="0 0 500 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;title&gt;Example cubic01- cubic Bézier commands in path data&lt;/title&gt;
+  &lt;desc&gt;Picture showing a simple example of path data
+        using both a "C" and an "S" command,
+        along with annotations showing the control points
+        and end points&lt;/desc&gt;
+  &lt;style type="text/css"&gt;&lt;![CDATA[
+    .Border { fill:none; stroke:blue; stroke-width:1 }
+    .Connect { fill:none; stroke:#888888; stroke-width:2 }
+    .SamplePath { fill:none; stroke:red; stroke-width:5 }
+    .EndPoint { fill:none; stroke:#888888; stroke-width:2 }
+    .CtlPoint { fill:#888888; stroke:none }
+    .AutoCtlPoint { fill:none; stroke:blue; stroke-width:4 }
+    .Label { font-size:22; font-family:Verdana }
+  ]]&gt;&lt;/style&gt;
+
+  &lt;rect class="Border" x="1" y="1" width="498" height="398" /&gt;
+
+  &lt;polyline class="Connect" points="100,200 100,100" /&gt;
+  &lt;polyline class="Connect" points="250,100 250,200" /&gt;
+  &lt;polyline class="Connect" points="250,200 250,300" /&gt;
+  &lt;polyline class="Connect" points="400,300 400,200" /&gt;
+  &lt;path class="SamplePath" d="M100,200 C100,100 250,100 250,200
+                                       S400,300 400,200" /&gt;
+  &lt;circle class="EndPoint" cx="100" cy="200" r="10" /&gt;
+  &lt;circle class="EndPoint" cx="250" cy="200" r="10" /&gt;
+  &lt;circle class="EndPoint" cx="400" cy="200" r="10" /&gt;
+  &lt;circle class="CtlPoint" cx="100" cy="100" r="10" /&gt;
+  &lt;circle class="CtlPoint" cx="250" cy="100" r="10" /&gt;
+  &lt;circle class="CtlPoint" cx="400" cy="300" r="10" /&gt;
+  &lt;circle class="AutoCtlPoint" cx="250" cy="300" r="9" /&gt;
+  &lt;text class="Label" x="25" y="70"&gt;M100,200 C100,100 250,100 250,200&lt;/text&gt;
+  &lt;text class="Label" x="325" y="350"
+        style="text-anchor:middle"&gt;S400,300 400,200&lt;/text&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example cubic01</caption><tr><td><img alt="Example cubic01 — cubic Bézier comamnds in path data" src="images/paths/cubic01.png"/></td></tr></table><p class="view-as-svg"><a href="images/paths/cubic01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+    <p>The following picture shows some how cubic Bézier
+    curves change their shape depending on the position of the
+    control points. The first five examples illustrate a single
+    cubic Bézier path segment. The example at the lower
+    right shows a "C" command followed by an "S" command.</p>
+    <p><img alt="Example cubic02 - cubic Bézier commands in path data" src="images/paths/cubic02.png" width="355" height="355"/></p>
+    <p class="view-as-svg"><a href="images/paths/cubic02.svg">View
+    this example as SVG (SVG-enabled browsers only)</a><br/>
+      </p>
+
+    <h3 id="PathDataQuadraticBezierCommands">8.3.7 The quadratic Bézier curve commands</h3>
+    <p>The quadratic Bézier commands are as follows:</p>
+    <table summary="quadratic Bézier command" class="PathDataTable" border="1" cellspacing="2" cellpadding="5"><tr><th>Command</th><th>Name</th><th>Parameters</th><th>Description</th></tr><tr><td><strong>Q</strong> (absolute)<br/>
+         <strong>q</strong> (relative)</td><td>quadratic Bézier curveto</td><td>(x1 y1 x y)+</td><td>Draws a quadratic Bézier curve from the current
+        point to (x,y) using (x1,y1) as the control point.
+        <strong>Q</strong> (uppercase) indicates that absolute
+        coordinates will follow; <strong>q</strong> (lowercase)
+        indicates that relative coordinates will follow. Multiple
+        sets of coordinates may be specified to draw a
+        polybézier. At the end of the command, the new
+        current point becomes the final (x,y) coordinate pair used
+        in the polybézier.</td></tr><tr><td><strong>T</strong> (absolute)<br/>
+         <strong>t</strong> (relative)</td><td>Shorthand/smooth quadratic Bézier curveto</td><td>(x y)+</td><td>Draws a quadratic Bézier curve from the current
+        point to (x,y). The control point is assumed to be the
+        reflection of the control point on the previous command
+        relative to the current point. (If there is no previous
+        command or if the previous command was not a Q, q, T or t,
+        assume the control point is coincident with the current
+        point.) <strong>T</strong> (uppercase) indicates that
+        absolute coordinates will follow; <strong>t</strong>
+        (lowercase) indicates that relative coordinates will
+        follow. At the end of the command, the new current point
+        becomes the final (x,y) coordinate pair used in the
+        polybézier.</td></tr></table>
+    <p><span class="example-ref">Example quad01</span> shows some
+    simple uses of quadratic Bézier commands within a path.
+    Note that the control point for the "T" command is computed
+    automatically as the reflection of the control point for the
+    previous "Q" command relative to the start point of the "T"
+    command.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="6cm" viewBox="0 0 1200 600"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;title&gt;Example quad01 - quadratic Bézier commands in path data&lt;/title&gt;
+  &lt;desc&gt;Picture showing a "Q" a "T" command,
+        along with annotations showing the control points
+        and end points&lt;/desc&gt;
+  &lt;rect x="1" y="1" width="1198" height="598"
+        fill="none" stroke="blue" stroke-width="1" /&gt;
+
+  &lt;path d="M200,300 Q400,50 600,300 T1000,300"
+        fill="none" stroke="red" stroke-width="5"  /&gt;
+  &lt;!-- End points --&gt;
+  &lt;g fill="black" &gt;
+    &lt;circle cx="200" cy="300" r="10"/&gt;
+    &lt;circle cx="600" cy="300" r="10"/&gt;
+    &lt;circle cx="1000" cy="300" r="10"/&gt;
+  &lt;/g&gt;
+  &lt;!-- Control points and lines from end points to control points --&gt;
+  &lt;g fill="#888888" &gt;
+    &lt;circle cx="400" cy="50" r="10"/&gt;
+    &lt;circle cx="800" cy="550" r="10"/&gt;
+  &lt;/g&gt;
+  &lt;path d="M200,300 L400,50 L600,300 
+           L800,550 L1000,300"
+        fill="none" stroke="#888888" stroke-width="2" /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example quad01</caption><tr><td><img alt="Example quad01 — quadratic Bézier commands in path data" src="images/paths/quad01.png"/></td></tr></table><p class="view-as-svg"><a href="images/paths/quad01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+    <h3 id="PathDataEllipticalArcCommands">8.3.8 The elliptical arc curve commands</h3>
+    <p>The elliptical arc commands are as follows:</p>
+    <table summary="elliptical arc commands" class="PathDataTable" border="1" cellspacing="2" cellpadding="5"><tr><th>Command</th><th>Name</th><th>Parameters</th><th>Description</th></tr><tr><td><strong>A</strong> (absolute)<br/>
+         <strong>a</strong> (relative)</td><td>elliptical arc</td><td>(rx ry x-axis-rotation large-arc-flag sweep-flag x
+        y)+</td><td>Draws an elliptical arc from the current point to
+        (<strong>x</strong>, <strong>y</strong>). The size and
+        orientation of the ellipse are defined by two radii
+        (<strong>rx</strong>, <strong>ry</strong>) and an
+        <strong>x-axis-rotation</strong>, which indicates how the
+        ellipse as a whole is rotated relative to the current
+        coordinate system. The center (<strong>cx</strong>,
+        <strong>cy</strong>) of the ellipse is calculated
+        automatically to satisfy the constraints imposed by the
+        other parameters. <strong>large-arc-flag</strong> and
+        <strong>sweep-flag</strong> contribute to the automatic
+        calculations and help determine how the arc is drawn.</td></tr></table>
+    <p><span class="example-ref">Example arcs01</span> shows some
+    simple uses of arc commands within a path.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="5.25cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;title&gt;Example arcs01 - arc commands in path data&lt;/title&gt;
+  &lt;desc&gt;Picture of a pie chart with two pie wedges and
+        a picture of a line with arc blips&lt;/desc&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="1" /&gt;
+
+  &lt;path d="M300,200 h-150 a150,150 0 1,0 150,-150 z"
+        fill="red" stroke="blue" stroke-width="5" /&gt;
+  &lt;path d="M275,175 v-150 a150,150 0 0,0 -150,150 z"
+        fill="yellow" stroke="blue" stroke-width="5" /&gt;
+
+  &lt;path d="M600,350 l 50,-25 
+           a25,25 -30 0,1 50,-25 l 50,-25 
+           a25,50 -30 0,1 50,-25 l 50,-25 
+           a25,75 -30 0,1 50,-25 l 50,-25 
+           a25,100 -30 0,1 50,-25 l 50,-25"
+        fill="none" stroke="red" stroke-width="5"  /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example arcs01</caption><tr><td><img alt="Example arcs01 — arc commands in path data" src="images/paths/arcs01.png"/></td></tr></table><p class="view-as-svg"><a href="images/paths/arcs01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+    <p>The elliptical arc command draws a section of an ellipse
+    which meets the following constraints:</p>
+    <ul><li>the arc starts at the current point</li><li>the arc ends at point (<strong>x</strong>,
+      <strong>y</strong>)</li><li>the ellipse has the two radii (<strong>rx</strong>,
+      <strong>ry</strong>)</li><li>the x-axis of the ellipse is rotated by
+      <strong>x-axis-rotation</strong> relative to the x-axis of
+      the current coordinate system.</li></ul>
+    For most situations, there are actually four different arcs
+    (two different ellipses, each with two different arc sweeps)
+    that satisfy these constraints. <strong>large-arc-flag</strong>
+    and <strong>sweep-flag</strong> indicate which one of the four
+    arcs are drawn, as follows: 
+    <ul><li>Of the four candidate arc sweeps, two will represent an
+      arc sweep of greater than or equal to 180 degrees (the
+      "large-arc"), and two will represent an arc sweep of less
+      than or equal to 180 degrees (the "small-arc"). If
+      <strong>large-arc-flag</strong> is '1', then one of the two
+      larger arc sweeps will be chosen; otherwise, if
+      <strong>large-arc-flag</strong> is '0', one of the smaller
+      arc sweeps will be chosen,</li><li>If <strong>sweep-flag</strong> is '1', then the arc will
+      be drawn in a "positive-angle" direction (i.e., the ellipse
+      formula x=<strong>cx</strong>+<strong>rx</strong>*cos(theta)
+      and y=<strong>cy</strong>+<strong>ry</strong>*sin(theta) is
+      evaluated such that theta starts at an angle corresponding to
+      the current point and increases positively until the arc
+      reaches (x,y)). A value of 0 causes the arc to be drawn in a
+      "negative-angle" direction (i.e., theta starts at an angle
+      value corresponding to the current point and decreases until
+      the arc reaches (x,y)).</li></ul>
+    <p>The following illustrates the four combinations of
+    <strong>large-arc-flag</strong> and <strong>sweep-flag</strong>
+    and the four different arcs that will be drawn based on the
+    values of these flags. For each case, the following path data
+    command was used:</p>
+<pre>
+&lt;path d="M 125,75 a100,50 0 ?,? 100,50"
+      style="fill:none; stroke:red; stroke-width:6"/&gt;
+</pre>
+    <p>where "?,?" is replaced by "0,0" "0,1" "1,0" and "1,1" to
+    generate the four possible cases.</p>
+    <p><img alt="Illustration of flags in arc commands" src="images/paths/arcs02.png" width="426" height="187"/></p>
+    <p class="view-as-svg"><a href="images/paths/arcs02.svg">View
+    this example as SVG (SVG-enabled browsers only)</a></p>
+    <p>Refer to <a href="implnote.html#ArcImplementationNotes">Elliptical arc
+    implementation notes</a> for detailed implementation notes for
+    the path data elliptical arc commands.</p>
+
+    <h3 id="PathDataBNF">8.3.9 The grammar for path data</h3>
+    <p>The following notation is used in the Backus-Naur Form (BNF)
+    description of the grammar for path data:</p>
+    <ul><li>*: 0 or more</li><li>+: 1 or more</li><li>?: 0 or 1</li><li>(): grouping</li><li>|: separates alternatives</li><li>double quotes surround literals</li></ul>
+    <p>The following is the BNF for SVG paths.</p>
+<pre class="grammar">
+svg-path:
+    wsp* moveto-drawto-command-groups? wsp*
+moveto-drawto-command-groups:
+    moveto-drawto-command-group
+    | moveto-drawto-command-group wsp* moveto-drawto-command-groups
+moveto-drawto-command-group:
+    moveto wsp* drawto-commands?
+drawto-commands:
+    drawto-command
+    | drawto-command wsp* drawto-commands
+drawto-command:
+    closepath
+    | lineto
+    | horizontal-lineto
+    | vertical-lineto
+    | curveto
+    | smooth-curveto
+    | quadratic-bezier-curveto
+    | smooth-quadratic-bezier-curveto
+    | elliptical-arc
+moveto:
+    ( "M" | "m" ) wsp* moveto-argument-sequence
+moveto-argument-sequence:
+    coordinate-pair
+    | coordinate-pair comma-wsp? lineto-argument-sequence
+closepath:
+    ("Z" | "z")
+lineto:
+    ( "L" | "l" ) wsp* lineto-argument-sequence
+lineto-argument-sequence:
+    coordinate-pair
+    | coordinate-pair comma-wsp? lineto-argument-sequence
+horizontal-lineto:
+    ( "H" | "h" ) wsp* horizontal-lineto-argument-sequence
+horizontal-lineto-argument-sequence:
+    coordinate
+    | coordinate comma-wsp? horizontal-lineto-argument-sequence
+vertical-lineto:
+    ( "V" | "v" ) wsp* vertical-lineto-argument-sequence
+vertical-lineto-argument-sequence:
+    coordinate
+    | coordinate comma-wsp? vertical-lineto-argument-sequence
+curveto:
+    ( "C" | "c" ) wsp* curveto-argument-sequence
+curveto-argument-sequence:
+    curveto-argument
+    | curveto-argument comma-wsp? curveto-argument-sequence
+curveto-argument:
+    coordinate-pair comma-wsp? coordinate-pair comma-wsp? coordinate-pair
+smooth-curveto:
+    ( "S" | "s" ) wsp* smooth-curveto-argument-sequence
+smooth-curveto-argument-sequence:
+    smooth-curveto-argument
+    | smooth-curveto-argument comma-wsp? smooth-curveto-argument-sequence
+smooth-curveto-argument:
+    coordinate-pair comma-wsp? coordinate-pair
+quadratic-bezier-curveto:
+    ( "Q" | "q" ) wsp* quadratic-bezier-curveto-argument-sequence
+quadratic-bezier-curveto-argument-sequence:
+    quadratic-bezier-curveto-argument
+    | quadratic-bezier-curveto-argument comma-wsp? 
+        quadratic-bezier-curveto-argument-sequence
+quadratic-bezier-curveto-argument:
+    coordinate-pair comma-wsp? coordinate-pair
+smooth-quadratic-bezier-curveto:
+    ( "T" | "t" ) wsp* smooth-quadratic-bezier-curveto-argument-sequence
+smooth-quadratic-bezier-curveto-argument-sequence:
+    coordinate-pair
+    | coordinate-pair comma-wsp? smooth-quadratic-bezier-curveto-argument-sequence
+elliptical-arc:
+    ( "A" | "a" ) wsp* elliptical-arc-argument-sequence
+elliptical-arc-argument-sequence:
+    elliptical-arc-argument
+    | elliptical-arc-argument comma-wsp? elliptical-arc-argument-sequence
+elliptical-arc-argument:
+    nonnegative-number comma-wsp? nonnegative-number comma-wsp? 
+        number comma-wsp flag comma-wsp? flag comma-wsp? coordinate-pair
+coordinate-pair:
+    coordinate comma-wsp? coordinate
+coordinate:
+    number
+nonnegative-number:
+    integer-constant
+    | floating-point-constant
+number:
+    sign? integer-constant
+    | sign? floating-point-constant
+flag:
+    "0" | "1"
+comma-wsp:
+    (wsp+ comma? wsp*) | (comma wsp*)
+comma:
+    ","
+integer-constant:
+    digit-sequence
+floating-point-constant:
+    fractional-constant exponent?
+    | digit-sequence exponent
+fractional-constant:
+    digit-sequence? "." digit-sequence
+    | digit-sequence "."
+exponent:
+    ( "e" | "E" ) sign? digit-sequence
+sign:
+    "+" | "-"
+digit-sequence:
+    digit
+    | digit digit-sequence
+digit:
+    "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+wsp:
+    (#x20 | #x9 | #xD | #xA)
+</pre>
+    <p>The processing of the BNF must consume as much of a given
+    BNF production as possible, stopping at the point when a
+    character is encountered which no longer satisfies the
+    production. Thus, in the string "M 100-200", the first
+    coordinate for the "moveto" consumes the characters "100" and
+    stops upon encountering the minus sign because the minus sign
+    cannot follow a digit in the production of a "coordinate". The
+    result is that the first coordinate will be "100" and the
+    second coordinate will be "-200".</p>
+    <p>Similarly, for the string "M 0.6.5", the first coordinate of
+    the "moveto" consumes the characters "0.6" and stops upon
+    encountering the second decimal point because the production of
+    a "coordinate" only allows one decimal point. The result is
+    that the first coordinate will be "0.6" and the second
+    coordinate will be ".5".</p>
+    <p>Note that the BNF allows the path <a href="paths.html#DAttribute"><span class="attr-name">‘d’</span></a> attribute to be empty. This is not
+    an error, instead it disables rendering of the path.</p>
+
+    <h2 id="DistanceAlongAPath">8.4 Distance along a path</h2>
+    <p>Various operations, including <a href="text.html#TextOnAPath">text on a path</a> and <a href="animate.html#AnimateMotionElement">motion animation</a>
+    and various <a href="painting.html#StrokeProperties">stroke
+    operations</a>, require that the user agent compute the
+    distance along the geometry of a graphics element, such as a <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>.</p>
+    <p>Exact mathematics exist for computing distance along a path,
+    but the formulas are highly complex and require substantial
+    computation. It is recommended that authoring products and user
+    agents employ algorithms that produce as precise results as
+    possible; however, to accommodate implementation differences
+    and to help distance calculations produce results that
+    approximate author intent, the <a href="paths.html#PathLengthAttribute"><span class="attr-name">‘pathLength’</span></a> attribute can be used
+    to provide the author's computation of the total length of the
+    path so that the user agent can scale distance-along-a-path
+    computations by the ratio of <a href="paths.html#PathLengthAttribute"><span class="attr-name">‘pathLength’</span></a> to the user agent's own
+    computed value for total path length.</p>
+    <p>A "moveto" operation within a <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element is defined to have
+    zero length. Only the various "lineto", "curveto" and "arcto"
+    commands contribute to path length calculations.</p>
+
+
+
+<h2 id="DOMInterfaces">8.5 DOM interfaces</h2>
+
+<h3 id="InterfaceSVGPathSeg">8.5.1 Interface SVGPathSeg</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> interface is a base interface that corresponds to a
+ single command within a path data specification.
+<pre class="idl">interface <b>SVGPathSeg</b> {
+
+  // Path Segment Types
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_UNKNOWN">PATHSEG_UNKNOWN</a> = 0;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CLOSEPATH">PATHSEG_CLOSEPATH</a> = 1;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_MOVETO_ABS">PATHSEG_MOVETO_ABS</a> = 2;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_MOVETO_REL">PATHSEG_MOVETO_REL</a> = 3;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_LINETO_ABS">PATHSEG_LINETO_ABS</a> = 4;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_LINETO_REL">PATHSEG_LINETO_REL</a> = 5;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_ABS">PATHSEG_CURVETO_CUBIC_ABS</a> = 6;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_REL">PATHSEG_CURVETO_CUBIC_REL</a> = 7;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_ABS">PATHSEG_CURVETO_QUADRATIC_ABS</a> = 8;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_REL">PATHSEG_CURVETO_QUADRATIC_REL</a> = 9;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_ARC_ABS">PATHSEG_ARC_ABS</a> = 10;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_ARC_REL">PATHSEG_ARC_REL</a> = 11;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_LINETO_HORIZONTAL_ABS">PATHSEG_LINETO_HORIZONTAL_ABS</a> = 12;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_LINETO_HORIZONTAL_REL">PATHSEG_LINETO_HORIZONTAL_REL</a> = 13;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_LINETO_VERTICAL_ABS">PATHSEG_LINETO_VERTICAL_ABS</a> = 14;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_LINETO_VERTICAL_REL">PATHSEG_LINETO_VERTICAL_REL</a> = 15;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_SMOOTH_ABS">PATHSEG_CURVETO_CUBIC_SMOOTH_ABS</a> = 16;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_SMOOTH_REL">PATHSEG_CURVETO_CUBIC_SMOOTH_REL</a> = 17;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS">PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS</a> = 18;
+  const unsigned short <a href="paths.html#__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL">PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL</a> = 19;
+
+  readonly attribute unsigned short <a href="paths.html#__svg__SVGPathSeg__pathSegType">pathSegType</a>;
+  readonly attribute DOMString <a href="paths.html#__svg__SVGPathSeg__pathSegTypeAsLetter">pathSegTypeAsLetter</a>;
+};</pre><dl class="interface"><dt class="constants-header">Constants in group “Path Segment Types”:</dt><dd><dl class="constants">
+<dt id="__svg__SVGPathSeg__PATHSEG_UNKNOWN" class="constant first-child"><b>PATHSEG_UNKNOWN</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ The unit type is not one of predefined types. It is invalid to attempt
+ to define a new value of this type or to attempt to switch an existing
+value to this type.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CLOSEPATH" class="constant"><b>PATHSEG_CLOSEPATH</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "closepath" (z) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_MOVETO_ABS" class="constant"><b>PATHSEG_MOVETO_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute moveto" (M) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_MOVETO_REL" class="constant"><b>PATHSEG_MOVETO_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative moveto" (m) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_LINETO_ABS" class="constant"><b>PATHSEG_LINETO_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute lineto" (L) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_LINETO_REL" class="constant"><b>PATHSEG_LINETO_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative lineto" (l) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_ABS" class="constant"><b>PATHSEG_CURVETO_CUBIC_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute cubic Bézier curveto" (C) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_REL" class="constant"><b>PATHSEG_CURVETO_CUBIC_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative cubic Bézier curveto" (c) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_ABS" class="constant"><b>PATHSEG_CURVETO_QUADRATIC_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute quadratic Bézier curveto" (Q) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_REL" class="constant"><b>PATHSEG_CURVETO_QUADRATIC_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative quadratic Bézier curveto" (q) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_ARC_ABS" class="constant"><b>PATHSEG_ARC_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute arcto" (A) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_ARC_REL" class="constant"><b>PATHSEG_ARC_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative arcto" (a) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_LINETO_HORIZONTAL_ABS" class="constant"><b>PATHSEG_LINETO_HORIZONTAL_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute horizontal lineto" (H) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_LINETO_HORIZONTAL_REL" class="constant"><b>PATHSEG_LINETO_HORIZONTAL_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative horizontal lineto" (h) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_LINETO_VERTICAL_ABS" class="constant"><b>PATHSEG_LINETO_VERTICAL_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute vertical lineto" (V) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_LINETO_VERTICAL_REL" class="constant"><b>PATHSEG_LINETO_VERTICAL_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative vertical lineto" (v) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_SMOOTH_ABS" class="constant"><b>PATHSEG_CURVETO_CUBIC_SMOOTH_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute smooth cubic curveto" (S) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_CUBIC_SMOOTH_REL" class="constant"><b>PATHSEG_CURVETO_CUBIC_SMOOTH_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative smooth cubic curveto" (s) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS" class="constant"><b>PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "absolute smooth quadratic curveto" (T) path data command.
+
+</div></dd>
+<dt id="__svg__SVGPathSeg__PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL" class="constant"><b>PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to a "relative smooth quadratic curveto" (t) path data command.
+
+</div></dd></dl></dd><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSeg__pathSegType" class="attribute first-child"><b>pathSegType</b><span class="idl-type-parenthetical"> (readonly unsigned short)</span></dt><dd class="attribute"><div>
+ The type of the path segment as specified by one of the constants
+ defined on this interface.
+</div></dd>
+<dt id="__svg__SVGPathSeg__pathSegTypeAsLetter" class="attribute"><b>pathSegTypeAsLetter</b><span class="idl-type-parenthetical"> (readonly DOMString)</span></dt><dd class="attribute"><div>
+ The type of the path segment, specified by the corresponding one
+ character command name.
+</div></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegClosePath">8.5.2 Interface SVGPathSegClosePath</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegClosePath">SVGPathSegClosePath</a> interface corresponds to a
+ "closepath" (z) path data command.
+<pre class="idl">interface <b>SVGPathSegClosePath</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+};</pre>
+
+<h3 id="InterfaceSVGPathSegMovetoAbs">8.5.3 Interface SVGPathSegMovetoAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoAbs">SVGPathSegMovetoAbs</a> interface corresponds to an
+ "absolute moveto" (M) path data command.
+<pre class="idl">interface <b>SVGPathSegMovetoAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegMovetoAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegMovetoAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegMovetoAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegMovetoAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegMovetoRel">8.5.4 Interface SVGPathSegMovetoRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoRel">SVGPathSegMovetoRel</a> interface corresponds to a
+ "relative moveto" (m) path data command.
+<pre class="idl">interface <b>SVGPathSegMovetoRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegMovetoRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegMovetoRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegMovetoRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegMovetoRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegLinetoAbs">8.5.5 Interface SVGPathSegLinetoAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoAbs">SVGPathSegLinetoAbs</a> interface corresponds to an
+ "absolute lineto" (L) path data command.
+<pre class="idl">interface <b>SVGPathSegLinetoAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegLinetoAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegLinetoAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegLinetoRel">8.5.6 Interface SVGPathSegLinetoRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoRel">SVGPathSegLinetoRel</a> interface corresponds to a
+ "relative lineto" (l) path data command.
+<pre class="idl">interface <b>SVGPathSegLinetoRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegLinetoRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegLinetoRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoCubicAbs">8.5.7 Interface SVGPathSegCurvetoCubicAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicAbs">SVGPathSegCurvetoCubicAbs</a> interface corresponds to an
+ "absolute cubic Bézier curveto" (C) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoCubicAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicAbs__x1">x1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicAbs__y1">y1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicAbs__x2">x2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicAbs__y2">y2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoCubicAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicAbs__x1" class="attribute"><b>x1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicAbs__y1" class="attribute"><b>y1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicAbs__x2" class="attribute"><b>x2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicAbs__y2" class="attribute"><b>y2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoCubicRel">8.5.8 Interface SVGPathSegCurvetoCubicRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicRel">SVGPathSegCurvetoCubicRel</a> interface corresponds to a
+ "relative cubic Bézier curveto" (c) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoCubicRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicRel__x1">x1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicRel__y1">y1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicRel__x2">x2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicRel__y2">y2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoCubicRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicRel__x1" class="attribute"><b>x1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicRel__y1" class="attribute"><b>y1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicRel__x2" class="attribute"><b>x2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicRel__y2" class="attribute"><b>y2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoQuadraticAbs">8.5.9 Interface SVGPathSegCurvetoQuadraticAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticAbs">SVGPathSegCurvetoQuadraticAbs</a> interface corresponds to an
+ "absolute quadratic Bézier curveto" (Q) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoQuadraticAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticAbs__x1">x1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticAbs__y1">y1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoQuadraticAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticAbs__x1" class="attribute"><b>x1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticAbs__y1" class="attribute"><b>y1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoQuadraticRel">8.5.10 Interface SVGPathSegCurvetoQuadraticRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticRel">SVGPathSegCurvetoQuadraticRel</a> interface corresponds to a
+ "relative quadratic Bézier curveto" (q) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoQuadraticRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticRel__x1">x1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticRel__y1">y1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoQuadraticRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticRel__x1" class="attribute"><b>x1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticRel__y1" class="attribute"><b>y1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the first control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegArcAbs">8.5.11 Interface SVGPathSegArcAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcAbs">SVGPathSegArcAbs</a> interface corresponds to an
+ "absolute arcto" (A) path data command.
+<pre class="idl">interface <b>SVGPathSegArcAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegArcAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcAbs__r1">r1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcAbs__r2">r2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcAbs__angle">angle</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute boolean <a href="paths.html#__svg__SVGPathSegArcAbs__largeArcFlag">largeArcFlag</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute boolean <a href="paths.html#__svg__SVGPathSegArcAbs__sweepFlag">sweepFlag</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegArcAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcAbs__r1" class="attribute"><b>r1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The x-axis radius for the ellipse (i.e., r1).
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcAbs__r2" class="attribute"><b>r2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The y-axis radius for the ellipse (i.e., r2).
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcAbs__angle" class="attribute"><b>angle</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The rotation angle in degrees for the ellipse's x-axis relative to the x-axis of the user coordinate system.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcAbs__largeArcFlag" class="attribute"><b>largeArcFlag</b><span class="idl-type-parenthetical"> (boolean)</span></dt><dd class="attribute"><div>
+ The value of the large-arc-flag parameter.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcAbs__sweepFlag" class="attribute"><b>sweepFlag</b><span class="idl-type-parenthetical"> (boolean)</span></dt><dd class="attribute"><div>
+ The value of the sweep-flag parameter.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegArcRel">8.5.12 Interface SVGPathSegArcRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcRel">SVGPathSegArcRel</a> interface corresponds to a
+ "relative arcto" (a) path data command.
+<pre class="idl">interface <b>SVGPathSegArcRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegArcRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcRel__r1">r1</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcRel__r2">r2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegArcRel__angle">angle</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute boolean <a href="paths.html#__svg__SVGPathSegArcRel__largeArcFlag">largeArcFlag</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute boolean <a href="paths.html#__svg__SVGPathSegArcRel__sweepFlag">sweepFlag</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegArcRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcRel__r1" class="attribute"><b>r1</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The x-axis radius for the ellipse (i.e., r1).
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcRel__r2" class="attribute"><b>r2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The y-axis radius for the ellipse (i.e., r2).
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcRel__angle" class="attribute"><b>angle</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The rotation angle in degrees for the ellipse's x-axis relative to the x-axis of the user coordinate system.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcRel__largeArcFlag" class="attribute"><b>largeArcFlag</b><span class="idl-type-parenthetical"> (boolean)</span></dt><dd class="attribute"><div>
+ The value of the large-arc-flag parameter.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegArcRel__sweepFlag" class="attribute"><b>sweepFlag</b><span class="idl-type-parenthetical"> (boolean)</span></dt><dd class="attribute"><div>
+ The value of the sweep-flag parameter.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegLinetoHorizontalAbs">8.5.13 Interface SVGPathSegLinetoHorizontalAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalAbs">SVGPathSegLinetoHorizontalAbs</a> interface corresponds to an
+ "absolute horizontal lineto" (H) path data command.
+<pre class="idl">interface <b>SVGPathSegLinetoHorizontalAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoHorizontalAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegLinetoHorizontalAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegLinetoHorizontalRel">8.5.14 Interface SVGPathSegLinetoHorizontalRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalRel">SVGPathSegLinetoHorizontalRel</a> interface corresponds to a
+ "relative horizontal lineto" (h) path data command.
+<pre class="idl">interface <b>SVGPathSegLinetoHorizontalRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoHorizontalRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegLinetoHorizontalRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegLinetoVerticalAbs">8.5.15 Interface SVGPathSegLinetoVerticalAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalAbs">SVGPathSegLinetoVerticalAbs</a> interface corresponds to an
+ "absolute vertical lineto" (V) path data command.
+<pre class="idl">interface <b>SVGPathSegLinetoVerticalAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoVerticalAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegLinetoVerticalAbs__y" class="attribute first-child"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegLinetoVerticalRel">8.5.16 Interface SVGPathSegLinetoVerticalRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalRel">SVGPathSegLinetoVerticalRel</a> interface corresponds to a
+ "relative vertical lineto" (v) path data command.
+<pre class="idl">interface <b>SVGPathSegLinetoVerticalRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegLinetoVerticalRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegLinetoVerticalRel__y" class="attribute first-child"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoCubicSmoothAbs">8.5.17 Interface SVGPathSegCurvetoCubicSmoothAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothAbs">SVGPathSegCurvetoCubicSmoothAbs</a> interface corresponds to an
+ "absolute smooth cubic curveto" (S) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoCubicSmoothAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothAbs__x2">x2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothAbs__y2">y2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothAbs__x2" class="attribute"><b>x2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothAbs__y2" class="attribute"><b>y2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoCubicSmoothRel">8.5.18 Interface SVGPathSegCurvetoCubicSmoothRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothRel">SVGPathSegCurvetoCubicSmoothRel</a> interface corresponds to a
+ "relative smooth cubic curveto" (s) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoCubicSmoothRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothRel__x2">x2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoCubicSmoothRel__y2">y2</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothRel__x2" class="attribute"><b>x2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoCubicSmoothRel__y2" class="attribute"><b>y2</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the second control point.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">8.5.19 Interface SVGPathSegCurvetoQuadraticSmoothAbs</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">SVGPathSegCurvetoQuadraticSmoothAbs</a> interface corresponds to an
+ "absolute smooth cubic curveto" (T) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoQuadraticSmoothAbs</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticSmoothAbs__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticSmoothAbs__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoQuadraticSmoothAbs__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticSmoothAbs__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The absolute Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegCurvetoQuadraticSmoothRel">8.5.20 Interface SVGPathSegCurvetoQuadraticSmoothRel</h3>
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothRel">SVGPathSegCurvetoQuadraticSmoothRel</a> interface corresponds to a
+ "relative smooth cubic curveto" (t) path data command.
+<pre class="idl">interface <b>SVGPathSegCurvetoQuadraticSmoothRel</b> : <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> {
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticSmoothRel__x">x</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  attribute float <a href="paths.html#__svg__SVGPathSegCurvetoQuadraticSmoothRel__y">y</a> setraises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegCurvetoQuadraticSmoothRel__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative X coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegCurvetoQuadraticSmoothRel__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (float)</span></dt><dd class="attribute"><div>
+ The relative Y coordinate for the end point of this path segment.
+
+</div><dl class="attribute"><dt class="exceptions-header">Exceptions on setting</dt><dd><dl class="exceptions"><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised on an attempt
+   to change the value of a <a href="svgdom.html#ReadOnlyNodes">read only attribute</a>.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathSegList">8.5.21 Interface SVGPathSegList</h3>
+
+
+ <p>This interface defines a list of SVGPathSeg objects.</p>
+
+ <p><a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a> has the same attributes and methods as other
+ SVGxxxList interfaces. Implementers may consider using a single base class
+ to implement the various SVGxxxList interfaces.</p>
+<pre class="idl">interface <b>SVGPathSegList</b> {
+
+  readonly attribute unsigned long <a href="paths.html#__svg__SVGPathSegList__numberOfItems">numberOfItems</a>;
+
+  void <a href="paths.html#__svg__SVGPathSegList__clear">clear</a>() raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <a href="paths.html#__svg__SVGPathSegList__initialize">initialize</a>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> newItem) raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <a href="paths.html#__svg__SVGPathSegList__getItem">getItem</a>(in unsigned long index) raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <a href="paths.html#__svg__SVGPathSegList__insertItemBefore">insertItemBefore</a>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> newItem, in unsigned long index) raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <a href="paths.html#__svg__SVGPathSegList__replaceItem">replaceItem</a>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> newItem, in unsigned long index) raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <a href="paths.html#__svg__SVGPathSegList__removeItem">removeItem</a>(in unsigned long index) raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <a href="paths.html#__svg__SVGPathSegList__appendItem">appendItem</a>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> newItem) raises(<a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegList__numberOfItems" class="attribute first-child"><b>numberOfItems</b><span class="idl-type-parenthetical"> (readonly unsigned long)</span></dt><dd class="attribute"><div>
+ The number of items in the list.
+</div></dd></dl></dd><dt class="operations-header">Operations:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathSegList__clear" class="operation first-child">void <b>clear</b>()</dt><dd class="operation"><div>
+ Clears all existing current items from the list, with the result being
+ an empty list.
+
+</div><dl class="operation"><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised when the list
+   cannot be modified.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegList__initialize" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <b>initialize</b>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var>)</dt><dd class="operation"><div>
+ Clears all existing current items from the list and re-initializes the
+ list to hold the single item specified by the parameter.  If the inserted
+ item is already in a list, it is removed from its previous list before
+ it is inserted into this list.  The inserted item is the item itself and
+ not a copy. 
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var></div> <div> The item which should become the only member of the list.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The item being inserted into the list.
+</div></dd><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised when the list
+   cannot be modified.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegList__getItem" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <b>getItem</b>(in unsigned long <var>index</var>)</dt><dd class="operation"><div>
+ Returns the specified item from the list.  The returned item is the
+ item itself and not a copy.  Any changes made to the item are
+ immediately reflected in the list.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>unsigned long <var>index</var></div> <div> The index of the item from the list which is to be
+   returned.  The first item is number 0.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The selected item.
+</div></dd><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code INDEX_SIZE_ERR</dt><dd class="exception"> Raised if the index number is
+   greater than or equal to <a class="idlattr" href="#__svg__SVGPathSegList__numberOfItems">numberOfItems</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegList__insertItemBefore" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <b>insertItemBefore</b>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var>, in unsigned long <var>index</var>)</dt><dd class="operation"><div>
+ Inserts a new item into the list at the specified position. The first
+ item is number 0. If <var>newItem</var> is already in a list, it is
+ removed from its previous list before it is inserted into this list.
+ The inserted item is the item itself and not a copy. If the item is
+ already in this list, note that the index of the item to insert
+ before is <i>before</i> the removal of the item.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var></div> <div> The item which is to be inserted into the list.
+</div></li><li class="parameter"><div>unsigned long <var>index</var></div> <div> The index of the item before which the new item is to be
+   inserted. The first item is number 0.  If the index is equal to 0,
+   then the new item is inserted at the front of the list. If the index
+   is greater than or equal to <a class="idlattr" href="#__svg__SVGPathSegList__numberOfItems">numberOfItems</a>, then the new item is
+   appended to the end of the list.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The inserted item.
+</div></dd><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised when the list
+   cannot be modified.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegList__replaceItem" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <b>replaceItem</b>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var>, in unsigned long <var>index</var>)</dt><dd class="operation"><div>
+ Replaces an existing item in the list with a new item. If
+ <var>newItem</var> is already in a list, it is removed from its
+ previous list before it is inserted into this list.  The inserted item
+ is the item itself and not a copy.  If the item is already in this
+ list, note that the index of the item to replace is <i>before</i>
+ the removal of the item.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var></div> <div> The item which is to be inserted into the list.
+</div></li><li class="parameter"><div>unsigned long <var>index</var></div> <div> The index of the item which is to be replaced. The first
+   item is number 0.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The inserted item.
+</div></dd><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised when the list
+   cannot be modified.
+</dd><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code INDEX_SIZE_ERR</dt><dd class="exception"> Raised if the index number is
+   greater than or equal to <a class="idlattr" href="#__svg__SVGPathSegList__numberOfItems">numberOfItems</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegList__removeItem" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <b>removeItem</b>(in unsigned long <var>index</var>)</dt><dd class="operation"><div>
+ Removes an existing item from the list.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>unsigned long <var>index</var></div> <div> The index of the item which is to be removed. The first
+   item is number 0.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The removed item.
+</div></dd><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised when the list
+   cannot be modified.
+</dd><dt class="exception"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code INDEX_SIZE_ERR</dt><dd class="exception"> Raised if the index number is
+   greater than or equal to <a class="idlattr" href="#__svg__SVGPathSegList__numberOfItems">numberOfItems</a>.
+</dd></dl></dd></dl></dd>
+<dt id="__svg__SVGPathSegList__appendItem" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <b>appendItem</b>(in <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var>)</dt><dd class="operation"><div>
+ Inserts a new item at the end of the list. If <var>newItem</var> is
+ already in a list, it is removed from its previous list before it is
+ inserted into this list.  The inserted item is the item itself and
+ not a copy.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div><a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> <var>newItem</var></div> <div> The item which is to be inserted. The first item is
+   number 0.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The inserted item.
+</div></dd><dt class="exceptions-header">Exceptions</dt><dd><dl class="exceptions"><dt class="exception first-child"><a class="idlinterface" href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-17189187">DOMException</a>, code NO_MODIFICATION_ALLOWED_ERR</dt><dd class="exception"> Raised when the list
+   cannot be modified.
+</dd></dl></dd></dl></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGAnimatedPathData">8.5.22 Interface SVGAnimatedPathData</h3>
+
+
+ <p>The SVGAnimatedPathData interface supports elements which have a <span class="attr-name">‘d’</span>
+ attribute which holds SVG path data, and supports the ability to animate
+ that attribute.</p>
+
+ <p>The <a class="idlinterface" href="paths.html#InterfaceSVGAnimatedPathData">SVGAnimatedPathData</a> interface provides two lists to access and
+ modify the base (i.e., static) contents of the <span class="attr-name">‘d’</span> attribute:</p>
+
+ <ul>
+   <li>DOM attribute <a class="idlattr" href="#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a> provides access to the static/base
+   contents of the <span class="attr-name">‘d’</span> attribute in a form which matches one-for-one
+   with SVG's syntax.</li>
+
+   <li>DOM attribute <a class="idlattr" href="#__svg__SVGAnimatedPathData__normalizedPathSegList">normalizedPathSegList</a> provides normalized access
+   to the static/base contents of the <span class="attr-name">‘d’</span> attribute where all path
+   data commands are expressed in terms of the following subset of
+   <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> types:
+   SVG_PATHSEG_MOVETO_ABS (M),
+   SVG_PATHSEG_LINETO_ABS (L),
+   SVG_PATHSEG_CURVETO_CUBIC_ABS (C) and
+   SVG_PATHSEG_CLOSEPATH (z).</li>
+ </ul>
+
+ <p>and two lists to access the current animated values of the <span class="attr-name">‘d’</span>
+ attribute:</p>
+
+ <ul>
+   <li>DOM attribute <a class="idlattr" href="#__svg__SVGAnimatedPathData__animatedPathSegList">animatedPathSegList</a> provides access to the current
+   animated contents of the <span class="attr-name">‘d’</span> attribute in a form which matches
+   one-for-one with SVG's syntax.</li>
+
+   <li>DOM attribute <a class="idlattr" href="#__svg__SVGAnimatedPathData__animatedNormalizedPathSegList">animatedNormalizedPathSegList</a> provides
+   normalized access to the current animated contents of the <span class="attr-name">‘d’</span>
+   attribute where all path data commands are expressed in terms of the
+   following subset of <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> types:
+   SVG_PATHSEG_MOVETO_ABS (M),
+   SVG_PATHSEG_LINETO_ABS (L),
+   SVG_PATHSEG_CURVETO_CUBIC_ABS (C) and
+   SVG_PATHSEG_CLOSEPATH (z).</li>
+ </ul>
+
+ <p>Each of the two lists are always kept synchronized. Modifications to one
+ list will immediately cause the corresponding list to be modified.
+ Modifications to <a class="idlattr" href="#__svg__SVGAnimatedPathData__normalizedPathSegList">normalizedPathSegList</a> might cause entries in
+ <a class="idlattr" href="#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a> to be broken into a set of normalized path segments.</p>
+
+ <p>Additionally, the <a href="paths.html#DAttribute"><span class="attr-name">‘d’</span></a> attribute on the <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element
+ accessed via the XML DOM (e.g., using the <code>getAttribute()</code>
+ method call) will reflect any changes made to <a class="idlattr" href="#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a> or
+ <a class="idlattr" href="#__svg__SVGAnimatedPathData__normalizedPathSegList">normalizedPathSegList</a>.</p>
+<pre class="idl">interface <b>SVGAnimatedPathData</b> {
+  readonly attribute <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a> <a href="paths.html#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a>;
+  readonly attribute <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a> <a href="paths.html#__svg__SVGAnimatedPathData__normalizedPathSegList">normalizedPathSegList</a>;
+  readonly attribute <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a> <a href="paths.html#__svg__SVGAnimatedPathData__animatedPathSegList">animatedPathSegList</a>;
+  readonly attribute <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a> <a href="paths.html#__svg__SVGAnimatedPathData__animatedNormalizedPathSegList">animatedNormalizedPathSegList</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGAnimatedPathData__pathSegList" class="attribute first-child"><b>pathSegList</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a>)</span></dt><dd class="attribute"><div>
+ Provides access to the base (i.e., static) contents of the <span class="attr-name">‘d’</span>
+ attribute in a form which matches one-for-one with SVG's syntax.
+ Thus, if the <span class="attr-name">‘d’</span> attribute has an "absolute moveto (M)" and an
+ "absolute arcto (A)" command, then <a class="idlattr" href="#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a> will have two
+ entries: a SVG_PATHSEG_MOVETO_ABS and a SVG_PATHSEG_ARC_ABS.
+</div></dd>
+<dt id="__svg__SVGAnimatedPathData__normalizedPathSegList" class="attribute"><b>normalizedPathSegList</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a>)</span></dt><dd class="attribute"><div>
+ <p>Provides access to the base (i.e., static) contents of the
+ <span class="attr-name">‘d’</span> attribute in a form where all path data commands are
+ expressed in terms of the following subset of <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a>
+ types: SVG_PATHSEG_MOVETO_ABS (M), SVG_PATHSEG_LINETO_ABS (L),
+ SVG_PATHSEG_CURVETO_CUBIC_ABS (C) and SVG_PATHSEG_CLOSEPATH
+ (z). Thus, if the <span class="attr-name">‘d’</span> attribute has an "absolute moveto (M)"
+ and an "absolute arcto (A)" command, then pathSegList will
+ have one SVG_PATHSEG_MOVETO_ABS entry followed by a series of
+ SVG_PATHSEG_LINETO_ABS entries which approximate the arc. This
+ alternate representation is available to provide a simpler
+ interface to developers who would benefit from a more limited set
+ of commands.</p>
+
+ <p>The only valid <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a> types are
+ SVG_PATHSEG_MOVETO_ABS (M), SVG_PATHSEG_LINETO_ABS (L),
+ SVG_PATHSEG_CURVETO_CUBIC_ABS (C) and SVG_PATHSEG_CLOSEPATH (z).</p>
+</div></dd>
+<dt id="__svg__SVGAnimatedPathData__animatedPathSegList" class="attribute"><b>animatedPathSegList</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a>)</span></dt><dd class="attribute"><div>
+ Provides access to the current animated contents of the <span class="attr-name">‘d’</span>
+ attribute in a form which matches one-for-one with SVG's syntax.
+ If the given attribute or property is being animated, contains
+ the current animated value of the attribute or property, and both
+ the object itself and its contents are read only. If the given
+ attribute or property is not currently being animated, contains
+ the same value as <a class="idlattr" href="#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a>.
+</div></dd>
+<dt id="__svg__SVGAnimatedPathData__animatedNormalizedPathSegList" class="attribute"><b>animatedNormalizedPathSegList</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="paths.html#InterfaceSVGPathSegList">SVGPathSegList</a>)</span></dt><dd class="attribute"><div>
+ Provides access to the current animated contents of the
+ <span class="attr-name">‘d’</span> attribute in a form where all path data commands
+ are expressed in terms of the following subset of <a class="idlinterface" href="paths.html#InterfaceSVGPathSeg">SVGPathSeg</a>
+ types: SVG_PATHSEG_MOVETO_ABS (M), SVG_PATHSEG_LINETO_ABS (L),
+ SVG_PATHSEG_CURVETO_CUBIC_ABS (C) and SVG_PATHSEG_CLOSEPATH (z).
+ If the given attribute or property is being animated, contains
+ the current animated value of the attribute or property, and both
+ the object itself and its contents are read only. If the given
+ attribute or property is not currently being animated, contains
+ the same value as <a class="idlattr" href="#__svg__SVGAnimatedPathData__normalizedPathSegList">normalizedPathSegList</a>.
+</div></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPathElement">8.5.23 Interface SVGPathElement</h3>
+
+
+
+ The <a class="idlinterface" href="paths.html#InterfaceSVGPathElement">SVGPathElement</a> interface corresponds to the <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>
+ element.
+<pre class="idl">interface <b>SVGPathElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a>,
+                           <a class="idlinterface" href="paths.html#InterfaceSVGAnimatedPathData">SVGAnimatedPathData</a> {
+
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedNumber">SVGAnimatedNumber</a> <a href="paths.html#__svg__SVGPathElement__pathLength">pathLength</a>;
+
+  float <a href="paths.html#__svg__SVGPathElement__getTotalLength">getTotalLength</a>();
+  <a class="idlinterface" href="coords.html#InterfaceSVGPoint">SVGPoint</a> <a href="paths.html#__svg__SVGPathElement__getPointAtLength">getPointAtLength</a>(in float distance);
+  unsigned long <a href="paths.html#__svg__SVGPathElement__getPathSegAtLength">getPathSegAtLength</a>(in float distance);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegClosePath">SVGPathSegClosePath</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegClosePath">createSVGPathSegClosePath</a>();
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoAbs">SVGPathSegMovetoAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegMovetoAbs">createSVGPathSegMovetoAbs</a>(in float x, in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoRel">SVGPathSegMovetoRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegMovetoRel">createSVGPathSegMovetoRel</a>(in float x, in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoAbs">SVGPathSegLinetoAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegLinetoAbs">createSVGPathSegLinetoAbs</a>(in float x, in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoRel">SVGPathSegLinetoRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegLinetoRel">createSVGPathSegLinetoRel</a>(in float x, in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicAbs">SVGPathSegCurvetoCubicAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoCubicAbs">createSVGPathSegCurvetoCubicAbs</a>(in float x, in float y, in float x1, in float y1, in float x2, in float y2);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicRel">SVGPathSegCurvetoCubicRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoCubicRel">createSVGPathSegCurvetoCubicRel</a>(in float x, in float y, in float x1, in float y1, in float x2, in float y2);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticAbs">SVGPathSegCurvetoQuadraticAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticAbs">createSVGPathSegCurvetoQuadraticAbs</a>(in float x, in float y, in float x1, in float y1);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticRel">SVGPathSegCurvetoQuadraticRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticRel">createSVGPathSegCurvetoQuadraticRel</a>(in float x, in float y, in float x1, in float y1);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcAbs">SVGPathSegArcAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegArcAbs">createSVGPathSegArcAbs</a>(in float x, in float y, in float r1, in float r2, in float angle, in boolean largeArcFlag, in boolean sweepFlag);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcRel">SVGPathSegArcRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegArcRel">createSVGPathSegArcRel</a>(in float x, in float y, in float r1, in float r2, in float angle, in boolean largeArcFlag, in boolean sweepFlag);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalAbs">SVGPathSegLinetoHorizontalAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegLinetoHorizontalAbs">createSVGPathSegLinetoHorizontalAbs</a>(in float x);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalRel">SVGPathSegLinetoHorizontalRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegLinetoHorizontalRel">createSVGPathSegLinetoHorizontalRel</a>(in float x);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalAbs">SVGPathSegLinetoVerticalAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegLinetoVerticalAbs">createSVGPathSegLinetoVerticalAbs</a>(in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalRel">SVGPathSegLinetoVerticalRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegLinetoVerticalRel">createSVGPathSegLinetoVerticalRel</a>(in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothAbs">SVGPathSegCurvetoCubicSmoothAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoCubicSmoothAbs">createSVGPathSegCurvetoCubicSmoothAbs</a>(in float x, in float y, in float x2, in float y2);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothRel">SVGPathSegCurvetoCubicSmoothRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoCubicSmoothRel">createSVGPathSegCurvetoCubicSmoothRel</a>(in float x, in float y, in float x2, in float y2);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">SVGPathSegCurvetoQuadraticSmoothAbs</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticSmoothAbs">createSVGPathSegCurvetoQuadraticSmoothAbs</a>(in float x, in float y);
+  <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothRel">SVGPathSegCurvetoQuadraticSmoothRel</a> <a href="paths.html#__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticSmoothRel">createSVGPathSegCurvetoQuadraticSmoothRel</a>(in float x, in float y);
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathElement__pathLength" class="attribute first-child"><b>pathLength</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedNumber">SVGAnimatedNumber</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a class="idlattr" href="#__svg__SVGPathElement__pathLength">pathLength</a> on the given <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>
+ element.
+</div></dd></dl></dd><dt class="operations-header">Operations:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPathElement__getTotalLength" class="operation first-child">float <b>getTotalLength</b>()</dt><dd class="operation"><div>
+ Returns the user agent's computed value for the total length of the path
+ using the user agent's distance-along-a-path algorithm, as a distance
+ in the current user coordinate system. 
+
+</div><dl class="operation"><dt class="returns-header">Returns</dt><dd><div> The total length of the path.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__getPointAtLength" class="operation"><a class="idlinterface" href="coords.html#InterfaceSVGPoint">SVGPoint</a> <b>getPointAtLength</b>(in float <var>distance</var>)</dt><dd class="operation"><div>
+ Returns the (x,y) coordinate in user space which is <var>distance</var>
+ units along the path, utilizing the user agent's distance-along-a-path
+ algorithm. 
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>distance</var></div> <div> The distance along the path, relative to the start of
+   the path, as a distance in the current user coordinate system.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The returned point in user space.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__getPathSegAtLength" class="operation">unsigned long <b>getPathSegAtLength</b>(in float <var>distance</var>)</dt><dd class="operation"><div>
+ Returns the index into <a class="idlattr" href="paths.html#__svg__SVGAnimatedPathData__pathSegList">pathSegList</a> which is <var>distance</var>
+ units along the path, utilizing the user agent's distance-along-a-path
+ algorithm. 
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>distance</var></div> <div> The distance along the path, relative to the start of
+   the path, as a distance in the current user coordinate system.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> The index of the path segment, where the first path segment is
+   number 0.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegClosePath" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegClosePath">SVGPathSegClosePath</a> <b>createSVGPathSegClosePath</b>()</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegClosePath">SVGPathSegClosePath</a> object.
+
+</div><dl class="operation"><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegClosePath">SVGPathSegClosePath</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegMovetoAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoAbs">SVGPathSegMovetoAbs</a> <b>createSVGPathSegMovetoAbs</b>(in float <var>x</var>, in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoAbs">SVGPathSegMovetoAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoAbs">SVGPathSegMovetoAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegMovetoRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoRel">SVGPathSegMovetoRel</a> <b>createSVGPathSegMovetoRel</b>(in float <var>x</var>, in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoRel">SVGPathSegMovetoRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegMovetoRel">SVGPathSegMovetoRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegLinetoAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoAbs">SVGPathSegLinetoAbs</a> <b>createSVGPathSegLinetoAbs</b>(in float <var>x</var>, in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoAbs">SVGPathSegLinetoAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoAbs">SVGPathSegLinetoAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegLinetoRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoRel">SVGPathSegLinetoRel</a> <b>createSVGPathSegLinetoRel</b>(in float <var>x</var>, in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoRel">SVGPathSegLinetoRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoRel">SVGPathSegLinetoRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoCubicAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicAbs">SVGPathSegCurvetoCubicAbs</a> <b>createSVGPathSegCurvetoCubicAbs</b>(in float <var>x</var>, in float <var>y</var>, in float <var>x1</var>, in float <var>y1</var>, in float <var>x2</var>, in float <var>y2</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicAbs">SVGPathSegCurvetoCubicAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>x1</var></div> <div> The absolute X coordinate for the first control point.
+</div></li><li class="parameter"><div>float <var>y1</var></div> <div> The absolute Y coordinate for the first control point.
+</div></li><li class="parameter"><div>float <var>x2</var></div> <div> The absolute X coordinate for the second control point.
+</div></li><li class="parameter"><div>float <var>y2</var></div> <div> The absolute Y coordinate for the second control point.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicAbs">SVGPathSegCurvetoCubicAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoCubicRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicRel">SVGPathSegCurvetoCubicRel</a> <b>createSVGPathSegCurvetoCubicRel</b>(in float <var>x</var>, in float <var>y</var>, in float <var>x1</var>, in float <var>y1</var>, in float <var>x2</var>, in float <var>y2</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicRel">SVGPathSegCurvetoCubicRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>x1</var></div> <div> The relative X coordinate for the first control point.
+</div></li><li class="parameter"><div>float <var>y1</var></div> <div> The relative Y coordinate for the first control point.
+</div></li><li class="parameter"><div>float <var>x2</var></div> <div> The relative X coordinate for the second control point.
+</div></li><li class="parameter"><div>float <var>y2</var></div> <div> The relative Y coordinate for the second control point.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicRel">SVGPathSegCurvetoCubicRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticAbs">SVGPathSegCurvetoQuadraticAbs</a> <b>createSVGPathSegCurvetoQuadraticAbs</b>(in float <var>x</var>, in float <var>y</var>, in float <var>x1</var>, in float <var>y1</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticAbs">SVGPathSegCurvetoQuadraticAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>x1</var></div> <div> The absolute X coordinate for the first control point.
+</div></li><li class="parameter"><div>float <var>y1</var></div> <div> The absolute Y coordinate for the first control point.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticAbs">SVGPathSegCurvetoQuadraticAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticRel">SVGPathSegCurvetoQuadraticRel</a> <b>createSVGPathSegCurvetoQuadraticRel</b>(in float <var>x</var>, in float <var>y</var>, in float <var>x1</var>, in float <var>y1</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticRel">SVGPathSegCurvetoQuadraticRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>x1</var></div> <div> The relative X coordinate for the first control point.
+</div></li><li class="parameter"><div>float <var>y1</var></div> <div> The relative Y coordinate for the first control point.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticRel">SVGPathSegCurvetoQuadraticRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegArcAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcAbs">SVGPathSegArcAbs</a> <b>createSVGPathSegArcAbs</b>(in float <var>x</var>, in float <var>y</var>, in float <var>r1</var>, in float <var>r2</var>, in float <var>angle</var>, in boolean <var>largeArcFlag</var>, in boolean <var>sweepFlag</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcAbs">SVGPathSegArcAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>r1</var></div> <div> The x-axis radius for the ellipse (i.e., r1).
+</div></li><li class="parameter"><div>float <var>r2</var></div> <div> The y-axis radius for the ellipse (i.e., r2).
+</div></li><li class="parameter"><div>float <var>angle</var></div> <div> The rotation angle in degrees for the ellipse's x-axis relative to the x-axis of the user coordinate system.
+</div></li><li class="parameter"><div>boolean <var>largeArcFlag</var></div> <div> The value of the large-arc-flag parameter.
+</div></li><li class="parameter"><div>boolean <var>sweepFlag</var></div> <div> The value of the large-arc-flag parameter.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcAbs">SVGPathSegArcAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegArcRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcRel">SVGPathSegArcRel</a> <b>createSVGPathSegArcRel</b>(in float <var>x</var>, in float <var>y</var>, in float <var>r1</var>, in float <var>r2</var>, in float <var>angle</var>, in boolean <var>largeArcFlag</var>, in boolean <var>sweepFlag</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcRel">SVGPathSegArcRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>r1</var></div> <div> The x-axis radius for the ellipse (i.e., r1).
+</div></li><li class="parameter"><div>float <var>r2</var></div> <div> The y-axis radius for the ellipse (i.e., r2).
+</div></li><li class="parameter"><div>float <var>angle</var></div> <div> The rotation angle in degrees for the ellipse's x-axis relative to the x-axis of the user coordinate system.
+</div></li><li class="parameter"><div>boolean <var>largeArcFlag</var></div> <div> The value of the large-arc-flag parameter.
+</div></li><li class="parameter"><div>boolean <var>sweepFlag</var></div> <div> The value of the large-arc-flag parameter.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegArcRel">SVGPathSegArcRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegLinetoHorizontalAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalAbs">SVGPathSegLinetoHorizontalAbs</a> <b>createSVGPathSegLinetoHorizontalAbs</b>(in float <var>x</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalAbs">SVGPathSegLinetoHorizontalAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalAbs">SVGPathSegLinetoHorizontalAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegLinetoHorizontalRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalRel">SVGPathSegLinetoHorizontalRel</a> <b>createSVGPathSegLinetoHorizontalRel</b>(in float <var>x</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalRel">SVGPathSegLinetoHorizontalRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoHorizontalRel">SVGPathSegLinetoHorizontalRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegLinetoVerticalAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalAbs">SVGPathSegLinetoVerticalAbs</a> <b>createSVGPathSegLinetoVerticalAbs</b>(in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalAbs">SVGPathSegLinetoVerticalAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalAbs">SVGPathSegLinetoVerticalAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegLinetoVerticalRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalRel">SVGPathSegLinetoVerticalRel</a> <b>createSVGPathSegLinetoVerticalRel</b>(in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalRel">SVGPathSegLinetoVerticalRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegLinetoVerticalRel">SVGPathSegLinetoVerticalRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoCubicSmoothAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothAbs">SVGPathSegCurvetoCubicSmoothAbs</a> <b>createSVGPathSegCurvetoCubicSmoothAbs</b>(in float <var>x</var>, in float <var>y</var>, in float <var>x2</var>, in float <var>y2</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothAbs">SVGPathSegCurvetoCubicSmoothAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>x2</var></div> <div> The absolute X coordinate for the second control point.
+</div></li><li class="parameter"><div>float <var>y2</var></div> <div> The absolute Y coordinate for the second control point.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothAbs">SVGPathSegCurvetoCubicSmoothAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoCubicSmoothRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothRel">SVGPathSegCurvetoCubicSmoothRel</a> <b>createSVGPathSegCurvetoCubicSmoothRel</b>(in float <var>x</var>, in float <var>y</var>, in float <var>x2</var>, in float <var>y2</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothRel">SVGPathSegCurvetoCubicSmoothRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>x2</var></div> <div> The relative X coordinate for the second control point.
+</div></li><li class="parameter"><div>float <var>y2</var></div> <div> The relative Y coordinate for the second control point.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoCubicSmoothRel">SVGPathSegCurvetoCubicSmoothRel</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticSmoothAbs" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">SVGPathSegCurvetoQuadraticSmoothAbs</a> <b>createSVGPathSegCurvetoQuadraticSmoothAbs</b>(in float <var>x</var>, in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">SVGPathSegCurvetoQuadraticSmoothAbs</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The absolute X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The absolute Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothAbs">SVGPathSegCurvetoQuadraticSmoothAbs</a> object.
+</div></dd></dl></dd>
+<dt id="__svg__SVGPathElement__createSVGPathSegCurvetoQuadraticSmoothRel" class="operation"><a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothRel">SVGPathSegCurvetoQuadraticSmoothRel</a> <b>createSVGPathSegCurvetoQuadraticSmoothRel</b>(in float <var>x</var>, in float <var>y</var>)</dt><dd class="operation"><div>
+ Returns a stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothRel">SVGPathSegCurvetoQuadraticSmoothRel</a> object.
+
+</div><dl class="operation"><dt class="parameters-header">Parameters</dt><dd><ol class="parameters"><li class="parameter first-child"><div>float <var>x</var></div> <div> The relative X coordinate for the end point of this path segment.
+</div></li><li class="parameter"><div>float <var>y</var></div> <div> The relative Y coordinate for the end point of this path segment.
+</div></li></ol></dd><dt class="returns-header">Returns</dt><dd><div> A stand-alone, parentless <a class="idlinterface" href="paths.html#InterfaceSVGPathSegCurvetoQuadraticSmoothRel">SVGPathSegCurvetoQuadraticSmoothRel</a> object.
+</div></dd></dl></dd></dl></dd></dl>
+
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="coords.html">Previous</a> ⋅ <a href="shapes.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>

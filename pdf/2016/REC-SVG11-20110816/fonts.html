@@ -1,0 +1,1140 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Chapter 20: Fonts
+
+  $Id: fonts.html,v 1.88 2011/08/10 02:10:31 cmccorma Exp $
+
+  Note: This document is generated from ../master/fonts.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Fonts – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="animate.html">Previous</a> ⋅ <a href="metadata.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>20 Fonts</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#Introduction">20.1 Introduction</a></li>
+<li><a href="#SVGFontsOverview">20.2 Overview of SVG fonts</a></li>
+<li><a href="#FontElement">20.3 The <span class="element-name">‘font’</span> element</a></li>
+<li><a href="#GlyphElement">20.4 The <span class="element-name">‘glyph’</span> element</a></li>
+<li><a href="#MissingGlyphElement">20.5 The <span class="element-name">‘missing-glyph’</span> element</a></li>
+<li><a href="#GlyphSelectionRules">20.6 Glyph selection rules</a></li>
+<li><a href="#KernElements">20.7 The <span class="element-name">‘hkern’</span> and <span class="element-name">‘vkern’</span> elements</a></li>
+<li><a href="#FontDescriptions">20.8 Describing a font</a><ul class="toc">
+<li><a href="#FontDescriptionsOverview">20.8.1 Overview of font descriptions</a></li>
+<li><a href="#FontDescriptionsAlternatives">20.8.2 Alternative ways for providing a font description</a></li>
+<li><a href="#FontFaceElement">20.8.3 The <span class="element-name">‘font-face’</span> element</a></li>
+<li><a href="#FontFaceSrcElement">20.8.4 The <span class="element-name">‘font-face-src’</span> element</a></li>
+<li><a href="#FontFaceURIElement">20.8.5 The <span class="element-name">‘font-face-uri’</span> and <span class="element-name">‘font-face-format’</span> elements</a></li>
+<li><a href="#FontFaceNameElement">20.8.6 The <span class="element-name">‘font-face-name’</span> element</a></li></ul></li>
+<li><a href="#DOMInterfaces">20.9 DOM interfaces</a><ul class="toc">
+<li><a href="#InterfaceSVGFontElement">20.9.1 Interface SVGFontElement</a></li>
+<li><a href="#InterfaceSVGGlyphElement">20.9.2 Interface SVGGlyphElement</a></li>
+<li><a href="#InterfaceSVGMissingGlyphElement">20.9.3 Interface SVGMissingGlyphElement</a></li>
+<li><a href="#InterfaceSVGHKernElement">20.9.4 Interface SVGHKernElement</a></li>
+<li><a href="#InterfaceSVGVKernElement">20.9.5 Interface SVGVKernElement</a></li>
+<li><a href="#InterfaceSVGFontFaceElement">20.9.6 Interface SVGFontFaceElement</a></li>
+<li><a href="#InterfaceSVGFontFaceSrcElement">20.9.7 Interface SVGFontFaceSrcElement</a></li>
+<li><a href="#InterfaceSVGFontFaceUriElement">20.9.8 Interface SVGFontFaceUriElement</a></li>
+<li><a href="#InterfaceSVGFontFaceFormatElement">20.9.9 Interface SVGFontFaceFormatElement</a></li>
+<li><a href="#InterfaceSVGFontFaceNameElement">20.9.10 Interface SVGFontFaceNameElement</a></li></ul></li></ul>
+
+<h2 id="Introduction">20.1 Introduction</h2>
+
+    <p>Reliable delivery of fonts is a requirement for SVG.
+    Designers need to create SVG content with arbitrary fonts and
+    know that the same graphical result will appear when the
+    content is viewed by all end users, even when end users do not
+    have the necessary fonts installed on their computers. This
+    parallels the print world, where the designer uses a given font
+    when authoring a drawing for print, and the graphical content
+    appears exactly the same in the printed version as it appeared
+    on the designer's authoring system.</p>
+    <p>SVG utilizes the
+    <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#q1">WebFonts</a>
+    facility defined in CSS2
+    ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.1) as a key
+    mechanism for reliable delivery of font data to end users. In a
+    common scenario, SVG authoring applications generate
+    compressed, subsetted WebFonts
+    for all text elements used by a given SVG document fragment.
+    Typically, the WebFonts are saved in a location relative to the referencing
+    document.</p>
+    <p>One disadvantage to the WebFont
+    facility to date is that specifications such as CSS2 do not require
+    support of particular font formats. The result is that
+    different implementations support different Web font formats,
+    thereby making it difficult for Web site creators to post a
+    single Web site using WebFonts that work across all user
+    agents.</p>
+    <p>To provide a common font format for SVG that is guaranteed
+    to be supported by all <a href="conform.html#ConformingSVGViewers">conforming SVG
+    viewers</a>, SVG provides a facility to define fonts in SVG.
+    This facility is called <span class="SVG-Term">SVG
+    fonts</span>.</p>
+
+    <p id="SVGFonts">SVG fonts can improve the semantic richness of graphics that
+    represent text. For example, many company logos consist of the
+    company name drawn artistically. In some cases, <a href="access.html">accessibility</a> may be enhanced by
+    expressing the logo as a series of glyphs in an SVG font and
+    then rendering the logo as a <a href="text.html#TextElement"><span class="element-name">‘text’</span></a> element which references
+    this font.</p>
+
+<h2 id="SVGFontsOverview">20.2 Overview of SVG fonts</h2>
+
+    <p>An <span class="SVG-Term">SVG font</span> is a font defined
+    using SVG's <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element.</p>
+    <p>The purpose of SVG fonts is to allow for delivery of glyph
+    outlines in display-only environments. SVG fonts that accompany
+    Web pages must be supported only in browsing and viewing
+    situations. Graphics editing applications or file translation
+    tools must not attempt to convert SVG fonts into system fonts.
+    The intent is that SVG files be interchangeable between two
+    content creators, but not the SVG fonts that might accompany
+    these SVG files. Instead, each content creator will need to
+    license the given font before being able to successfully edit
+    the SVG file. The <a href="fonts.html#FontFaceNameElement"><span class="element-name">‘font-face-name’</span></a> element
+    indicates the name of licensed font to use for editing.</p>
+    <p>SVG fonts contain unhinted font outlines. Because of this,
+    on many implementations there will be limitations regarding the
+    quality and legibility of text in small font sizes. For
+    increased quality and legibility in small font sizes, content
+    creators may want to use an alternate font technology, such as
+    fonts that ship with operating systems or an alternate WebFont
+    format.</p>
+    <p>Because SVG fonts are expressed using SVG elements and
+    attributes, in some cases the SVG font will take up more space
+    than if the font were expressed in a different WebFont
+    format which was especially designed for compact expression of
+    font data. For the fastest delivery of Web pages, content
+    creators may want to use an alternate font technology.</p>
+    <p>A key value of SVG fonts is guaranteed availability in SVG
+    user agents. In some situations, it might be appropriate for an
+    SVG font to be the first choice for rendering some text. In
+    other situations, the SVG font might be an alternate, back-up
+    font in case the first choice font (perhaps a hinted system
+    font) is not available to a given user.</p>
+    <p>The characteristics and attributes of SVG fonts correspond
+    closely to the font characteristics and parameters described in
+    the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html">Fonts chapter</a>
+    of the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/"><cite>Cascading Style Sheets (CSS) level 2</cite></a>
+    specification ([<a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/">CSS2</a>], chapter 15). In this model,
+    various font metrics, such as advance values and baseline
+    locations, and the glyph outlines themselves, are expressed in
+    units that are relative to an abstract square whose height is
+    the intended distance between lines of type in the same type
+    size. This square is called the <span class="SVG-Term">em
+    square</span> and it is the design grid on which the glyph
+    outlines are defined. The value of the <a href="fonts.html#FontFaceElementUnitsPerEmAttribute"><span class="attr-name">‘units-per-em’</span></a>
+    attribute on the <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element specifies how
+    many units the em square is divided into. Common values for
+    other font types are, for example, 250 (Intellifont), 1000
+    (Type 1) and 2048 (TrueType, TrueType GX and Open-Type). Unlike
+    standard graphics in SVG, where the initial coordinate system
+    has the y-axis pointing downward (see <a href="coords.html#InitialCoordinateSystem">The initial
+    coordinate system</a>), the design grid for SVG fonts, along
+    with the initial coordinate system for the glyphs, has the
+    y-axis pointing upward for consistency with accepted industry
+    practice for many popular font formats.</p>
+    <p>SVG fonts and their associated glyphs do not specify
+    bounding box information. Because the glyph outlines are
+    expressed as SVG graphics elements, the implementation has the
+    option to render the glyphs either using standard graphics
+    calls or by using special-purpose font rendering technology, in
+    which case any necessary maximum bounding box and overhang
+    calculations can be performed from analysis of the graphics
+    elements contained within the glyph outlines.</p>
+    <p>An SVG font can be either embedded within the same document
+    that uses the font or saved as part of an external
+    resource.</p>
+    <p>Here is an example of how you might embed an SVG font inside
+    of an SVG document.</p>
+<pre>
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;svg width="400px" height="300px" version="1.1"
+  xmlns = 'http://www.w3.org/2000/svg'&gt;
+  &lt;defs&gt;
+    &lt;font id="Font1" horiz-adv-x="1000"&gt;
+      &lt;font-face font-family="Super Sans" font-weight="bold" font-style="normal"
+          units-per-em="1000" cap-height="600" x-height="400"
+          ascent="700" descent="300"
+          alphabetic="0" mathematical="350" ideographic="400" hanging="500"&gt;
+        &lt;font-face-src&gt;
+          &lt;font-face-name name="Super Sans Bold"/&gt;
+        &lt;/font-face-src&gt;
+      &lt;/font-face&gt;
+      &lt;missing-glyph&gt;&lt;path d="M0,0h200v200h-200z"/&gt;&lt;/missing-glyph&gt;
+      &lt;glyph unicode="!" horiz-adv-x="300"&gt;&lt;!-- Outline of exclam. pt. glyph --&gt;&lt;/glyph&gt;
+      &lt;glyph unicode="@"&gt;&lt;!-- Outline of @ glyph --&gt;&lt;/glyph&gt;
+      &lt;!-- more glyphs --&gt;
+    &lt;/font&gt;
+  &lt;/defs&gt;
+  &lt;text x="100" y="100" 
+           style="font-family: 'Super Sans', Helvetica, sans-serif;
+                  font-weight: bold; font-style: normal"&gt;Text 
+    using embedded font&lt;/text&gt;
+&lt;/svg&gt;
+</pre>
+    <p>Here is an example of how you might use the
+    <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">CSS @font-face facility</a>
+    ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.1) to reference an SVG font which is saved
+    in an external file. First referenced SVG font file:</p>
+<pre>
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;svg width="100%" height="100%" version="1.1"
+ xmlns = 'http://www.w3.org/2000/svg'&gt;
+  &lt;defs&gt;
+    &lt;font id="Font2" horiz-adv-x="1000"&gt;
+      &lt;font-face font-family="Super Sans" font-weight="normal" font-style="italic"
+          units-per-em="1000" cap-height="600" x-height="400"
+          ascent="700" descent="300"
+          alphabetic="0" mathematical="350" ideographic="400" hanging="500"&gt;
+        &lt;font-face-src&gt;
+          &lt;font-face-name name="Super Sans Italic"/&gt;
+        &lt;/font-face-src&gt;
+      &lt;/font-face&gt;
+      &lt;missing-glyph&gt;&lt;path d="M0,0h200v200h-200z"/&gt;&lt;/missing-glyph&gt;
+      &lt;glyph unicode="!" horiz-adv-x="300"&gt;&lt;!-- Outline of exclam. pt. glyph --&gt;&lt;/glyph&gt;
+      &lt;glyph unicode="@"&gt;&lt;!-- Outline of @ glyph --&gt;&lt;/glyph&gt;
+      &lt;!-- more glyphs --&gt;
+    &lt;/font&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;
+</pre>
+    <p>The SVG file which uses/references the above SVG font</p>
+<pre>
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;svg width="400px" height="300px" version="1.1"
+ xmlns = 'http://www.w3.org/2000/svg'&gt;  
+  &lt;defs&gt;
+    &lt;style type="text/css"&gt;
+      &lt;![CDATA[
+        @font-face {
+          font-family: 'Super Sans'; 
+          font-weight: normal;
+          font-style: italic;
+          src: url("myfont.svg#Font2") format("svg")
+        }
+      ]]&gt;
+   &lt;/style&gt;
+  &lt;/defs&gt;
+  &lt;text x="100" y="100"
+           style="font-family: 'Super Sans'; font-weight:normal;
+                  font-style: italic"&gt;Text using referenced font&lt;/text&gt;
+&lt;/svg&gt;
+</pre>
+
+<h2 id="FontElement">20.3 The <span class="element-name">‘font’</span> element</h2>
+
+
+
+<p>The <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element defines an SVG font.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘font’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li><li><a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a></li><li><a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a></li><li><a href="fonts.html#HKernElement"><span class="element-name">‘hkern’</span></a></li><li><a href="fonts.html#MissingGlyphElement"><span class="element-name">‘missing-glyph’</span></a></li><li><a href="fonts.html#VKernElement"><span class="element-name">‘vkern’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="fonts.html#FontElementHorizOriginXAttribute"><span class="attr-name">‘horiz-origin-x’</span></a></li><li><a href="fonts.html#FontElementHorizOriginYAttribute"><span class="attr-name">‘horiz-origin-y’</span></a></li><li><a href="fonts.html#FontElementHorizAdvXAttribute"><span class="attr-name">‘horiz-adv-x’</span></a></li><li><a href="fonts.html#FontElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a></li><li><a href="fonts.html#FontElementVertOriginYAttribute"><span class="attr-name">‘vert-origin-y’</span></a></li><li><a href="fonts.html#FontElementVertAdvYAttribute"><span class="attr-name">‘vert-adv-y’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGFontElement">SVGFontElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="FontElementHorizOriginXAttribute"><span class="adef">horiz-origin-x</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The X-coordinate in the font coordinate system of the
+        origin of a glyph to be used when drawing horizontally
+        oriented text. (Note that the origin applies to all glyphs
+        in the font.)<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontElementHorizOriginYAttribute"><span class="adef">horiz-origin-y</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The Y-coordinate in the font coordinate system of the
+        origin of a glyph to be used when drawing horizontally
+        oriented text. (Note that the origin applies to all glyphs
+        in the font.)<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontElementHorizAdvXAttribute"><span class="adef">horiz-adv-x</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The default horizontal advance after rendering a glyph
+        in horizontal orientation. Glyph widths are required to be
+        non-negative, even if the glyph is typically rendered
+        right-to-left, as in Hebrew and Arabic scripts.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontElementVertOriginXAttribute"><span class="adef">vert-origin-x</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The default X-coordinate in the font coordinate system
+        of the origin of a glyph to be used when drawing vertically
+        oriented text.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to half of the effective value of
+        attribute <a href="fonts.html#FontElementHorizAdvXAttribute"><span class="attr-name">‘horiz-adv-x’</span></a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontElementVertOriginYAttribute"><span class="adef">vert-origin-y</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The default Y-coordinate in the font coordinate system
+        of the origin of a glyph to be used when drawing vertically
+        oriented text.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the position specified by the font's
+        <a href="fonts.html#FontFaceElementAscentAttribute"><span class="attr-name">‘ascent’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontElementVertAdvYAttribute"><span class="adef">vert-adv-y</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The default vertical advance after rendering a glyph in
+        vertical orientation.<br/>
+         If the attribute is not specified, the effect is as if a
+        value equivalent of one <em>em</em> were specified (see
+        <a href="fonts.html#FontFaceElementUnitsPerEmAttribute"><span class="attr-name">‘units-per-em’</span></a>).<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd></dl>
+    </div>
+
+<p>Each <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element must have a <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a>
+child element which describes various characteristics of the font.</p>
+
+
+
+<h2 id="GlyphElement">20.4 The <span class="element-name">‘glyph’</span> element</h2>
+
+
+
+    <p>The <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element
+    defines the graphics for a given glyph. The coordinate system
+    for the glyph is defined by the various attributes in the
+    <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element.</p>
+    <p>The graphics that make up the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> can be  a single <a href="paths.html#PathData">path data</a> specification within
+    the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute,  arbitrary SVG as
+    content within the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>, or both.
+    These two alternatives are processed differently (see
+    below).</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘glyph’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermContainerElement">Container element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li><li><a href="intro.html#TermShapeElement">shape elements</a><span class="expanding"> — <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a>, <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a>, <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a>, <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>, <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a>, <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a>, <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a></span></li><li><a href="intro.html#TermStructuralElement">structural elements</a><span class="expanding"> — <a href="struct.html#DefsElement"><span class="element-name">‘defs’</span></a>, <a href="struct.html#GElement"><span class="element-name">‘g’</span></a>, <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a>, <a href="struct.html#SymbolElement"><span class="element-name">‘symbol’</span></a>, <a href="struct.html#UseElement"><span class="element-name">‘use’</span></a></span></li><li><a href="intro.html#TermGradientElement">gradient elements</a><span class="expanding"> — <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a>, <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a></span></li><li><a href="linking.html#AElement"><span class="element-name">‘a’</span></a></li><li><a href="text.html#AltGlyphDefElement"><span class="element-name">‘altGlyphDef’</span></a></li><li><a href="masking.html#ClipPathElement"><span class="element-name">‘clipPath’</span></a></li><li><a href="color.html#ColorProfileElement"><span class="element-name">‘color-profile’</span></a></li><li><a href="interact.html#CursorElement"><span class="element-name">‘cursor’</span></a></li><li><a href="filters.html#FilterElement"><span class="element-name">‘filter’</span></a></li><li><a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a></li><li><a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a></li><li><a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a></li><li><a href="struct.html#ImageElement"><span class="element-name">‘image’</span></a></li><li><a href="painting.html#MarkerElement"><span class="element-name">‘marker’</span></a></li><li><a href="masking.html#MaskElement"><span class="element-name">‘mask’</span></a></li><li><a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a></li><li><a href="script.html#ScriptElement"><span class="element-name">‘script’</span></a></li><li><a href="styling.html#StyleElement"><span class="element-name">‘style’</span></a></li><li><a href="struct.html#SwitchElement"><span class="element-name">‘switch’</span></a></li><li><a href="text.html#TextElement"><span class="element-name">‘text’</span></a></li><li><a href="linking.html#ViewElement"><span class="element-name">‘view’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a></li><li><a href="fonts.html#GlyphElementHorizAdvXAttribute"><span class="attr-name">‘horiz-adv-x’</span></a></li><li><a href="fonts.html#GlyphElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a></li><li><a href="fonts.html#GlyphElementVertOriginYAttribute"><span class="attr-name">‘vert-origin-y’</span></a></li><li><a href="fonts.html#GlyphElementVertAdvYAttribute"><span class="attr-name">‘vert-adv-y’</span></a></li><li><a href="fonts.html#GlyphElementUnicodeAttribute"><span class="attr-name">‘unicode’</span></a></li><li><a href="fonts.html#GlyphElementGlyphNameAttribute"><span class="attr-name">‘glyph-name’</span></a></li><li><a href="fonts.html#GlyphElementOrientationAttribute"><span class="attr-name">‘orientation’</span></a></li><li><a href="fonts.html#GlyphElementArabicFormAttribute"><span class="attr-name">‘arabic-form’</span></a></li><li><a href="fonts.html#GlyphElementLangAttribute"><span class="attr-name">‘lang’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGGlyphElement">SVGGlyphElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="GlyphElementUnicodeAttribute"><span class="adef">unicode</span> = "<span class="attr-value">&lt;string&gt;</span>"</dt><dd>One or more Unicode characters indicating the sequence
+        of Unicode characters which corresponds to this glyph. If a
+        character is provided, then this glyph corresponds to the
+        given Unicode character. If multiple characters are
+        provided, then this glyph corresponds to the given sequence
+        of Unicode characters. One use of a sequence of characters
+        is ligatures. For example, if <span class="attr-value">unicode="ffl"</span>, then the given
+        glyph will be used to render the sequence of characters
+        "f", "f", and "l".<br/>
+        <br/>
+         It is often useful to refer to characters using XML
+        character references expressed in hexadecimal notation or
+        decimal notation. For example, <span class="attr-value">unicode="ffl"</span> could be expressed
+        as XML character references in hexadecimal notation as
+        <span class="attr-value">unicode="&amp;#x66;&amp;#x66;&amp;#x6c;"</span>
+        or in decimal notation as <span class="attr-value">unicode="&amp;#102;&amp;#102;&amp;#108;"</span>.<br/>
+        <br/>
+         The <a href="fonts.html#GlyphElementUnicodeAttribute"><span class="attr-name">‘unicode’</span></a> attribute
+        contributes to the process for deciding which glyph(s) are
+        used to represent which character(s). See <a href="fonts.html#GlyphSelectionRules">glyph selection
+        rules</a>. If the <a href="fonts.html#GlyphElementUnicodeAttribute"><span class="attr-name">‘unicode’</span></a> attribute is not
+        provided for a given <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>, then the only way
+        to use this glyph is via an <a href="text.html#AltGlyphElement"><span class="element-name">‘altGlyph’</span></a> reference.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementGlyphNameAttribute"><span class="adef">glyph-name</span> = "<span class="attr-value">&lt;name&gt; [, &lt;name&gt; ]*</span>
+        "</dt><dd>A name for the glyph. It is recommended that glyph
+        names be unique within a font. The glyph names can be used
+        in situations where Unicode character numbers do not
+        provide sufficient information to access the correct glyph,
+        such as when there are multiple glyphs per Unicode
+        character. The glyph names can be referenced in <a href="fonts.html#KernElements">kerning</a>
+        definitions.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementDAttribute"><span class="adef">d</span> = "<span class="attr-value">path
+        data</span>"</dt><dd>The definition of the outline of a glyph, using the
+        same syntax as for the <a href="paths.html#DAttribute"><span class="attr-name">‘d’</span></a> attribute on a <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>
+        element. See <a href="paths.html#PathData">Path data</a>.<br/>
+         See below for a discussion of this attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementOrientationAttribute"><span class="adef">orientation</span> = "<span class="attr-value">h | v</span>"</dt><dd>Indicates that the given glyph is only to be used for a
+        particular inline-progression-direction (i.e., horizontal
+        or vertical). If the attribute is not specified, then the
+        glyph can be used in all cases (i.e., both horizontal and
+        vertical inline-progression-direction).<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementArabicFormAttribute"><span class="adef">arabic-form</span> = "<span class="attr-value">initial | medial | terminal |
+        isolated</span>"</dt><dd>For Arabic glyphs, indicates which of the four possible
+        forms this glyph represents.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementLangAttribute"><span class="adef">lang</span> = "<span class="attr-value">%LanguageCodes;</span>"</dt><dd>The attribute value is a comma-separated list of
+        language names as defined in
+        <a href="http://www.ietf.org/rfc/bcp/bcp47.txt">BCP 47</a>
+        [<a href="refs.html#ref-BCP47">BCP47</a>].
+        The glyph can be used if the <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a> attribute exactly
+        matches one of the languages given in the value of this
+        parameter, or if the <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a> attribute exactly
+        equals a prefix of one of the languages given in the value
+        of this parameter such that the first tag character
+        following the prefix is "-".<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementHorizAdvXAttribute"><span class="adef">horiz-adv-x</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The horizontal advance after rendering the glyph in
+        horizontal orientation. If the attribute is not specified,
+        the effect is as if the attribute were set to the value of
+        the font's <a href="fonts.html#FontElementHorizAdvXAttribute"><span class="attr-name">‘horiz-adv-x’</span></a> attribute.<br/>
+         Glyph widths are required to be non-negative, even if the
+        glyph is typically rendered right-to-left, as in Hebrew and
+        Arabic scripts.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementVertOriginXAttribute"><span class="adef">vert-origin-x</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The X-coordinate in the font coordinate system of the
+        origin of the glyph to be used when drawing vertically
+        oriented text.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the value of the font's <a href="fonts.html#FontElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a>
+        attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementVertOriginYAttribute"><span class="adef">vert-origin-y</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The Y-coordinate in the font coordinate system of the
+        origin of a glyph to be used when drawing vertically
+        oriented text.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the value of the font's <a href="fonts.html#FontElementVertOriginYAttribute"><span class="attr-name">‘vert-origin-y’</span></a>
+        attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="GlyphElementVertAdvYAttribute"><span class="adef">vert-adv-y</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The vertical advance after rendering a glyph in
+        vertical orientation.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the value of the font's <a href="fonts.html#FontElementVertAdvYAttribute"><span class="attr-name">‘vert-adv-y’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd></dl>
+    </div>
+    <p>The graphics for the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> can be specified using
+    either the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute or arbitrary SVG as
+    content within the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>.</p>
+    <p>If the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute is specified, then the
+    path data within this attribute is processed as follows:</p>
+    <ul><li>Any relative coordinates within the path data
+      specification are converted into equivalent absolute
+      coordinates</li><li>Each of these absolute coordinates is transformed from
+      the font coordinate system into the <a href="text.html#TextElement"><span class="element-name">‘text’</span></a> element's current
+      coordinate system such that the origin of the font coordinate
+      system is properly positioned and rotated to align with the
+      <a href="text.html#CurrentTextPosition">current text
+      position</a> and orientation for the glyph, and scaled so
+      that the correct <a href="text.html#FontSizeProperty"><span class="prop-name">‘font-size’</span></a> is achieved.</li><li>The resulting, transformed path specification is rendered
+      as if it were a <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element, using the
+      styling properties that apply to the characters which
+      correspond to the given glyph, and ignoring any styling
+      properties specified on the <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element or the
+      <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element.</li></ul>
+    <p>If the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> has child
+    elements, then those child elements are rendered in a manner
+    similar to how the <a href="struct.html#UseElement"><span class="element-name">‘use’</span></a> element renders a
+    referenced symbol. The rendering effect is as if the contents
+    of the referenced <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>
+    element were deeply cloned into a separate non-exposed DOM
+    tree. Because the cloned DOM tree is non-exposed, the SVG DOM
+    does not show the cloned instance.</p>
+    <p>For user agents that support <a href="styling.html#StylingWithCSS">Styling with CSS</a>, the
+    conceptual deep cloning of the referenced <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element into a non-exposed
+    DOM tree also copies any property values resulting from
+    <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/cascade.html">the CSS cascade</a>
+    ([<a href="refs.html#ref-CSS2">CSS2</a>], chapter 6)
+    on the referenced <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> and
+    its contents, and also applies any property values on the
+    <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element. CSS2 selectors
+    can be applied to the original (i.e., referenced) elements
+    because they are part of the formal document structure. CSS2
+    selectors cannot be applied to the (conceptually) cloned DOM
+    tree because its contents are not part of the formal document
+    structure.</p>
+    <p>Property inheritance, however, works as if the referenced
+    <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> had been textually
+    included as a deeply cloned child within the document tree. The
+    referenced <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> inherits
+    properties from the element that contains the characters that
+    correspond to the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>.
+    The <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> does not inherit
+    properties from the <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element's original
+    parents.</p>
+    <p>In the generated content, for each instance of a given <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>, a
+    <a href="struct.html#GElement"><span class="element-name">‘g’</span></a> is created which carries
+    with it all property values resulting from the CSS cascade
+    on the <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element for the
+    referenced <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>. Within
+    this <a href="struct.html#GElement"><span class="element-name">‘g’</span></a> is another <a href="struct.html#GElement"><span class="element-name">‘g’</span></a> which carries with it all
+    property values resulting from the CSS cascade
+    on the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element. The
+    original contents of the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element are deep-cloned
+    within the inner <a href="struct.html#GElement"><span class="element-name">‘g’</span></a> element.</p>
+    <p>If the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> has both a
+    <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute and child elements,
+    the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute is rendered first, and
+    then the child elements.</p>
+    <p>In general, the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute renders in the same
+    manner as system fonts. For example, a dashed pattern will
+    usually look the same if applied to a system font or to an SVG
+    font which defines its glyphs using the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute. Many implementations
+    will be able to render glyphs defined with the <a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a> attribute quickly and will be
+    able to use a font cache for further performance gains.</p>
+    <p>Defining a glyph by including child elements within the
+    <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> gives greater
+    flexibility but more complexity. Different fill and stroke
+    techniques can be used on different parts of the glyphs. For
+    example, the base of an "i" could be red, and the dot could be
+    blue. This approach has an inherent complexity with units. Any
+    properties specified on a text elements which represents a
+    length, such as the <a href="painting.html#StrokeWidthProperty"><span class="prop-name">‘stroke-width’</span></a> property, might
+    produce surprising results since the length value will be
+    processed in the coordinate system of the glyph.</p>
+
+
+
+<h2 id="MissingGlyphElement">20.5 The <span class="element-name">‘missing-glyph’</span> element</h2>
+
+
+
+<p>The <a href="fonts.html#MissingGlyphElement"><span class="element-name">‘missing-glyph’</span></a> element defines the graphics to use if
+there is an attempt to draw a glyph from a given font and the given
+glyph has not been defined. The attributes on the <a href="fonts.html#MissingGlyphElement"><span class="element-name">‘missing-glyph’</span></a>
+element have the same meaning as the corresponding attributes on the
+<a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘missing-glyph’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermContainerElement">Container element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li><li><a href="intro.html#TermShapeElement">shape elements</a><span class="expanding"> — <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a>, <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a>, <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a>, <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>, <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a>, <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a>, <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a></span></li><li><a href="intro.html#TermStructuralElement">structural elements</a><span class="expanding"> — <a href="struct.html#DefsElement"><span class="element-name">‘defs’</span></a>, <a href="struct.html#GElement"><span class="element-name">‘g’</span></a>, <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a>, <a href="struct.html#SymbolElement"><span class="element-name">‘symbol’</span></a>, <a href="struct.html#UseElement"><span class="element-name">‘use’</span></a></span></li><li><a href="intro.html#TermGradientElement">gradient elements</a><span class="expanding"> — <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a>, <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a></span></li><li><a href="linking.html#AElement"><span class="element-name">‘a’</span></a></li><li><a href="text.html#AltGlyphDefElement"><span class="element-name">‘altGlyphDef’</span></a></li><li><a href="masking.html#ClipPathElement"><span class="element-name">‘clipPath’</span></a></li><li><a href="color.html#ColorProfileElement"><span class="element-name">‘color-profile’</span></a></li><li><a href="interact.html#CursorElement"><span class="element-name">‘cursor’</span></a></li><li><a href="filters.html#FilterElement"><span class="element-name">‘filter’</span></a></li><li><a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a></li><li><a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a></li><li><a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a></li><li><a href="struct.html#ImageElement"><span class="element-name">‘image’</span></a></li><li><a href="painting.html#MarkerElement"><span class="element-name">‘marker’</span></a></li><li><a href="masking.html#MaskElement"><span class="element-name">‘mask’</span></a></li><li><a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a></li><li><a href="script.html#ScriptElement"><span class="element-name">‘script’</span></a></li><li><a href="styling.html#StyleElement"><span class="element-name">‘style’</span></a></li><li><a href="struct.html#SwitchElement"><span class="element-name">‘switch’</span></a></li><li><a href="text.html#TextElement"><span class="element-name">‘text’</span></a></li><li><a href="linking.html#ViewElement"><span class="element-name">‘view’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="fonts.html#GlyphElementDAttribute"><span class="attr-name">‘d’</span></a></li><li><a href="fonts.html#GlyphElementHorizAdvXAttribute"><span class="attr-name">‘horiz-adv-x’</span></a></li><li><a href="fonts.html#GlyphElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a></li><li><a href="fonts.html#GlyphElementVertOriginYAttribute"><span class="attr-name">‘vert-origin-y’</span></a></li><li><a href="fonts.html#GlyphElementVertAdvYAttribute"><span class="attr-name">‘vert-adv-y’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGMissingGlyphElement">SVGMissingGlyphElement</a></li></ul></dd></dl></div>
+
+
+
+<h2 id="GlyphSelectionRules">20.6 Glyph selection rules</h2>
+
+<p>When determining the glyph(s) to draw a given character sequence, the
+<a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element is searched from its first <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a>
+element to its last in logical order to see if the upcoming sequence
+of Unicode characters to be rendered matches the sequence of Unicode
+characters specified in the <a href="fonts.html#GlyphElementUnicodeAttribute"><span class="attr-name">‘unicode’</span></a> attribute for the
+given <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element. The first successful match is used. Thus,
+the "ffl" ligature needs to be defined in the font before the "f" glyph;
+otherwise, the "ffl" will never be selected.</p>
+
+<p>Note that any occurrences of <a href="text.html#AltGlyphElement"><span class="element-name">‘altGlyph’</span></a> take precedence over
+the above glyph selection rules within an SVG font.</p>
+
+<h2 id="KernElements">20.7 The <span class="element-name">‘hkern’</span> and <span class="element-name">‘vkern’</span> elements</h2>
+
+    <p>The <a href="fonts.html#HKernElement"><span class="element-name">‘hkern’</span></a> and <a href="fonts.html#VKernElement"><span class="element-name">‘vkern’</span></a> elements define kerning
+    pairs for horizontally-oriented and vertically-oriented pairs
+    of glyphs, respectively.</p>
+    <p>Kern pairs identify pairs of glyphs within a single font
+    whose inter-glyph spacing is adjusted when the pair of glyphs
+    are rendered next to each other. In addition to the requirement
+    that the pair of glyphs are from the same font, SVG font
+    kerning happens only when the two glyphs correspond to
+    characters which have the same values for properties <a href="text.html#FontFamilyProperty"><span class="prop-name">‘font-family’</span></a>,
+    <a href="text.html#FontSizeProperty"><span class="prop-name">‘font-size’</span></a>, <a href="text.html#FontStyleProperty"><span class="prop-name">‘font-style’</span></a>, <a href="text.html#FontWeightProperty"><span class="prop-name">‘font-weight’</span></a>,
+    <a href="text.html#FontVariantProperty"><span class="prop-name">‘font-variant’</span></a>, <a href="text.html#FontStretchProperty"><span class="prop-name">‘font-stretch’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="prop-name">‘font-size-adjust’</span></a>
+    and <a href="text.html#FontProperty"><span class="prop-name">‘font’</span></a>.</p>
+    <p>An example of a kerning pair are the letters "Va", where the
+    typographic result might look better if the letters "V" and the
+    "a" were rendered slightly closer together.</p>
+    <p>Right-to-left and bidirectional text in SVG is laid out in a
+    two-step process, which is described in <a href="text.html#RelationshipWithBiDirectionality">Relationship
+    with bidirectionality</a>. If SVG fonts are used, before
+    kerning is applied, characters are re-ordered into
+    left-to-right (or top-to-bottom, for vertical text) visual
+    rendering order. Kerning from SVG fonts is then applied on
+    pairs of glyphs which are rendered contiguously. The first
+    glyph in the kerning pair is the left (or top) glyph in visual
+    rendering order. The second glyph in the kerning pair is the
+    right (or bottom) glyph in the pair.</p>
+    <p>For convenience to font designers and to minimize file
+    sizes, a single <a href="fonts.html#HKernElement"><span class="element-name">‘hkern’</span></a> and
+    <a href="fonts.html#VKernElement"><span class="element-name">‘vkern’</span></a> can define a single
+    kerning adjustment value between one set of glyphs (e.g., a
+    range of Unicode characters) and another set of glyphs (e.g.,
+    another range of Unicode characters).</p>
+
+    <p id="HKernElement">The <a href="fonts.html#HKernElement"><span class="element-name">‘hkern’</span></a> element
+    defines kerning pairs and adjustment values in the horizontal
+    advance value when drawing pairs of glyphs which the two glyphs
+    are contiguous and are both rendered horizontally (i.e.,
+    side-by-side). The spacing between characters is reduced by the
+    kerning adjustment. (Negative kerning adjustments increase the
+    spacing between characters.)</p>
+
+    <p id="VKernElement">The <a href="fonts.html#VKernElement"><span class="element-name">‘vkern’</span></a> element
+    defines kerning pairs and adjustment values in the vertical
+    advance value when drawing pairs of glyphs together when
+    stacked vertically. The spacing between characters is reduced
+    by the kerning adjustment.</p>
+
+
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘hkern’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Empty.</dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="fonts.html#HKernElementU1Attribute"><span class="attr-name">‘u1’</span></a></li><li><a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a></li><li><a href="fonts.html#HKernElementU2Attribute"><span class="attr-name">‘u2’</span></a></li><li><a href="fonts.html#HKernElementG2Attribute"><span class="attr-name">‘g2’</span></a></li><li><a href="fonts.html#HKernElementKAttribute"><span class="attr-name">‘k’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGHKernElement">SVGHKernElement</a></li></ul></dd></dl></div>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘vkern’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Empty.</dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="fonts.html#HKernElementU1Attribute"><span class="attr-name">‘u1’</span></a></li><li><a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a></li><li><a href="fonts.html#HKernElementU2Attribute"><span class="attr-name">‘u2’</span></a></li><li><a href="fonts.html#HKernElementG2Attribute"><span class="attr-name">‘g2’</span></a></li><li><a href="fonts.html#HKernElementKAttribute"><span class="attr-name">‘k’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGVKernElement">SVGVKernElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="HKernElementU1Attribute"><span class="adef">u1</span> = "<span class="attr-value">[&lt;character&gt; | &lt;urange&gt; ] [,
+        [&lt;character&gt; | &lt;urange&gt;] ]*</span> "</dt><dd>A sequence (comma-separated) of Unicode characters
+        (refer to the description of the <a href="fonts.html#GlyphElementUnicodeAttribute"><span class="attr-name">‘unicode’</span></a>
+        attribute to the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element for a
+        description of how to express individual Unicode
+        characters) and/or ranges of Unicode characters (see
+        <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#dataqual">description of ranges of Unicode characters in CSS2</a>;
+        [<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.3) which
+        identify a set of possible first glyphs in the kerning
+        pair. If a given Unicode character within the set has
+        multiple corresponding <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> elements (i.e.,
+        there are multiple <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> elements with the
+        same <a href="fonts.html#GlyphElementUnicodeAttribute"><span class="attr-name">‘unicode’</span></a> attribute value, but
+        different <a href="fonts.html#GlyphElementGlyphNameAttribute"><span class="attr-name">‘glyph-name’</span></a> values), then all
+        such glyphs are included in the set. Comma is the separator
+        character; thus, to kern a comma, specify the comma as part
+        of a range of Unicode characters or as a glyph name using
+        the <a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a> attribute. The total set of
+        possible first glyphs in the kerning pair is the union of
+        glyphs specified by the <a href="fonts.html#HKernElementU1Attribute"><span class="attr-name">‘u1’</span></a> and <a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a> attributes.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="HKernElementG1Attribute"><span class="adef">g1</span> = "<span class="attr-value">&lt;name&gt; [, &lt;name&gt; ]*</span>
+        "</dt><dd>A sequence (comma-separated) of glyph names (i.e.,
+        values that match <a href="fonts.html#GlyphElementGlyphNameAttribute"><span class="attr-name">‘glyph-name’</span></a> attributes
+        on <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> elements) which
+        identify a set of possible first glyphs in the kerning
+        pair. All glyphs with the given glyph name are included in
+        the set. The total set of possible first glyphs in the
+        kerning pair is the union of glyphs specified by the
+        <a href="fonts.html#HKernElementU1Attribute"><span class="attr-name">‘u1’</span></a> and <a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a> attributes.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="HKernElementU2Attribute"><span class="adef">u2</span> = "<span class="attr-value">[&lt;character&gt; | &lt;urange&gt;] [,
+        [&lt;character&gt; | &lt;urange&gt;] ]*</span> "</dt><dd>Same as the <a href="fonts.html#HKernElementU1Attribute"><span class="attr-name">‘u1’</span></a> attribute, except that <a href="fonts.html#HKernElementU2Attribute"><span class="attr-name">‘u2’</span></a>
+        specifies possible second glyphs in the kerning pair.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="HKernElementG2Attribute"><span class="adef">g2</span> = "<span class="attr-value">&lt;name&gt; [, &lt;name&gt; ]*</span>
+        "</dt><dd>Same as the <a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a> attribute, except that <a href="fonts.html#HKernElementG2Attribute"><span class="attr-name">‘g2’</span></a>
+        specifies possible second
+        glyphs in the kerning pair.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="HKernElementKAttribute"><span class="adef">k</span> = "<span class="attr-value">&lt;number&gt;</span>"</dt><dd>The amount to decrease the spacing between the two
+        glyphs in the kerning pair. The value is in the font
+        coordinate system. This attribute is required.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd></dl>
+    </div>
+
+<p>At least one each of <a href="fonts.html#HKernElementU1Attribute"><span class="attr-name">‘u1’</span></a> or <a href="fonts.html#HKernElementG1Attribute"><span class="attr-name">‘g1’</span></a> and at least one
+of <a href="fonts.html#HKernElementU2Attribute"><span class="attr-name">‘u2’</span></a> or <a href="fonts.html#HKernElementG2Attribute"><span class="attr-name">‘g2’</span></a> must be provided.</p>
+
+
+
+<h2 id="FontDescriptions">20.8 Describing a font</h2>
+
+<h3 id="FontDescriptionsOverview">20.8.1 Overview of font descriptions</h3>
+
+    <p>A font description provides the bridge between an author's
+    font specification and the font data, which is the data needed
+    to format text and to render the abstract glyphs to which the
+    characters map — the actual scalable outlines or bitmaps. Fonts
+    are referenced by properties, such as the <a href="text.html#FontFamilyProperty"><span class="prop-name">‘font-family’</span></a> property.</p>
+    <p>Each specified font description is added to the font
+    database and so that it can be used to select the relevant font
+    data. The font description contains descriptors such as the
+    location of the font data on the Web, and characterizations of
+    that font data. The font descriptors are also needed to match
+    the font properties to particular font data. The level of
+    detail of a font description can vary from just the name of the
+    font up to a list of glyph widths.</p>
+    <p>For more about font descriptions, refer to the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html">Fonts chapter</a>
+    in the CSS2 specification ([<a href="refs.html#ref-CSS2">CSS2</a>], chapter 15).</p>
+
+<h3 id="FontDescriptionsAlternatives">20.8.2 Alternative ways for providing a font description</h3>
+
+    <p>Font descriptions can be specified in either of the
+    following ways:</p>
+    <ul><li>a <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element</li><li id="AtFontFace">an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">@font-face rule</a>
+      ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.1) within a CSS
+      style sheet (only applicable for user agents which support using CSS to
+      style the SVG content)</li></ul>
+
+<h3 id="FontFaceElement">20.8.3 The <span class="element-name">‘font-face’</span> element</h3>
+
+
+
+    <p>The <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element
+    corresponds directly to the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">@font-face facility</a>
+    in CSS2 ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.1). It can be used to describe the
+    characteristics of any font, SVG font or otherwise.</p>
+    <p>When used to describe the characteristics of an SVG font
+    contained within the same document, it is recommended that the
+    <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element be a
+    child of the <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element it is describing
+    so that the <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element can be
+    self-contained and fully-described. In this case, any
+    <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a> elements within
+    the <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element are
+    ignored as it is assumed that the <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element is describing
+    the characteristics of its parent <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘font-face’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Any number of <a href="intro.html#TermDescriptiveElement"><span class="svg-term">descriptive elements</span></a> and at most one <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a> element, in any order.</dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="fonts.html#FontFaceElementFontFamilyAttribute"><span class="attr-name">‘font-family’</span></a></li><li><a href="fonts.html#FontFaceElementFontStyleAttribute"><span class="attr-name">‘font-style’</span></a></li><li><a href="fonts.html#FontFaceElementFontVariantAttribute"><span class="attr-name">‘font-variant’</span></a></li><li><a href="fonts.html#FontFaceElementFontWeightAttribute"><span class="attr-name">‘font-weight’</span></a></li><li><a href="fonts.html#FontFaceElementFontStretchAttribute"><span class="attr-name">‘font-stretch’</span></a></li><li><a href="fonts.html#FontFaceElementFontSizeAttribute"><span class="attr-name">‘font-size’</span></a></li><li><a href="fonts.html#FontFaceElementUnicodeRangeAttribute"><span class="attr-name">‘unicode-range’</span></a></li><li><a href="fonts.html#FontFaceElementUnitsPerEmAttribute"><span class="attr-name">‘units-per-em’</span></a></li><li><a href="fonts.html#FontFaceElementPanose1Attribute"><span class="attr-name">‘panose-1’</span></a></li><li><a href="fonts.html#FontFaceElementStemvAttribute"><span class="attr-name">‘stemv’</span></a></li><li><a href="fonts.html#FontFaceElementStemhAttribute"><span class="attr-name">‘stemh’</span></a></li><li><a href="fonts.html#FontFaceElementSlopeAttribute"><span class="attr-name">‘slope’</span></a></li><li><a href="fonts.html#FontFaceElementCapHeightAttribute"><span class="attr-name">‘cap-height’</span></a></li><li><a href="fonts.html#FontFaceElementXHeightAttribute"><span class="attr-name">‘x-height’</span></a></li><li><a href="fonts.html#FontFaceElementAccentHeightAttribute"><span class="attr-name">‘accent-height’</span></a></li><li><a href="fonts.html#FontFaceElementAscentAttribute"><span class="attr-name">‘ascent’</span></a></li><li><a href="fonts.html#FontFaceElementDescentAttribute"><span class="attr-name">‘descent’</span></a></li><li><a href="fonts.html#FontFaceElementWidthsAttribute"><span class="attr-name">‘widths’</span></a></li><li><a href="fonts.html#FontFaceElementBboxAttribute"><span class="attr-name">‘bbox’</span></a></li><li><a href="fonts.html#FontFaceElementIdeographicAttribute"><span class="attr-name">‘ideographic’</span></a></li><li><a href="fonts.html#FontFaceElementAlphabeticAttribute"><span class="attr-name">‘alphabetic’</span></a></li><li><a href="fonts.html#FontFaceElementMathematicalAttribute"><span class="attr-name">‘mathematical’</span></a></li><li><a href="fonts.html#FontFaceElementHangingAttribute"><span class="attr-name">‘hanging’</span></a></li><li><a href="fonts.html#FontFaceElementVertIdeographicAttribute"><span class="attr-name">‘v-ideographic’</span></a></li><li><a href="fonts.html#FontFaceElementVertAlphabeticAttribute"><span class="attr-name">‘v-alphabetic’</span></a></li><li><a href="fonts.html#FontFaceElementVertMathematicalAttribute"><span class="attr-name">‘v-mathematical’</span></a></li><li><a href="fonts.html#FontFaceElementVertHangingAttribute"><span class="attr-name">‘v-hanging’</span></a></li><li><a href="fonts.html#FontFaceElementUnderlinePositionAttribute"><span class="attr-name">‘underline-position’</span></a></li><li><a href="fonts.html#FontFaceElementUnderlineThicknessAttribute"><span class="attr-name">‘underline-thickness’</span></a></li><li><a href="fonts.html#FontFaceElementStrikeThroughPositionAttribute"><span class="attr-name">‘strikethrough-position’</span></a></li><li><a href="fonts.html#FontFaceElementStrikeThroughThicknessAttribute"><span class="attr-name">‘strikethrough-thickness’</span></a></li><li><a href="fonts.html#FontFaceElementOverlinePositionAttribute"><span class="attr-name">‘overline-position’</span></a></li><li><a href="fonts.html#FontFaceElementOverlineThicknessAttribute"><span class="attr-name">‘overline-thickness’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceElement">SVGFontFaceElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="FontFaceElementFontFamilyAttribute"><span class="adef">font-family</span> = "<span class="attr-value">&lt;string&gt;</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-family">
+        <span class="prop-name">‘font-family’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementFontStyleAttribute"><span class="adef">font-style</span> = "<span class="attr-value">all | [ normal | italic | oblique] [,
+        [normal | italic | oblique]]*</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-style">
+        <span class="prop-name">‘font-style’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The style of a font. Takes on the same
+        values as the <a href="text.html#FontStyleProperty"><span class="prop-name">‘font-style’</span></a>
+        property, except that a comma-separated list is
+        permitted.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'all'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementFontVariantAttribute"><span class="adef">font-variant</span> = "<span class="attr-value">[normal | small-caps] [,[normal |
+        small-caps]]*</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-variant">
+        <span class="prop-name">‘font-variant’</span></a>
+        descriptor within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. Indication of whether this face is the
+        small-caps variant of a font. Takes on the same values as
+        the <a href="text.html#FontVariantProperty"><span class="prop-name">‘font-variant’</span></a>
+        property, except that a comma-separated list is
+        permitted.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'normal'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementFontWeightAttribute"><span class="adef">font-weight</span> = "<span class="attr-value">all | [normal | bold | 100 | 200 | 300 |
+        400 | 500 | 600 | 700 | 800 | 900] [, [normal | bold | 100 |
+        200 | 300 | 400 | 500 | 600 | 700 | 800 |
+        900]]*</span>"</dt><dd>
+          Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-weight">
+          <span class="prop-name">‘font-weight’</span></a>
+          descriptor within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+          @font-face rule</a>.<br/>
+           The weight of a face relative to others in the same font
+          family. Takes on the same values as the <a href="text.html#FontWeightProperty"><span class="prop-name">‘font-weight’</span></a>
+          property with three exceptions: 
+          <ul><li>relative keywords (<span class="prop-value">bolder</span>, <span class="prop-value">lighter</span>) are not
+            permitted</li><li>a comma-separated list of values is permitted, for
+            fonts that contain multiple weights</li><li>an additional keyword, <span class="attr-value">'all'</span>, is permitted, which
+            means that the font will match for all possible
+            weights; either because it contains multiple weights,
+            or because that face only has a single weight.</li></ul>
+          If the attribute is not specified, the effect is as if a
+          value of <span class="attr-value">'all'</span> were specified.<br/>
+           <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: no.</span>
+        </dd><dt id="FontFaceElementFontStretchAttribute"><span class="adef">font-stretch</span> = "<span class="attr-value">all | [ normal | ultra-condensed |
+        extra-condensed | condensed | semi-condensed |
+        semi-expanded | expanded | extra-expanded | ultra-expanded]
+        [, [ normal | ultra-condensed | extra-condensed | condensed
+        | semi-condensed | semi-expanded | expanded |
+        extra-expanded | ultra-expanded] ]*</span>"</dt><dd>
+          Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-stretch">
+          <span class="prop-name">‘font-stretch’</span></a>
+          descriptor within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+          @font-face rule</a>. Indication of the condensed or
+          expanded nature of the face relative to others in the
+          same font family. Takes on the same values as the <a href="text.html#FontStretchProperty"><span class="prop-name">‘font-stretch’</span></a>
+          property except that: 
+          <ul><li>relative keywords (<span class="prop-value">wider</span>, <span class="prop-value">narrower</span>) are not
+            permitted</li><li>a comma-separated list is permitted</li><li>the keyword <span class="attr-value">'all'</span> is permitted</li></ul>
+          If the attribute is not specified, the effect is as if a
+          value of <span class="attr-value">'normal'</span> were specified.<br/>
+           <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: no.</span>
+        </dd><dt id="FontFaceElementFontSizeAttribute"><span class="adef">font-size</span> = "<span class="attr-value">&lt;string&gt;</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-size">
+        <span class="prop-name">‘font-size’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementUnicodeRangeAttribute"><span class="adef">unicode-range</span> = "<span class="attr-value">&lt;urange&gt; [,
+        &lt;urange&gt;]*</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-unicode-range">
+        <span class="prop-name">‘unicode-range’</span></a>
+        descriptor within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The range of ISO 10646 characters [<a href="refs.html#ref-UNICODE">UNICODE</a>]
+        possibly covered by the glyphs in the font. Except for any
+        additional information provided in this specification, the
+        <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#dataqual">normative definition of the attribute</a>
+        is in CSS2 ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.3).<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'U+0-10FFFF'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementUnitsPerEmAttribute"><span class="adef">units-per-em</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-units-per-em">
+        <span class="prop-name">‘units-per-em’</span></a>
+        descriptor within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The number of coordinate units on the
+        em square, the size of the design grid on which glyphs are
+        laid out.<br/>
+         This value is almost always necessary as nearly every
+        other attribute requires the definition of a design
+        grid.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'1000'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementPanose1Attribute"><span class="adef">panose-1</span> = "<span class="attr-value">[&lt;integer&gt;]{10}</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-panose-1">
+        <span class="prop-name">‘panose-1’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The Panose-1 number, consisting of ten
+        decimal integers, separated by whitespace. Except for any
+        additional information provided in this specification, the
+        <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#matching">normative definition of the attribute</a>
+        is in CSS2 ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.6).<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0 0 0 0 0 0 0 0 0 0'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementStemvAttribute"><span class="adef">stemv</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-stemv">
+        <span class="prop-name">‘stemv’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementStemhAttribute"><span class="adef">stemh</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-stemh">
+        <span class="prop-name">‘stemh’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementSlopeAttribute"><span class="adef">slope</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-slope">
+        <span class="prop-name">‘slope’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The vertical stroke angle of the font.
+        Except for any additional information provided in this
+        specification, the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#matching">normative definition of the attribute</a>
+        is in CSS2 ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.6).<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementCapHeightAttribute"><span class="adef">cap-height</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-cap-height">
+        <span class="prop-name">‘cap-height’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The height of uppercase glyphs in the
+        font within the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementXHeightAttribute"><span class="adef">x-height</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-x-height">
+        <span class="prop-name">‘x-height’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The height of lowercase glyphs in the
+        font within the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementAccentHeightAttribute"><span class="adef">accent-height</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The distance from the origin to the top of accent
+        characters, measured by a distance within the font
+        coordinate system.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the value of the <a href="fonts.html#FontFaceElementAscentAttribute"><span class="attr-name">‘ascent’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementAscentAttribute"><span class="adef">ascent</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-ascent">
+        <span class="prop-name">‘ascent’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The maximum unaccented height of the
+        font within the font coordinate system.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the difference between the <a href="fonts.html#FontFaceElementUnitsPerEmAttribute"><span class="attr-name">‘units-per-em’</span></a>
+        value and the <a href="fonts.html#FontElementVertOriginYAttribute"><span class="attr-name">‘vert-origin-y’</span></a> value for the
+        corresponding font.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementDescentAttribute"><span class="adef">descent</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-descent">
+        <span class="prop-name">‘descent’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. The maximum unaccented depth of the
+        font within the font coordinate system.<br/>
+         If the attribute is not specified, the effect is as if the
+        attribute were set to the <a href="fonts.html#FontElementVertOriginYAttribute"><span class="attr-name">‘vert-origin-y’</span></a> value for the
+        corresponding font.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementWidthsAttribute"><span class="adef">widths</span> = "<span class="attr-value">&lt;string&gt;</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-widths">
+        <span class="prop-name">‘widths’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementBboxAttribute"><span class="adef">bbox</span> = "<span class="attr-value">&lt;string&gt;</span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-bbox">
+        <span class="prop-name">‘bbox’</span></a> descriptor within
+        an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementIdeographicAttribute"><span class="adef">ideographic</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>For horizontally oriented glyph layouts, indicates the
+        alignment coordinate for glyphs to achieve ideographic
+        baseline alignment. The value is an offset in the font
+        coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementAlphabeticAttribute"><span class="adef">alphabetic</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-baseline">
+        <span class="prop-name">‘baseline’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. For horizontally oriented glyph
+        layouts, indicates the alignment coordinate for glyphs to
+        achieve alphabetic baseline alignment. The value is an
+        offset in the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementMathematicalAttribute"><span class="adef">mathematical</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>Same syntax and semantics as the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-mathline">
+        <span class="prop-name">‘mathline’</span></a> descriptor
+        within an <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">
+        @font-face rule</a>. For horizontally oriented glyph
+        layouts, indicates the alignment coordinate for glyphs to
+        achieve mathematical baseline alignment. The value is an
+        offset in the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementHangingAttribute"><span class="adef">hanging</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>For horizontally oriented glyph layouts, indicates the
+        alignment coordinate for glyphs to achieve hanging baseline
+        alignment. The value is an offset in the font coordinate
+        system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementVertIdeographicAttribute"><span class="adef">v-ideographic</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>For vertically oriented glyph layouts, indicates the
+        alignment coordinate for glyphs to achieve ideographic
+        baseline alignment. The value is an offset in the font
+        coordinate system relative to the glyph-specific <a href="fonts.html#GlyphElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementVertAlphabeticAttribute"><span class="adef">v-alphabetic</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>For vertically oriented glyph layouts, indicates the
+        alignment coordinate for glyphs to achieve alphabetic
+        baseline alignment. The value is an offset in the font
+        coordinate system relative to the glyph-specific <a href="fonts.html#GlyphElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementVertMathematicalAttribute"><span class="adef">v-mathematical</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>For vertically oriented glyph layouts, indicates the
+        alignment coordinate for glyphs to achieve mathematical
+        baseline alignment. The value is an offset in the font
+        coordinate system relative to the glyph-specific <a href="fonts.html#GlyphElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementVertHangingAttribute"><span class="adef">v-hanging</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>For vertically oriented glyph layouts, indicates the
+        alignment coordinate for glyphs to achieve hanging baseline
+        alignment. The value is an offset in the font coordinate
+        system relative to the glyph-specific <a href="fonts.html#GlyphElementVertOriginXAttribute"><span class="attr-name">‘vert-origin-x’</span></a> attribute.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementUnderlinePositionAttribute"><span class="adef">underline-position</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The ideal position of an underline within the font
+        coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementUnderlineThicknessAttribute"><span class="adef">underline-thickness</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The ideal thickness of an underline, expressed as a
+        length within the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementStrikeThroughPositionAttribute"><span class="adef">strikethrough-position</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The ideal position of a strike-through within the font
+        coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementStrikeThroughThicknessAttribute"><span class="adef">strikethrough-thickness</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The ideal thickness of a strike-through, expressed as a
+        length within the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementOverlinePositionAttribute"><span class="adef">overline-position</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The ideal position of an overline within the font
+        coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd><dt id="FontFaceElementOverlineThicknessAttribute"><span class="adef">overline-thickness</span> = "<span class="attr-value"><a href="types.html#DataTypeNumber">&lt;number&gt;</a></span>"</dt><dd>The ideal thickness of an overline, expressed as a
+        length within the font coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        no.</span></dd></dl>
+    </div>
+
+
+
+<p>The following elements and attributes correspond to the
+<span class="prop-name">‘src’</span> descriptor within an
+@font-face rule. (Refer to the descriptions of the
+<a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">@font-face rule</a> and
+<a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-src">'src' descriptor</a>
+in the CSS2 specification ([<a href="refs.html#ref-CSS2">CSS2</a>],
+sections 15.3.1 and 15.3.5.)</p>
+
+<h3 id="FontFaceSrcElement">20.8.4 The <span class="element-name">‘font-face-src’</span> element</h3>
+
+
+
+<p>The <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a> element, together with the
+<a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> and <a href="fonts.html#FontFaceFormatElement"><span class="element-name">‘font-face-format’</span></a> elements described in the
+following sections, correspond to the <span class="prop-name">‘src’</span>
+descriptor within an @font-face rule.  (Refer to the descriptions of the
+<a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions">@font-face rule</a>
+and <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-src">'src' descriptor</a>
+in the CSS2 specification ([<a href="refs.html#ref-CSS2">CSS2</a>], sections
+15.3.1 and 15.3.5).</p>
+
+<p>A <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a> element contains <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> and
+<a href="fonts.html#FontFaceNameElement"><span class="element-name">‘font-face-name’</span></a> elements, which are used for referencing external
+and local fonts, respectively.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘font-face-src’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>One or more of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="fonts.html#FontFaceNameElement"><span class="element-name">‘font-face-name’</span></a></li><li><a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceSrcElement">SVGFontFaceSrcElement</a></li></ul></dd></dl></div>
+
+
+
+<h3 id="FontFaceURIElement">20.8.5 The <span class="element-name">‘font-face-uri’</span> and <span class="element-name">‘font-face-format’</span> elements</h3>
+
+
+
+<p>The <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> element is used within a <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a>
+element to reference a font defined inside or outside of the current SVG
+document.</p>
+
+<p>When a <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> is referencing an <a href="#SVGFontsOverview">SVG font</a>,
+then that reference must be to an SVG <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element, therefore
+requiring the use of a fragment identifier [<a href="refs.html#ref-RFC3986">RFC3986</a>].
+The referenced <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element can be local (i.e., within the same
+document as the <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> element) or remote (i.e., within a
+different document).</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘font-face-uri’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="fonts.html#FontFaceFormatElement"><span class="element-name">‘font-face-format’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermXLinkAttributes">xlink attributes</a><span class="expanding"> — <a href="fonts.html#FontFaceUriElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>, <a href="linking.html#XLinkShowAttribute"><span class="attr-name">‘xlink:show’</span></a>, <a href="linking.html#XLinkActuateAttribute"><span class="attr-name">‘xlink:actuate’</span></a>, <a href="linking.html#XLinkTypeAttribute"><span class="attr-name">‘xlink:type’</span></a>, <a href="linking.html#XLinkRoleAttribute"><span class="attr-name">‘xlink:role’</span></a>, <a href="linking.html#XLinkArcRoleAttribute"><span class="attr-name">‘xlink:arcrole’</span></a>, <a href="linking.html#XLinkTitleAttribute"><span class="attr-name">‘xlink:title’</span></a></span></li><li><a href="fonts.html#FontFaceUriElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceUriElement">SVGFontFaceUriElement</a></li></ul></dd></dl></div>
+
+<div class="adef-list">
+  <p><em>Attribute definitions:</em></p>
+  <dl><dt id="FontFaceUriElementHrefAttribute"><span class="adef">xlink:href</span> =
+    "<span class="attr-value"><a href="types.html#DataTypeIRI">&lt;IRI&gt;</a></span>"</dt><dd>
+      The <a href="fonts.html#FontFaceUriElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a> attribute specifies the location of the referenced
+      font.<br/>
+      <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: no.</span>
+    </dd></dl>
+</div>
+
+
+
+
+
+<p>Child <a href="fonts.html#FontFaceFormatElement"><span class="element-name">‘font-face-format’</span></a> elements of a <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a>
+element are used to specify the supported formats of the font referenced by that
+<a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> element.  They correspond to entries in a
+<span class="prop-value">format(…)</span> clause of the
+<span class="prop-name">‘src’</span> descriptor in an @font-face rule.</p>
+
+<div id="FontFaceFormatElement">
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘font-face-format’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Empty.</dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="fonts.html#FontFaceFormatElementStringAttribute"><span class="attr-name">‘string’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceFormatElement">SVGFontFaceFormatElement</a></li></ul></dd></dl></div>
+</div>
+
+<div class="adef-list">
+  <p><em>Attribute definitions:</em></p>
+  <dl><dt id="FontFaceFormatElementStringAttribute"><span class="adef">string</span> =
+    "<span class="attr-value"><a href="types.html#DataTypeAnything">&lt;anything&gt;</a></span>"</dt><dd>
+      The <a href="fonts.html#FontFaceFormatElementStringAttribute"><span class="attr-name">‘string’</span></a> attribute is a hint to the user agent, and specifies
+      a list of formats that the font referenced by the parent <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a>
+      element supports.  The syntax of the attribute value is a format string
+      <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#referencing">as defined in CSS2</a>,
+      such as <span class="attr-value">'truetype'</span>.  Refer to the description of the
+      <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#referencing">'src' descriptor</a>
+      in CSS2 for details on how the format hint is interpreted
+      ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.5).<br/>
+      <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: no.</span>
+    </dd></dl>
+</div>
+
+
+
+<h3 id="FontFaceNameElement">20.8.6 The <span class="element-name">‘font-face-name’</span> element</h3>
+
+
+
+<p>The <a href="fonts.html#FontFaceNameElement"><span class="element-name">‘font-face-name’</span></a> element is used within a <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a>
+element to reference a local font by name.  It corresponds to a <span class="prop-value">local(…)</span>
+clause in an @font-face rule <span class="prop-name">‘src’</span> descriptor.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘font-face-name’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Empty.</dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="fonts.html#FontFaceNameElementNameAttribute"><span class="attr-name">‘name’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceNameElement">SVGFontFaceNameElement</a></li></ul></dd></dl></div>
+
+<div class="adef-list">
+  <p><em>Attribute definitions:</em></p>
+  <dl><dt id="FontFaceNameElementNameAttribute"><span class="adef">name</span> =
+    "<span class="attr-value"><a href="types.html#DataTypeAnything">&lt;anything&gt;</a></span>"</dt><dd>
+      The <a href="fonts.html#FontFaceNameElementNameAttribute"><span class="attr-name">‘name’</span></a> attribute specifies the name of a local font.  Unlike
+      the syntax allowed between the parentheses of the <span class="prop-value">local(…)</span>
+      clause in an @font-face rule <span class="prop-name">‘src’</span> descriptor,
+      the font name specified in this attribute is not surrounded in single or
+      double quotes.  Refer to the description of the <a href="http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#referencing">'src' descriptor</a>
+      in CSS2 for details on how the font name is interpreted
+      ([<a href="refs.html#ref-CSS2">CSS2</a>], section 15.3.5).<br/>
+      <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: no.</span>
+    </dd></dl>
+</div>
+
+
+
+<h2 id="DOMInterfaces">20.9 DOM interfaces</h2>
+
+<h3 id="InterfaceSVGFontElement">20.9.1 Interface SVGFontElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGFontElement">SVGFontElement</a> interface corresponds to the
+ <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGFontElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a> {
+};</pre>
+
+<h3 id="InterfaceSVGGlyphElement">20.9.2 Interface SVGGlyphElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGGlyphElement">SVGGlyphElement</a> interface corresponds to the
+ <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#GlyphElement"><span class="element-name">‘glyph’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGGlyphElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                            <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a> {
+};</pre>
+
+<h3 id="InterfaceSVGMissingGlyphElement">20.9.3 Interface SVGMissingGlyphElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGMissingGlyphElement">SVGMissingGlyphElement</a> interface corresponds to the
+ <a href="fonts.html#MissingGlyphElement"><span class="element-name">‘missing-glyph’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#MissingGlyphElement"><span class="element-name">‘missing-glyph’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGMissingGlyphElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                                   <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a> {
+};</pre>
+
+<h3 id="InterfaceSVGHKernElement">20.9.4 Interface SVGHKernElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGHKernElement">SVGHKernElement</a> interface corresponds to the
+ <a href="fonts.html#HKernElement"><span class="element-name">‘hkern’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#HKernElement"><span class="element-name">‘hkern’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGHKernElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<h3 id="InterfaceSVGVKernElement">20.9.5 Interface SVGVKernElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGVKernElement">SVGVKernElement</a> interface corresponds to the
+ <a href="fonts.html#VKernElement"><span class="element-name">‘vkern’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#VKernElement"><span class="element-name">‘vkern’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGVKernElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<h3 id="InterfaceSVGFontFaceElement">20.9.6 Interface SVGFontFaceElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceElement">SVGFontFaceElement</a> interface corresponds to the
+ <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGFontFaceElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<h3 id="InterfaceSVGFontFaceSrcElement">20.9.7 Interface SVGFontFaceSrcElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceSrcElement">SVGFontFaceSrcElement</a> interface corresponds to the
+ <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#FontFaceSrcElement"><span class="element-name">‘font-face-src’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGFontFaceSrcElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<h3 id="InterfaceSVGFontFaceUriElement">20.9.8 Interface SVGFontFaceUriElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceUriElement">SVGFontFaceUriElement</a> interface corresponds to the
+ <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#FontFaceURIElement"><span class="element-name">‘font-face-uri’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGFontFaceUriElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<h3 id="InterfaceSVGFontFaceFormatElement">20.9.9 Interface SVGFontFaceFormatElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceFormatElement">SVGFontFaceFormatElement</a> interface corresponds to the
+ <a href="fonts.html#FontFaceFormatElement"><span class="element-name">‘font-face-format’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#FontFaceFormatElement"><span class="element-name">‘font-face-format’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGFontFaceFormatElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<h3 id="InterfaceSVGFontFaceNameElement">20.9.10 Interface SVGFontFaceNameElement</h3>
+
+
+ <p>The <a class="idlinterface" href="fonts.html#InterfaceSVGFontFaceNameElement">SVGFontFaceNameElement</a> interface corresponds to the
+ <a href="fonts.html#FontFaceNameElement"><span class="element-name">‘font-face-name’</span></a> element.</p>
+
+ <p>Object-oriented access to the attributes of the <a href="fonts.html#FontFaceNameElement"><span class="element-name">‘font-face-name’</span></a> element
+ via the SVG DOM is not available.</p>
+<pre class="idl">interface <b>SVGFontFaceNameElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="animate.html">Previous</a> ⋅ <a href="metadata.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>

@@ -1,0 +1,300 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Chapter 23: Extensibility
+
+  $Id: extend.html,v 1.87 2011/08/10 02:10:30 cmccorma Exp $
+
+  Note: This document is generated from ../master/extend.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Extensibility – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="backward.html">Previous</a> ⋅ <a href="svgdtd.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>23 Extensibility</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#ForeignNamespaces">23.1 Foreign namespaces and private data</a></li>
+<li><a href="#EmbeddingForeignObjects">23.2 Embedding foreign object types</a></li>
+<li><a href="#ForeignObjectElement">23.3 The <span class="element-name">‘foreignObject’</span> element</a></li>
+<li><a href="#AnExample">23.4 An example</a></li>
+<li><a href="#PrivateElementsAndAttribute">23.5 Adding private elements and attributes to the DTD</a></li>
+<li><a href="#DOMInterfaces">23.6 DOM interfaces</a><ul class="toc">
+<li><a href="#InterfaceSVGForeignObjectElement">23.6.1 Interface SVGForeignObjectElement</a></li></ul></li></ul>
+
+<h2 id="ForeignNamespaces">23.1 Foreign namespaces and private data</h2>
+
+    <p>SVG allows inclusion of elements from foreign namespaces
+    anywhere with the SVG content. In general, the SVG user agent
+    will include the unknown elements in the DOM but will otherwise
+    ignore unknown elements. (The notable exception is described
+    under <a href="#ForeignObjectElement">Embedding Foreign Object
+    Types</a>.)</p>
+    <p>Additionally, SVG allows inclusion of attributes from
+    foreign namespaces on any SVG element. The SVG user agent will
+    include unknown attributes in the DOM but with otherwise ignore
+    unknown attributes.</p>
+    <p>SVG's ability to include foreign namespaces can be used for
+    the following purposes:</p>
+    <ul><li>Application-specific information so that authoring
+      applications can include model-level data in the SVG content
+      to serve their "roundtripping" purposes (i.e., the ability to
+      write, then read a file without loss of higher-level
+      information).</li><li>Supplemental data for extensibility. For example, suppose
+      you have an extrusion extension which takes any 2D graphics
+      and extrudes it in three dimensions. When applying the
+      extrusion extension, you probably will need to set some
+      parameters. The parameters can be included in the SVG content
+      by inserting elements from an extrusion extension
+      namespace.</li></ul>
+    <p>To illustrate, a business graphics authoring application
+    might want to include some private data within an SVG document
+    so that it could properly reassemble the chart (a pie chart in
+    this case) upon reading it back in:</p>
+<pre>
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;svg width="4in" height="3in" version="1.1"
+     xmlns = 'http://www.w3.org/2000/svg'&gt;
+  &lt;defs&gt;
+    &lt;myapp:piechart xmlns:myapp="http://example.org/myapp"
+                    title="Sales by Region"&gt;
+      &lt;myapp:pieslice label="Northern Region" value="1.23"/&gt;
+      &lt;myapp:pieslice label="Eastern Region" value="2.53"/&gt;
+      &lt;myapp:pieslice label="Southern Region" value="3.89"/&gt;
+      &lt;myapp:pieslice label="Western Region" value="2.04"/&gt;
+      &lt;!-- Other private data goes here --&gt;
+    &lt;/myapp:piechart&gt;
+  &lt;/defs&gt;
+  &lt;desc&gt;This chart includes private data in another namespace
+  &lt;/desc&gt;
+  &lt;!-- In here would be the actual SVG graphics elements which
+       draw the pie chart --&gt;
+&lt;/svg&gt;
+</pre>
+
+<h2 id="EmbeddingForeignObjects">23.2 Embedding foreign object types</h2>
+
+    <p>One goal for SVG is to provide a mechanism by which other
+    XML language processors can render into an area within an SVG
+    drawing, with those renderings subject to the various
+    transformations and compositing parameters that are currently
+    active at a given point within the SVG content tree. One
+    particular example of this is to provide a frame for XML
+    content styled with CSS or XSL so that dynamically reflowing
+    text (subject to SVG transformations and compositing) could be
+    inserted into the middle of some SVG content. Another example
+    is inserting a <a href="http://www.w3.org/TR/2003/REC-MathML2-20031021/">MathML</a> expression into
+    an SVG drawing [<a href="refs.html#ref-MATHML">MATHML</a>].</p>
+    <p>The <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+    element allows for inclusion of a foreign namespace which has
+    its graphical content drawn by a different user agent. The
+    included foreign graphical content is subject to SVG
+    transformations and compositing.</p>
+    <p>The contents of <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a> are assumed to be
+    from a different namespace. Any SVG elements within a <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a> will not be drawn,
+    except in the situation where a properly defined SVG
+    subdocument with a proper <span class="attr-name">‘xmlns’</span>
+    (see <a href="http://www.w3.org/TR/2006/REC-xml-names-20060816/"><cite>Namespaces in XML</cite></a>
+    [<a href="refs.html#ref-XML-NS">XML-NS</a>])
+    attribute specification is embedded recursively. One situation
+    where this can occur is when an SVG document fragment is
+    embedded within another non-SVG document fragment, which in
+    turn is embedded within an SVG document fragment (e.g., an SVG
+    document fragment contains an XHTML document fragment which in
+    turn contains yet another SVG document fragment).</p>
+    <p>Usually, a <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+    will be used in conjunction with the <a href="struct.html#SwitchElement"><span class="element-name">‘switch’</span></a> element and
+    the <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a> attribute to
+    provide proper checking for user agent support and provide an
+    alternate rendering in case user agent support is not
+    available.</p>
+
+<h2 id="ForeignObjectElement">23.3 The <span class="element-name">‘foreignObject’</span> element</h2>
+
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘foreignObject’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>
+                Any elements or character data.
+              </dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="extend.html#ForeignObjectElementXAttribute"><span class="attr-name">‘x’</span></a></li><li><a href="extend.html#ForeignObjectElementYAttribute"><span class="attr-name">‘y’</span></a></li><li><a href="extend.html#ForeignObjectElementWidthAttribute"><span class="attr-name">‘width’</span></a></li><li><a href="extend.html#ForeignObjectElementHeightAttribute"><span class="attr-name">‘height’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="extend.html#InterfaceSVGForeignObjectElement">SVGForeignObjectElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="ForeignObjectElementXAttribute"><span class="adef">x</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The x-axis coordinate of one corner of the rectangular
+        region into which the graphics associated with the contents
+        of the <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+        will be rendered.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="ForeignObjectElementYAttribute"><span class="adef">y</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The y-axis coordinate of one corner of the rectangular
+        region into which the referenced document is placed.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="ForeignObjectElementWidthAttribute"><span class="adef">width</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The width of the rectangular region into which the
+        referenced document is placed.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="ForeignObjectElementHeightAttribute"><span class="adef">height</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The height of the rectangular region into which the
+        referenced document is placed.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+
+
+<h2 id="AnExample">23.4 An example</h2>
+
+    <p>Here is an example:</p>
+<pre>
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;svg width="4in" height="3in" version="1.1"
+ xmlns = 'http://www.w3.org/2000/svg'&gt;
+  &lt;desc&gt;This example uses the 'switch' element to provide a 
+        fallback graphical representation of an paragraph, if 
+        XMHTML is not supported.&lt;/desc&gt;
+  &lt;!-- The 'switch' element will process the first child element
+       whose testing attributes evaluate to true.--&gt;
+  &lt;switch&gt;
+    &lt;!-- Process the embedded XHTML if the requiredExtensions attribute
+         evaluates to true (i.e., the user agent supports XHTML
+         embedded within SVG). --&gt;
+    &lt;foreignObject width="100" height="50"
+                   requiredExtensions="http://example.com/SVGExtensions/EmbeddedXHTML"&gt;
+      &lt;!-- XHTML content goes here --&gt;
+      &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
+        &lt;p&gt;Here is a paragraph that requires word wrap&lt;/p&gt;
+      &lt;/body&gt;
+    &lt;/foreignObject&gt;
+    &lt;!-- Else, process the following alternate SVG.
+         Note that there are no testing attributes on the 'text' element.
+         If no testing attributes are provided, it is as if there
+         were testing attributes and they evaluated to true.--&gt;
+    &lt;text font-size="10" font-family="Verdana"&gt;
+      &lt;tspan x="10" y="10"&gt;Here is a paragraph that&lt;/tspan&gt;
+      &lt;tspan x="10" y="20"&gt;requires word wrap.&lt;/tspan&gt;
+    &lt;/text&gt;
+  &lt;/switch&gt;
+&lt;/svg&gt;
+</pre>
+
+    <p>It is not required that SVG user agent support the ability
+    to invoke other arbitrary user agents to handle embedded
+    foreign object types; however, all conforming SVG user agents
+    would need to support the <a href="struct.html#SwitchElement"><span class="element-name">‘switch’</span></a> element and
+    must be able to render valid SVG elements when they appear as
+    one of the alternatives within a <a href="struct.html#SwitchElement"><span class="element-name">‘switch’</span></a>
+    element.</p>
+    <p>Ultimately, it is expected that commercial Web browsers will
+    support the ability for SVG to embed content from other XML
+    grammars which use CSS or XSL to format their content, with the
+    resulting CSS- or XSL-formatted content subject to SVG
+    transformations and compositing. At this time, such a
+    capability is not a requirement.</p>
+
+<h2 id="PrivateElementsAndAttribute">23.5 Adding private elements and attributes to the DTD</h2>
+
+    <p>Using foreign namespaces as an extension mechanism adds flexibility, is
+    readily handled by validation technologies like NVDL and RelaxNG, but typically
+    breaks DTD validation unless the DTD has explicit extensibility hooks.</p>
+    <p>The SVG DTD allows for extending the SVG language within the
+    internal DTD subset. Within the internal DTD subset, you have
+    the ability to add custom elements and attributes to most SVG
+    elements. This facility may be used if DTD validation is desired.</p>
+    <p>The DTD defines an extension entity for most of SVG
+    elements. For example, the <a href="linking.html#ViewElement"><span class="element-name">‘view’</span></a> element is defined in
+    the DTD as follows:</p>
+
+<pre class="dtd-fragment">
+&lt;!ENTITY % SVG.view.extra.content "" &gt;
+
+&lt;!ENTITY % SVG.view.element "INCLUDE" &gt;
+&lt;![%SVG.view.element;[
+&lt;!ENTITY % SVG.view.content
+    "( %SVG.Description.class; %SVG.view.extra.content; )*"
+&gt;
+&lt;!ELEMENT %SVG.view.qname; %SVG.view.content; &gt;
+&lt;!-- end of SVG.view.element --&gt;]]&gt;
+
+&lt;!ENTITY % SVG.view.attlist "INCLUDE" &gt;
+&lt;![%SVG.view.attlist;[
+&lt;!ATTLIST %SVG.view.qname;
+    %SVG.Core.attrib;
+    %SVG.External.attrib;
+    viewBox %ViewBoxSpec.datatype; #IMPLIED
+    preserveAspectRatio %PreserveAspectRatioSpec.datatype; 'xMidYMid meet'
+    zoomAndPan ( disable | magnify ) 'magnify'
+    viewTarget CDATA #IMPLIED
+&gt;
+&lt;!-- end of SVG.view.attlist --&gt;]]&gt;
+</pre>
+
+    <p>The entity <code>SVG.view.extra.content</code> can be defined in the
+    internal DTD subset to add custom sub-elements
+    attributes to the <a href="linking.html#ViewElement"><span class="element-name">‘view’</span></a> element within a given
+    document, and an <code>&lt;!ATTLIST&gt;</code> can be used to add
+    custom attributes. For example, the following extends the <a href="linking.html#ViewElement"><span class="element-name">‘view’</span></a> element with an
+    additional child element <span class="element-name">‘customNS:customElement’</span> and an
+    additional attribute <span class="attr-name">‘customNS:customAttr’</span>:</p>
+<pre>
+&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+&lt;!ENTITY % SVG.view.extra.content  "| customNS:customElement" &gt;
+&lt;!ATTLIST %SVG.view.qname;
+  xmlns:customNS CDATA #FIXED "http://www.example.org/customNS"
+  customNS:customAttr CDATA #IMPLIED&gt;
+&lt;!ELEMENT customNS:customElement EMPTY&gt;
+&lt;!ATTLIST customNS:customElement
+  xmlns:customNS CDATA #FIXED "http://www.example.org/customNS"
+  info CDATA #IMPLIED&gt;
+]&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+     width="8cm" height="4cm"&gt;
+  &lt;desc&gt;Extend the 'view' element via the internal DTD subset&lt;/desc&gt;
+  &lt;!-- Presumably, some great graphics would go here. --&gt;
+  &lt;view viewBox="100 110 20 30" customNS:customAttr="123"&gt;
+    &lt;customNS:customElement info="abc"/&gt;
+  &lt;/view&gt;
+&lt;/svg&gt;
+</pre>
+
+<h2 id="DOMInterfaces">23.6 DOM interfaces</h2>
+
+<h3 id="InterfaceSVGForeignObjectElement">23.6.1 Interface SVGForeignObjectElement</h3>
+
+
+
+ The <a class="idlinterface" href="extend.html#InterfaceSVGForeignObjectElement">SVGForeignObjectElement</a> interface corresponds to the
+ <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a> element.
+<pre class="idl">interface <b>SVGForeignObjectElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                                    <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                                    <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                                    <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                                    <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                                    <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="extend.html#__svg__SVGForeignObjectElement__x">x</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="extend.html#__svg__SVGForeignObjectElement__y">y</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="extend.html#__svg__SVGForeignObjectElement__width">width</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="extend.html#__svg__SVGForeignObjectElement__height">height</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGForeignObjectElement__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="extend.html#ForeignObjectElementXAttribute"><span class="attr-name">‘x’</span></a> on the given <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+ element.
+</div></dd>
+<dt id="__svg__SVGForeignObjectElement__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="extend.html#ForeignObjectElementYAttribute"><span class="attr-name">‘y’</span></a> on the given <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+ element.
+</div></dd>
+<dt id="__svg__SVGForeignObjectElement__width" class="attribute"><b>width</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="extend.html#ForeignObjectElementWidthAttribute"><span class="attr-name">‘width’</span></a> on the given <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+ element.
+</div></dd>
+<dt id="__svg__SVGForeignObjectElement__height" class="attribute"><b>height</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="extend.html#ForeignObjectElementHeightAttribute"><span class="attr-name">‘height’</span></a> on the given <a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a>
+ element.
+</div></dd></dl></dd></dl>
+
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="backward.html">Previous</a> ⋅ <a href="svgdtd.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>

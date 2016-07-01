@@ -1,0 +1,947 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Chapter 13: Gradients and Patterns
+
+  $Id: pservers.html,v 1.87 2011/08/10 02:10:32 cmccorma Exp $
+
+  Note: This document is generated from ../master/pservers.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Gradients and Patterns – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="color.html">Previous</a> ⋅ <a href="masking.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>13 Gradients and Patterns</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#Introduction">13.1 Introduction</a></li>
+<li><a href="#Gradients">13.2 Gradients</a><ul class="toc">
+<li><a href="#GradientsIntroduction">13.2.1 Introduction</a></li>
+<li><a href="#LinearGradients">13.2.2 Linear gradients</a></li>
+<li><a href="#RadialGradients">13.2.3 Radial gradients</a></li>
+<li><a href="#GradientStops">13.2.4 Gradient stops</a></li></ul></li>
+<li><a href="#Patterns">13.3 Patterns</a></li>
+<li><a href="#DOMInterfaces">13.4 DOM interfaces</a><ul class="toc">
+<li><a href="#InterfaceSVGGradientElement">13.4.1 Interface SVGGradientElement</a></li>
+<li><a href="#InterfaceSVGLinearGradientElement">13.4.2 Interface SVGLinearGradientElement</a></li>
+<li><a href="#InterfaceSVGRadialGradientElement">13.4.3 Interface SVGRadialGradientElement</a></li>
+<li><a href="#InterfaceSVGStopElement">13.4.4 Interface SVGStopElement</a></li>
+<li><a href="#InterfaceSVGPatternElement">13.4.5 Interface SVGPatternElement</a></li></ul></li></ul>
+
+<h2 id="Introduction">13.1 Introduction</h2>
+
+<p>With SVG, you can fill (i.e., paint the interior) or stroke (i.e.,
+paint the outline) of shapes and text using one of the following:</p>
+
+<ul><li><a href="color.html">color</a> (using &lt;color&gt;)</li><li><a href="#Gradients">gradients</a> (linear or radial)</li><li><a href="#Patterns">patterns</a> (vector or image, possibly tiled)</li></ul>
+
+<p>SVG uses the general notion of a <strong>paint server</strong>.
+Gradients and patterns are just specific types of built-in paint
+servers.</p>
+
+<p>Paint servers are referenced using an
+<a href="linking.html#IRIReference">IRI reference</a> on a <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> or
+<a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> property.</p>
+
+<h2 id="Gradients">13.2 Gradients</h2>
+
+<h3 id="GradientsIntroduction">13.2.1 Introduction</h3>
+
+<p>Gradients consist of continuously smooth color transitions
+along a vector from one color to another, possibly
+followed by additional transitions along the same vector
+to other colors. SVG provides for two types of gradients:
+<a href="pservers.html#LinearGradients"><strong>linear
+gradients</strong></a> and <a href="pservers.html#RadialGradients"><strong>radial
+gradients</strong></a>.</p>
+
+<p>Once defined, gradients are then referenced using <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> or
+<a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> properties on a given
+<a href="intro.html#TermGraphicsElement">graphics element</a> to indicate that
+the given element shall be filled or stroked with the referenced gradient.</p>
+
+<p>
+The angle of the color transitions along the gradient vector is defined by the
+gradient normal. Before any transforms are applied to the gradient or its
+referencing <a href="intro.html#TermGraphicsElement">graphics element</a>, the
+gradient normal is perpendicular with the gradient vector. If a
+<a href="intro.html#TermGraphicsElement">graphics element</a> references a
+gradient, conceptually the <a href="intro.html#TermGraphicsElement">graphics
+element</a> should take a copy of the gradient vector and gradient normal and
+treat it as part of its own geometry. Any transformations applied to the
+<a href="intro.html#TermGraphicsElement">graphics element</a> geometry also
+apply to the copied gradient vector and gradient normal. Any gradient transforms
+that are specified on the reference gradient are applied before any
+<a href="intro.html#TermGraphicsElement">graphics element</a> transformations
+are applied to the gradient.
+</p>
+
+<img src="images/pservers/gradient_vector_and_normal.png" alt="linear and radial gradient vectors and normals" width="1000" height="500"/>
+
+<h3 id="LinearGradients">13.2.2 Linear gradients</h3>
+
+
+
+<p id="LinearGradientElement">Linear gradients are defined by a
+<a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘linearGradient’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermGradientElement">Gradient element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li><li><a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a></li><li><a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a></li><li><a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></li><li><a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="intro.html#TermXLinkAttributes">xlink attributes</a><span class="expanding"> — <a href="pservers.html#LinearGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>, <a href="linking.html#XLinkShowAttribute"><span class="attr-name">‘xlink:show’</span></a>, <a href="linking.html#XLinkActuateAttribute"><span class="attr-name">‘xlink:actuate’</span></a>, <a href="linking.html#XLinkTypeAttribute"><span class="attr-name">‘xlink:type’</span></a>, <a href="linking.html#XLinkRoleAttribute"><span class="attr-name">‘xlink:role’</span></a>, <a href="linking.html#XLinkArcRoleAttribute"><span class="attr-name">‘xlink:arcrole’</span></a>, <a href="linking.html#XLinkTitleAttribute"><span class="attr-name">‘xlink:title’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a></li><li><a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a></li><li><a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a></li><li><a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a></li><li><a href="pservers.html#LinearGradientElementGradientUnitsAttribute"><span class="attr-name">‘gradientUnits’</span></a></li><li><a href="pservers.html#LinearGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a></li><li><a href="pservers.html#LinearGradientElementSpreadMethodAttribute"><span class="attr-name">‘spreadMethod’</span></a></li><li><a href="pservers.html#LinearGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="pservers.html#InterfaceSVGLinearGradientElement">SVGLinearGradientElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="LinearGradientElementGradientUnitsAttribute"><span class="adef">gradientUnits</span> =
+        "<em>userSpaceOnUse</em> | <em>objectBoundingBox</em>"</dt><dd>Defines the coordinate system for attributes <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>,
+        <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a>, <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a>.<br/>
+         If <span class="attr-value">gradientUnits="userSpaceOnUse"</span>,
+        <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>, <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a>, <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a> represent
+        values in the coordinate system that results from taking
+        the current user coordinate system in place at the time
+        when the gradient element is referenced (i.e., the user
+        coordinate system for the element referencing the gradient
+        element via a <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> or <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> property) and then
+        applying the transform specified by attribute <a href="pservers.html#LinearGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a>.<br/>
+         If <span class="attr-value">gradientUnits="objectBoundingBox"</span>,
+        the user coordinate system for attributes
+        <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>, <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a>, <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a> is established
+        using the bounding box of the element to which the gradient
+        is applied (see <a href="coords.html#ObjectBoundingBox">Object bounding box
+        units</a>) and then applying the transform specified by
+        attribute <a href="pservers.html#LinearGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a>.<br/>
+         When <span class="attr-value">gradientUnits="objectBoundingBox"</span>
+        and <a href="pservers.html#LinearGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a> is the
+        identity matrix, the normal of the linear gradient is
+        perpendicular to the gradient vector in object bounding box
+        space (i.e., the abstract coordinate system where (0,0) is
+        at the top/left of the object bounding box and (1,1) is at
+        the bottom/right of the object bounding box). When the object's bounding
+        box is not square, the gradient normal which is initially perpendicular
+        to the gradient vector within object bounding box space may render
+        non-perpendicular relative to the gradient vector in user space. If the
+        gradient vector is parallel to one of the axes of the bounding box, the
+        gradient normal will remain perpendicular. This transformation is due to
+        application of the non-uniform scaling transformation from bounding box
+        space to user space.<br/>
+         If attribute <a href="pservers.html#LinearGradientElementGradientUnitsAttribute"><span class="attr-name">‘gradientUnits’</span></a>
+        is not specified, then the effect is as if a value of <span class="attr-value">'objectBoundingBox'</span> were
+        specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementGradientTransformAttribute"><span class="adef">gradientTransform</span> = "<span class="attr-value"><a href="types.html#DataTypeTransformList">&lt;transform-list&gt;</a></span>"</dt><dd>Contains the definition of an optional additional
+        transformation from the gradient coordinate system onto the
+        target coordinate system (i.e., userSpaceOnUse or
+        objectBoundingBox). This allows for things such as skewing
+        the gradient. This additional transformation matrix is
+        post-multiplied to (i.e., inserted to the right of) any
+        previously defined transformations, including the implicit
+        transformation necessary to convert from <a href="coords.html#ObjectBoundingBox">object bounding box
+        units</a> to user space.<br/>
+         If attribute <a href="pservers.html#LinearGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a> is not
+        specified, then the effect is as if an identity transform
+        were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementX1Attribute"><span class="adef">x1</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd><a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>, <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a>, <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a> define a <em>gradient
+        vector</em> for the linear gradient. This <em>gradient
+        vector</em> provides starting and ending points onto which
+        the <a href="#GradientStops">gradient stops</a> are mapped.
+        The values of <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>, <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a>, <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a> can be either
+        numbers or percentages.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementY1Attribute"><span class="adef">y1</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>See <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementX2Attribute"><span class="adef">x2</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>See <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'100%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementY2Attribute"><span class="adef">y2</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>See <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'0%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementSpreadMethodAttribute"><span class="adef">spreadMethod</span> = "pad | reflect |
+        repeat"</dt><dd>Indicates what happens if the gradient starts or ends
+        inside the bounds of the <em>target rectangle</em>.
+        Possible values are: <span class="attr-value">'pad'</span>, which says to use the
+        terminal colors of the gradient to fill the remainder of
+        the target region, <span class="attr-value">'reflect'</span>, which says to reflect
+        the gradient pattern start-to-end, end-to-start,
+        start-to-end, etc. continuously until the <em>target
+        rectangle</em> is filled, and <span class="attr-value">repeat</span>, which says
+        to repeat the gradient pattern start-to-end, start-to-end,
+        start-to-end, etc. continuously until the target region is
+        filled.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'pad'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LinearGradientElementHrefAttribute"><span class="adef">xlink:href</span> = "<span class="attr-value"><a href="types.html#DataTypeIRI">&lt;iri&gt;</a></span>"</dt><dd>An <a href="linking.html#IRIReference">IRI
+        reference</a> to a different <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> or
+        <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element within
+        the current SVG document fragment. Any <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> attributes
+        which are defined on the referenced element which are not
+        defined on this element are inherited by this element. If
+        this element has no defined gradient stops, and the
+        referenced element does (possibly due to its own <a href="pservers.html#LinearGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>
+        attribute), then this element
+        inherits the gradient stop from the referenced element.
+        Inheritance can be indirect to an arbitrary level; thus, if
+        the referenced element inherits attribute or gradient stops
+        due to its own <a href="pservers.html#LinearGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>
+        attribute, then the current element can inherit those
+        attributes or gradient stops.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>Percentages are allowed for <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a>,
+<a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a>, <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a>. For
+<span class="attr-value">gradientUnits="userSpaceOnUse"</span>,
+percentages represent values relative to the current viewport. For
+<span class="attr-value">gradientUnits="objectBoundingBox"</span>,
+percentages represent values relative to the bounding box for the
+object.</p>
+
+<p>If <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a> = <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> and <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a> =
+<a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a>, then the area to be painted will be painted as
+a single color using the color and opacity of the last
+<a href="pservers.html#GradientStops">gradient stop</a>.</p>
+
+<p><a href="styling.html#SVGStylingProperties">Properties</a> inherit
+into the <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element from its ancestors;
+properties do <em>not</em> inherit from the element referencing the
+<a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.</p>
+
+<p><a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> elements are never rendered directly;
+their only usage is as something that can be referenced using the
+<a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> and <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> properties. The <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a>
+property does not apply to the <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element; thus,
+<a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> elements are not directly rendered even if
+the <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a> property is set to a value other than
+<span class="prop-value">none</span>, and <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a>
+elements are available for referencing even when the <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a>
+property on the <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element or any of its ancestors
+is set to <span class="prop-value">none</span>.</p>
+
+<p id="ExampleLinGrad01"><span class="example-ref">Example lingrad01</span>
+shows how to fill a rectangle by referencing a linear gradient paint
+server.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="8cm" height="4cm" viewBox="0 0 800 400" version="1.1"
+     xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;desc&gt;Example lingrad01 - fill a rectangle using a 
+           linear gradient paint server&lt;/desc&gt;
+  &lt;g&gt;
+    &lt;defs&gt;
+      &lt;linearGradient id="MyGradient"&gt;
+        &lt;stop offset="5%" stop-color="#F60" /&gt;
+        &lt;stop offset="95%" stop-color="#FF6" /&gt;
+      &lt;/linearGradient&gt;
+    &lt;/defs&gt;
+
+    &lt;!-- Outline the drawing area in blue --&gt;
+    &lt;rect fill="none" stroke="blue" 
+          x="1" y="1" width="798" height="398"/&gt;
+
+    &lt;!-- The rectangle is filled using a linear gradient paint server --&gt;
+    &lt;rect fill="url(#MyGradient)" stroke="black" stroke-width="5"  
+          x="100" y="100" width="600" height="200"/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example lingrad01</caption><tr><td><img alt="Example lingrad01 — fill a rectangle using a linear gradient paint server" src="images/pservers/lingrad01.png"/></td></tr></table><p class="view-as-svg"><a href="images/pservers/lingrad01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h3 id="RadialGradients">13.2.3 Radial gradients</h3>
+
+
+
+<p id="RadialGradientElement">Radial gradients are defined by a
+<a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘radialGradient’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermGradientElement">Gradient element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li><li><a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a></li><li><a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a></li><li><a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></li><li><a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="intro.html#TermXLinkAttributes">xlink attributes</a><span class="expanding"> — <a href="pservers.html#RadialGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>, <a href="linking.html#XLinkShowAttribute"><span class="attr-name">‘xlink:show’</span></a>, <a href="linking.html#XLinkActuateAttribute"><span class="attr-name">‘xlink:actuate’</span></a>, <a href="linking.html#XLinkTypeAttribute"><span class="attr-name">‘xlink:type’</span></a>, <a href="linking.html#XLinkRoleAttribute"><span class="attr-name">‘xlink:role’</span></a>, <a href="linking.html#XLinkArcRoleAttribute"><span class="attr-name">‘xlink:arcrole’</span></a>, <a href="linking.html#XLinkTitleAttribute"><span class="attr-name">‘xlink:title’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a></li><li><a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a></li><li><a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a></li><li><a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a></li><li><a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a></li><li><a href="pservers.html#RadialGradientElementGradientUnitsAttribute"><span class="attr-name">‘gradientUnits’</span></a></li><li><a href="pservers.html#RadialGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a></li><li><a href="pservers.html#RadialGradientElementSpreadMethodAttribute"><span class="attr-name">‘spreadMethod’</span></a></li><li><a href="pservers.html#RadialGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="pservers.html#InterfaceSVGRadialGradientElement">SVGRadialGradientElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="RadialGradientElementGradientUnitsAttribute"><span class="adef">gradientUnits</span> =
+        "<em>userSpaceOnUse</em> | <em>objectBoundingBox</em>"</dt><dd>Defines the coordinate system for attributes
+        <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a>, <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a>, <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> and <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a>.<br/>
+         If <span class="attr-value">gradientUnits="userSpaceOnUse"</span>,
+        <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a>, <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a>, <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> and <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a>
+        represent values in the coordinate system that results from taking
+        the current user coordinate system in place at the time
+        when the gradient element is referenced (i.e., the user
+        coordinate system for the element referencing the gradient
+        element via a <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> or <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> property) and then
+        applying the transform specified by attribute <a href="pservers.html#RadialGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a>.<br/>
+         If <span class="attr-value">gradientUnits="objectBoundingBox"</span>,
+        the user coordinate system for attributes
+        <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a>, <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a>, <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> and <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a>
+         is established
+        using the bounding box of the element to which the gradient
+        is applied (see <a href="coords.html#ObjectBoundingBox">Object bounding box
+        units</a>) and then applying the transform specified by
+        attribute <a href="pservers.html#RadialGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a>.<br/>
+         When <span class="attr-value">gradientUnits="objectBoundingBox"</span>
+        and <a href="pservers.html#RadialGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a> is the
+        identity matrix, then the rings of the radial gradient are
+        circular with respect to the object bounding box space
+        (i.e., the abstract coordinate system where (0,0) is at the
+        top/left of the object bounding box and (1,1) is at the
+        bottom/right of the object bounding box). When the object's
+        bounding box is not square, the rings that are conceptually
+        circular within object bounding box space will render as
+        elliptical due to application of the non-uniform scaling
+        transformation from bounding box space to user space.<br/>
+         If attribute <a href="pservers.html#RadialGradientElementGradientUnitsAttribute"><span class="attr-name">‘gradientUnits’</span></a>
+        is not specified, then the effect is as if a value of <span class="attr-value">'objectBoundingBox'</span> were
+        specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementGradientTransformAttribute"><span class="adef">gradientTransform</span> = "<span class="attr-value"><a href="types.html#DataTypeTransformList">&lt;transform-list&gt;</a></span>"</dt><dd>Contains the definitions of an optional additional
+        transformation from the gradient coordinate system onto the
+        target coordinate system (i.e., userSpaceOnUse or
+        objectBoundingBox). This allows for things such as skewing
+        the gradient. This additional transformation matrix is
+        post-multiplied to (i.e., inserted to the right of) any
+        previously defined transformations, including the implicit
+        transformation necessary to convert from <a href="coords.html#ObjectBoundingBox">object bounding box
+        units</a> to user space.<br/>
+         If attribute <a href="pservers.html#RadialGradientElementGradientTransformAttribute"><span class="attr-name">‘gradientTransform’</span></a> is not
+        specified, then the effect is as if an identity transform
+        were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementCXAttribute"><span class="adef">cx</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd><a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a> and <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a> define the largest (i.e.,
+        outermost) circle for the radial gradient. The gradient
+        will be drawn such that the 100% <a href="#GradientStops">gradient stop</a> is mapped to the
+        perimeter of this largest (i.e., outermost) circle.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'50%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementCYAttribute"><span class="adef">cy</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>See <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'50%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementRAttribute"><span class="adef">r</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>See <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero will cause the area to be painted as a
+        single color using the color and opacity of the last <a href="pservers.html#GradientStops">gradient stop</a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of <span class="attr-value">'50%'</span> were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementFXAttribute"><span class="adef">fx</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd><a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> and <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a> define the focal point for the
+        radial gradient. The gradient will be drawn such that the
+        0% <a href="#GradientStops">gradient stop</a> is mapped to
+        (fx, fy).<br/>
+         If attribute <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> is not specified, <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> will coincide
+        with the presentational value of <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a> for the element whether the
+        value for 'cx' was inherited or not. If the element references an
+        element that specifies a value for 'fx', then the value of 'fx' is
+        inherited from the referenced element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementFYAttribute"><span class="adef">fy</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>See <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a>.<br/>
+         If attribute <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a> is not specified, <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a> will coincide
+        with the presentational value of <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a> for the element whether the
+        value for 'cy' was inherited or not. If the element references an
+        element that specifies a value for 'fy', then the value of 'fy' is
+        inherited from the referenced element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementSpreadMethodAttribute"><span class="adef">spreadMethod</span> = "pad | reflect |
+        repeat"</dt><dd>Indicates what happens if the gradient starts or ends
+        inside the bounds of the object(s) being painted by the
+        gradient. Has the same values and meanings as the <a href="pservers.html#RadialGradientElementSpreadMethodAttribute"><span class="attr-name">‘spreadMethod’</span></a>
+        attribute on <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RadialGradientElementHrefAttribute"><span class="adef">xlink:href</span> = "<span class="attr-value"><a href="types.html#DataTypeIRI">&lt;iri&gt;</a></span>"</dt><dd>An <a href="linking.html#IRIReference">IRI
+        reference</a> to a different <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> or
+        <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element within
+        the current SVG document fragment. Any <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> attributes
+        which are defined on the referenced element which are not
+        defined on this element are inherited by this element. If
+        this element has no defined gradient stops, and the
+        referenced element does (possibly due to its own <a href="pservers.html#RadialGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>
+        attribute), then this element inherits the gradient stop from the referenced element.
+        Inheritance can be indirect to an arbitrary level; thus, if
+        the referenced element inherits attribute or gradient stops
+        due to its own <a href="pservers.html#RadialGradientElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>
+        attribute, then the current element can inherit those
+        attributes or gradient stops.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>Percentages are allowed for attributes <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a>,
+<a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a>, <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> and <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a>. For
+<span class="attr-value">gradientUnits="userSpaceOnUse"</span>, percentages
+represent values relative to the current viewport.  For
+<span class="attr-value">gradientUnits="objectBoundingBox"</span>, percentages
+represent values relative to the bounding box for the object.</p>
+
+<p>If the point defined by <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> and <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a> lies outside the
+circle defined by <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a> and <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a>, then the user
+agent shall set the focal point to the intersection of the line from
+(<a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a>) to (<a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a>, <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a>) with the circle
+defined by <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a>, <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a> and <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a>.</p>
+
+<p><a href="styling.html#SVGStylingProperties">Properties</a>
+inherit into the <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element from its ancestors;
+properties do <em>not</em> inherit from the element referencing the
+<a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.</p>
+
+<p><a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> elements are never rendered directly;
+their only usage is as something that can be referenced using the
+<a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> and <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> properties. The <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a>
+property does not apply to the <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element; thus,
+<a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> elements are not directly rendered even if
+the <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a> property is set to a value other than
+<span class="prop-value">none</span>, and <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> elements
+are available for referencing even when the <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a> property on
+the <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element or any of its ancestors is set to
+<span class="prop-value">none</span>.</p>
+
+<p id="ExampleRadGrad01"><span class="example-ref">Example radgrad01</span>
+shows how to fill a rectangle by referencing a radial gradient paint
+server.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="8cm" height="4cm" viewBox="0 0 800 400" version="1.1"
+     xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;desc&gt;Example radgrad01 - fill a rectangle by referencing a 
+           radial gradient paint server&lt;/desc&gt;
+  &lt;g&gt;
+    &lt;defs&gt;
+      &lt;radialGradient id="MyGradient" gradientUnits="userSpaceOnUse"
+                      cx="400" cy="200" r="300" fx="400" fy="200"&gt;
+        &lt;stop offset="0%" stop-color="red" /&gt;
+        &lt;stop offset="50%" stop-color="blue" /&gt;
+        &lt;stop offset="100%" stop-color="red" /&gt;
+      &lt;/radialGradient&gt;
+    &lt;/defs&gt;
+
+    &lt;!-- Outline the drawing area in blue --&gt;
+    &lt;rect fill="none" stroke="blue" 
+          x="1" y="1" width="798" height="398"/&gt;
+
+    &lt;!-- The rectangle is filled using a radial gradient paint server --&gt;
+    &lt;rect fill="url(#MyGradient)" stroke="black" stroke-width="5"  
+          x="100" y="100" width="600" height="200"/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example radgrad01</caption><tr><td><img alt="Example radgrad01 — fill a rectangle by referencing a radial gradient paint server" src="images/pservers/radgrad01.png"/></td></tr></table><p class="view-as-svg"><a href="images/pservers/radgrad01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h3 id="GradientStops">13.2.4 Gradient stops</h3>
+
+
+
+<p id="StopElement">The ramp of colors to use on a gradient is defined
+by the <a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a> elements that are child elements to either the
+<a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element or the <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a>
+element.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘stop’</span></div><dl><dt>Categories:</dt><dd>None</dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a></li><li><a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a></li><li><a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="pservers.html#StopElementOffsetAttribute"><span class="attr-name">‘offset’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="pservers.html#InterfaceSVGStopElement">SVGStopElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="StopElementOffsetAttribute"><span class="adef">offset</span> = "<em><a href="types.html#DataTypeNumber">&lt;number&gt;</a> | <a href="types.html#DataTypePercentage">&lt;percentage&gt;</a></em>"</dt><dd>The <a href="pservers.html#StopElementOffsetAttribute"><span class="attr-name">‘offset’</span></a> attribute is
+        either a <a href="types.html#DataTypeNumber">&lt;number&gt;</a>
+        (usually ranging from 0 to 1) or a <a href="types.html#DataTypePercentage">&lt;percentage&gt;</a>
+        (usually ranging from 0% to 100%) which indicates where the
+        gradient stop is placed. For linear gradients, the <a href="pservers.html#StopElementOffsetAttribute"><span class="attr-name">‘offset’</span></a> attribute represents a
+        location along the <em>gradient vector</em>. For radial
+        gradients, it represents a percentage distance from (fx,fy)
+        to the edge of the outermost/largest circle.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>The <a href="pservers.html#StopColorProperty"><span class="prop-name">‘stop-color’</span></a> property indicates what color to use at that
+gradient stop. The keyword <span class="attr-value">currentColor</span> and
+ICC colors can be specified in the same manner as within a
+<a href="painting.html#SpecifyingPaint">&lt;paint&gt;</a> specification for
+the <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> and <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> properties.</p>
+
+    <div class="propdef">
+      <dl><dt id="StopColorProperty"><span class="propdef-title prop-name">‘stop-color’</span></dt><dd>
+          <table summary="stop-color property" class="propinfo" cellspacing="0" cellpadding="0"><tr valign="baseline"><td><em>Value:</em>  </td><td>currentColor |<br/>
+               <a href="types.html#DataTypeColor">&lt;color&gt;</a>
+               <a href="types.html#DataTypeICCColor">&lt;icccolor&gt;</a>
+              |<br/>
+               <a class="noxref" href="http://www.w3.org/TR/2008/REC-CSS2-20080411/cascade.html#value-def-inherit">
+              <span class="value-inst-inherit noxref">inherit</span></a></td></tr><tr valign="baseline"><td><em>Initial:</em>  </td><td>black</td></tr><tr valign="baseline"><td><em>Applies to:</em>  </td><td><a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a> elements</td></tr><tr valign="baseline"><td><em>Inherited:</em>  </td><td>no</td></tr><tr valign="baseline"><td><em>Percentages:</em>  </td><td>N/A</td></tr><tr valign="baseline"><td><em>Media:</em>  </td><td>visual</td></tr><tr valign="baseline"><td><em><a href="animate.html#Animatable">Animatable</a>:</em>  </td><td>yes</td></tr></table>
+        </dd></dl>
+    </div>
+
+<p>The <a href="pservers.html#StopOpacityProperty"><span class="prop-name">‘stop-opacity’</span></a> property defines the opacity of a given
+gradient stop.</p>
+
+    <div class="propdef">
+      <dl><dt id="StopOpacityProperty"><span class="propdef-title prop-name">‘stop-opacity’</span></dt><dd>
+          <table summary="stop-opacity property" class="propinfo" cellspacing="0" cellpadding="0"><tr valign="baseline"><td><em>Value:</em>  </td><td>&lt;opacity-value&gt; | <a class="noxref" href="http://www.w3.org/TR/2008/REC-CSS2-20080411/cascade.html#value-def-inherit">
+              <span class="value-inst-inherit noxref">inherit</span></a></td></tr><tr valign="baseline"><td><em>Initial:</em>  </td><td>1</td></tr><tr valign="baseline"><td><em>Applies to:</em>  </td><td><a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a> elements</td></tr><tr valign="baseline"><td><em>Inherited:</em>  </td><td>no</td></tr><tr valign="baseline"><td><em>Percentages:</em>  </td><td>N/A</td></tr><tr valign="baseline"><td><em>Media:</em>  </td><td>visual</td></tr><tr valign="baseline"><td><em><a href="animate.html#Animatable">Animatable</a>:</em>  </td><td>yes</td></tr></table>
+        </dd></dl>
+    </div>
+
+<p>Some notes on gradients:</p>
+
+<ul><li>Gradient offset values less than 0 (or less than 0%) are
+  rounded up to 0%. Gradient offset values greater than 1 (or
+  greater than 100%) are rounded down to 100%.</li><li>It is necessary that at least two stops defined to have a
+  gradient effect. If no stops are defined, then painting shall
+  occur as if 'none' were specified as the paint style. If one
+  stop is defined, then paint with the solid color fill using
+  the color defined for that gradient stop.</li><li>Each gradient offset value is required to be equal to or
+  greater than the previous gradient stop's offset value. If a
+  given gradient stop's offset value is not equal to or greater
+  than all previous offset values, then the offset value is
+  adjusted to be equal to the largest of all previous offset
+  values.</li><li>
+    If two gradient stops have the same offset value, then the
+    latter gradient stop controls the color value at the
+    overlap point. In particular: 
+<pre>
+&lt;stop offset="0" stop-color="white"/&gt;
+&lt;stop offset=".2" stop-color="red"/&gt;
+&lt;stop offset=".2" stop-color="blue"/&gt;
+&lt;stop offset="1" stop-color="black"/&gt;
+</pre>
+    will have approximately the same effect as: 
+<pre>
+&lt;stop offset="0" stop-color="white"/&gt;
+&lt;stop offset=".1999999999" stop-color="red"/&gt;
+&lt;stop offset=".2" stop-color="blue"/&gt;
+&lt;stop offset="1" stop-color="black"/&gt;
+</pre>
+    which is a gradient that goes smoothly from white to red,
+    then abruptly shifts from red to blue, and then goes
+    smoothly from blue to black.
+  </li></ul>
+
+
+
+<h2 id="Patterns">13.3 Patterns</h2>
+
+
+
+<p id="PatternElement">A pattern is used to fill or stroke an object
+using a pre-defined graphic object which can be replicated ("tiled") at
+fixed intervals in <em>x</em> and <em>y</em> to cover the areas to be
+painted. Patterns are defined using a <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element and then
+referenced by properties <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> and <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> on a given
+<a href="intro.html#TermGraphicsElement">graphics element</a> to indicate
+that the given element shall be filled or stroked with the referenced
+pattern.</p>
+
+<p>Attributes <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>, <a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a>, <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a>
+and <a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a> define a reference rectangle somewhere
+on the infinite canvas. The reference rectangle has its
+top/left at (<var>x</var>, <var>y</var>) and its bottom/right at
+(<var>x</var> + <var>width</var>, <var>y</var> + <var>height</var>). The tiling
+theoretically extends a series of such rectangles to infinity
+in X and Y (positive and negative), with rectangles starting at
+(<var>x</var> + m*<var>width</var>, <var>y</var> + n*
+<var>height</var>) for each possible integer value for <em>m</em> and
+<em>n</em>.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘pattern’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermContainerElement">Container element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li><li><a href="intro.html#TermShapeElement">shape elements</a><span class="expanding"> — <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a>, <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a>, <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a>, <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a>, <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a>, <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a>, <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a></span></li><li><a href="intro.html#TermStructuralElement">structural elements</a><span class="expanding"> — <a href="struct.html#DefsElement"><span class="element-name">‘defs’</span></a>, <a href="struct.html#GElement"><span class="element-name">‘g’</span></a>, <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a>, <a href="struct.html#SymbolElement"><span class="element-name">‘symbol’</span></a>, <a href="struct.html#UseElement"><span class="element-name">‘use’</span></a></span></li><li><a href="intro.html#TermGradientElement">gradient elements</a><span class="expanding"> — <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a>, <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a></span></li><li><a href="linking.html#AElement"><span class="element-name">‘a’</span></a></li><li><a href="text.html#AltGlyphDefElement"><span class="element-name">‘altGlyphDef’</span></a></li><li><a href="masking.html#ClipPathElement"><span class="element-name">‘clipPath’</span></a></li><li><a href="color.html#ColorProfileElement"><span class="element-name">‘color-profile’</span></a></li><li><a href="interact.html#CursorElement"><span class="element-name">‘cursor’</span></a></li><li><a href="filters.html#FilterElement"><span class="element-name">‘filter’</span></a></li><li><a href="fonts.html#FontElement"><span class="element-name">‘font’</span></a></li><li><a href="fonts.html#FontFaceElement"><span class="element-name">‘font-face’</span></a></li><li><a href="extend.html#ForeignObjectElement"><span class="element-name">‘foreignObject’</span></a></li><li><a href="struct.html#ImageElement"><span class="element-name">‘image’</span></a></li><li><a href="painting.html#MarkerElement"><span class="element-name">‘marker’</span></a></li><li><a href="masking.html#MaskElement"><span class="element-name">‘mask’</span></a></li><li><a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a></li><li><a href="script.html#ScriptElement"><span class="element-name">‘script’</span></a></li><li><a href="styling.html#StyleElement"><span class="element-name">‘style’</span></a></li><li><a href="struct.html#SwitchElement"><span class="element-name">‘switch’</span></a></li><li><a href="text.html#TextElement"><span class="element-name">‘text’</span></a></li><li><a href="linking.html#ViewElement"><span class="element-name">‘view’</span></a></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="intro.html#TermXLinkAttributes">xlink attributes</a><span class="expanding"> — <a href="pservers.html#PatternElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>, <a href="linking.html#XLinkShowAttribute"><span class="attr-name">‘xlink:show’</span></a>, <a href="linking.html#XLinkActuateAttribute"><span class="attr-name">‘xlink:actuate’</span></a>, <a href="linking.html#XLinkTypeAttribute"><span class="attr-name">‘xlink:type’</span></a>, <a href="linking.html#XLinkRoleAttribute"><span class="attr-name">‘xlink:role’</span></a>, <a href="linking.html#XLinkArcRoleAttribute"><span class="attr-name">‘xlink:arcrole’</span></a>, <a href="linking.html#XLinkTitleAttribute"><span class="attr-name">‘xlink:title’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a></li><li><a href="coords.html#PreserveAspectRatioAttribute"><span class="attr-name">‘preserveAspectRatio’</span></a></li><li><a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a></li><li><a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a></li><li><a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a></li><li><a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a></li><li><a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a></li><li><a href="pservers.html#PatternElementPatternContentUnitsAttribute"><span class="attr-name">‘patternContentUnits’</span></a></li><li><a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a></li><li><a href="pservers.html#PatternElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="pservers.html#InterfaceSVGPatternElement">SVGPatternElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="PatternElementPatternUnitsAttribute"><span class="adef">patternUnits</span> = "<em>userSpaceOnUse</em>
+        | <em>objectBoundingBox</em>"</dt><dd>Defines the coordinate system for attributes
+        <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>, <a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a> and <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a>.<br/>
+         If <span class="attr-value">patternUnits="userSpaceOnUse"</span>,
+        <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>, <a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a> and <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a>
+        represent values in the coordinate system that results from
+        taking the current user coordinate system in place at the
+        time when the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+        element is referenced (i.e., the user coordinate system for
+        the element referencing the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element via a
+        <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> or <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> property) and then
+        applying the transform specified by attribute <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a>.<br/>
+         If <span class="attr-value">patternUnits="objectBoundingBox"</span>,
+        the user coordinate system for attributes
+        <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>, <a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a> and <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a>
+        is established
+        using the bounding box of the element to which the pattern
+        is applied (see <a href="coords.html#ObjectBoundingBox">Object bounding box
+        units</a>) and then applying the transform specified by
+        attribute <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a>.<br/>
+         If attribute <a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a>
+        is not specified, then the effect is as if a value of <span class="attr-value">'objectBoundingBox'</span> were
+        specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementPatternContentUnitsAttribute"><span class="adef">patternContentUnits</span> =
+        "<em>userSpaceOnUse</em> | <em>objectBoundingBox</em>"</dt><dd>Defines the coordinate system for the contents of the
+        <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>. Note that this
+        attribute has no effect if attribute <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> is specified.<br/>
+         If <span class="attr-value">patternContentUnits="userSpaceOnUse"</span>,
+        the user coordinate system for the contents of the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+        element is the coordinate system that results from taking
+        the current user coordinate system in place at the time
+        when the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element is referenced (i.e., the
+        user coordinate system for the element referencing the
+        <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element via a <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> or <a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a>
+        property) and then applying the transform specified by attribute
+        <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a>.<br/>
+         If <span class="attr-value">patternContentUnits="objectBoundingBox"</span>,
+        the user coordinate system for the contents of the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element is
+        established using the bounding box of the element to which
+        the pattern is applied (see <a href="coords.html#ObjectBoundingBox">Object bounding box
+        units</a>) and then applying the transform specified by
+        attribute <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a>.<br/>
+         If attribute <a href="pservers.html#PatternElementPatternContentUnitsAttribute"><span class="attr-name">‘patternContentUnits’</span></a> is not
+        specified, then the effect is as if a value of
+        <span class="attr-value">'userSpaceOnUse'</span> were
+        specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementPatternTransformAttribute"><span class="adef">patternTransform</span> = "<span class="attr-value"><a href="types.html#DataTypeTransformList">&lt;transform-list&gt;</a></span>"</dt><dd>Contains the definition of an optional additional
+        transformation from the pattern coordinate system onto the
+        target coordinate system (i.e., <span class="attr-value">'userSpaceOnUse'</span> or
+        <span class="attr-value">'objectBoundingBox'</span>). This allows for things such as skewing
+        the pattern tiles. This additional transformation matrix is
+        post-multiplied to (i.e., inserted to the right of) any
+        previously defined transformations, including the implicit
+        transformation necessary to convert from <a href="coords.html#ObjectBoundingBox">object bounding box
+        units</a> to user space.<br/>
+         If attribute <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a> is not specified,
+        then the effect is as if an identity transform were
+        specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementXAttribute"><span class="adef">x</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd><a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>, <a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a> and <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a> indicate how the
+        pattern tiles are placed and spaced. These attributes
+        represent coordinates and values in the coordinate space
+        specified by the combination of attributes <a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a>
+        and <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of zero were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementYAttribute"><span class="adef">y</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>See <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of zero were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementWidthAttribute"><span class="adef">width</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>See <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element (i.e., no
+        paint is applied).<br/>
+         If the attribute is not specified, the effect is as if a
+        value of zero were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementHeightAttribute"><span class="adef">height</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>See <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element (i.e., no
+        paint is applied).<br/>
+         If the attribute is not specified, the effect is as if a
+        value of zero were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementHrefAttribute"><span class="adef">xlink:href</span> = "<span class="attr-value"><a href="types.html#DataTypeIRI">&lt;iri&gt;</a></span>"</dt><dd>An <a href="linking.html#IRIReference">IRI
+        reference</a> to a different <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element within the
+        current SVG document fragment. Any attributes which are
+        defined on the referenced element which are not defined on
+        this element are inherited by this element. If this element
+        has no children, and the referenced element does (possibly
+        due to its own <a href="pservers.html#PatternElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a>
+        attribute), then this element inherits the children from
+        the referenced element. Inheritance can be indirect to an
+        arbitrary level; thus, if the referenced element inherits
+        attributes or children due to its own <a href="pservers.html#PatternElementHrefAttribute"><span class="attr-name">‘xlink:href’</span></a> attribute, then the current
+        element can inherit those attributes or children.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="PatternElementPreserveAspectRatioAttribute">
+          <span class="adef">preserveAspectRatio</span> = "<span class="attr-value"><a href="coords.html#PreserveAspectRatioAttribute">[defer] &lt;align&gt; [&lt;meetOrSlice&gt;]</a></span>"
+        </dt><dd>
+          <p>
+            See <a href="coords.html#PreserveAspectRatioAttribute"><span class="attr-name">‘preserveAspectRatio’</span></a>.
+          </p>
+          <p>
+            If the attribute is not specified, then the effect is as if a value of <span class="attr-value">xMidYMid meet</span> were specified.
+          </p>
+          <p><span class="anim-target"><a href="animate.html#Animatable">Animatable</a>: yes.</span></p>
+        </dd></dl>
+    </div>
+
+<p>SVG's <a href="styling.html#UAStyleSheet">user agent style sheet</a> sets
+the <a href="masking.html#OverflowProperty"><span class="prop-name">‘overflow’</span></a> property for <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> elements to
+<span class="prop-value">hidden</span>, which causes a rectangular clipping
+path to be created at the bounds of the pattern tile.  Unless the
+<a href="masking.html#OverflowProperty"><span class="prop-name">‘overflow’</span></a> property is overridden, any graphics within the pattern
+which goes outside of the pattern rectangle will be clipped.  Note that if
+the <a href="masking.html#OverflowProperty"><span class="prop-name">‘overflow’</span></a> property is set to <span class="prop-value">visible</span>
+the rendering behavior for the pattern is undefined. 
+<a href="pservers.html#ExamplePattern01">Example pattern01</a> below shows the
+effect of clipping to the pattern tile.</p>
+
+<p>The contents of the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> are relative to a new coordinate
+system. If there is a <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute, then the new coordinate
+system is fitted into the region defined by the <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>,
+<a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a>, <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a> and <a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a> attributes on the
+<a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element using the standard rules for <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> and
+<a href="coords.html#PreserveAspectRatioAttribute"><span class="attr-name">‘preserveAspectRatio’</span></a>. If there is no <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute, then
+the new coordinate system has its origin at (<var>x</var>, <var>y</var>),
+where <var>x</var> is established by the <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a> attribute on the
+<a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element, and <var>y</var> is established by the <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>
+attribute on the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element. Thus, in the following example:</p>
+
+<pre>
+&lt;pattern x="10" y="10" width="20" height="20"&gt;
+   &lt;rect x="5" y="5" width="10" height="10"/&gt;
+&lt;/pattern&gt;
+</pre>
+
+<p>the rectangle has its top/left located 5 units to the right and 5
+units down from the origin of the pattern tile.</p>
+
+<p>The <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute introduces a supplemental transformation
+which is applied on top of any transformations necessary to create a new
+pattern coordinate system due to attributes <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a>, <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a>,
+<a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a>, <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a> and <a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a>.</p>
+
+<p><a href="styling.html#SVGStylingProperties">Properties</a> inherit into the
+<a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element from its ancestors; properties do <em>not</em>
+inherit from the element referencing the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element.</p>
+
+<p><a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> elements are never rendered directly; their only usage is
+as something that can be referenced using the <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> and
+<a href="painting.html#StrokeProperty"><span class="prop-name">‘stroke’</span></a> properties. The <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a> property does not apply to
+the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element; thus, <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> elements are not directly
+rendered even if the <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a> property is set to a value other than
+<span class="prop-value">none</span>, and <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> elements are
+available for referencing even when the <a href="painting.html#DisplayProperty"><span class="prop-name">‘display’</span></a> property on the
+<a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element or any of its ancestors is set to
+<span class="prop-value">none</span>.</p>
+
+<p><a href="script.html#EventAttributes">Event attributes</a> and
+<a href="svgdom.html#EventListeners">event listeners</a> attached to the
+contents of a <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element are not processed; only the rendering
+aspects of <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> elements are processed.</p>
+
+<p id="ExamplePattern01"><span class="example-ref">Example pattern01</span>
+shows how to fill a rectangle by referencing a pattern paint server. Note how
+the blue stroke of each triangle has been clipped at the top and the left.
+This is due to SVG's <a href="styling.html#UAStyleSheet">user agent style sheet</a>
+setting the <a href="masking.html#OverflowProperty"><span class="prop-name">‘overflow’</span></a> property for <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> elements to
+<span class="prop-value">hidden</span>, which causes the pattern to be clipped
+to the bounds of the pattern tile.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="8cm" height="4cm" viewBox="0 0 800 400" version="1.1"
+     xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;defs&gt;
+    &lt;pattern id="TrianglePattern" patternUnits="userSpaceOnUse"
+             x="0" y="0" width="100" height="100"
+             viewBox="0 0 10 10" &gt;
+      &lt;path d="M 0 0 L 7 0 L 3.5 7 z" fill="red" stroke="blue" /&gt;
+    &lt;/pattern&gt; 
+  &lt;/defs&gt;
+
+  &lt;!-- Outline the drawing area in blue --&gt;
+  &lt;rect fill="none" stroke="blue" 
+        x="1" y="1" width="798" height="398"/&gt;
+
+  &lt;!-- The ellipse is filled using a triangle pattern paint server
+       and stroked with black --&gt;
+  &lt;ellipse fill="url(#TrianglePattern)" stroke="black" stroke-width="5"  
+           cx="400" cy="200" rx="350" ry="150" /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example pattern01</caption><tr><td><img alt="Example pattern01 — fill a rectangle by referencing a pattern paint server" src="images/pservers/pattern01.png"/></td></tr></table><p class="view-as-svg"><a href="images/pservers/pattern01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h2 id="DOMInterfaces">13.4 DOM interfaces</h2>
+
+<h3 id="InterfaceSVGGradientElement">13.4.1 Interface SVGGradientElement</h3>
+
+
+ The <a class="idlinterface" href="pservers.html#InterfaceSVGGradientElement">SVGGradientElement</a> interface is a base interface used by
+ <a class="idlinterface" href="pservers.html#InterfaceSVGLinearGradientElement">SVGLinearGradientElement</a> and <a class="idlinterface" href="pservers.html#InterfaceSVGRadialGradientElement">SVGRadialGradientElement</a>.
+<pre class="idl">interface <b>SVGGradientElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGURIReference">SVGURIReference</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGUnitTypes">SVGUnitTypes</a> {
+
+  // Spread Method Types
+  const unsigned short <a href="pservers.html#__svg__SVGGradientElement__SVG_SPREADMETHOD_UNKNOWN">SVG_SPREADMETHOD_UNKNOWN</a> = 0;
+  const unsigned short <a href="pservers.html#__svg__SVGGradientElement__SVG_SPREADMETHOD_PAD">SVG_SPREADMETHOD_PAD</a> = 1;
+  const unsigned short <a href="pservers.html#__svg__SVGGradientElement__SVG_SPREADMETHOD_REFLECT">SVG_SPREADMETHOD_REFLECT</a> = 2;
+  const unsigned short <a href="pservers.html#__svg__SVGGradientElement__SVG_SPREADMETHOD_REPEAT">SVG_SPREADMETHOD_REPEAT</a> = 3;
+
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a> <a href="pservers.html#__svg__SVGGradientElement__gradientUnits">gradientUnits</a>;
+  readonly attribute <a class="idlinterface" href="coords.html#InterfaceSVGAnimatedTransformList">SVGAnimatedTransformList</a> <a href="pservers.html#__svg__SVGGradientElement__gradientTransform">gradientTransform</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a> <a href="pservers.html#__svg__SVGGradientElement__spreadMethod">spreadMethod</a>;
+};</pre><dl class="interface"><dt class="constants-header">Constants in group “Spread Method Types”:</dt><dd><dl class="constants">
+<dt id="__svg__SVGGradientElement__SVG_SPREADMETHOD_UNKNOWN" class="constant first-child"><b>SVG_SPREADMETHOD_UNKNOWN</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ The type is not one of predefined types. It is invalid to attempt to
+ define a new value of this type or to attempt to switch an existing
+ value to this type.
+
+</div></dd>
+<dt id="__svg__SVGGradientElement__SVG_SPREADMETHOD_PAD" class="constant"><b>SVG_SPREADMETHOD_PAD</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to value <span class="attr-value">'pad'</span>.
+
+</div></dd>
+<dt id="__svg__SVGGradientElement__SVG_SPREADMETHOD_REFLECT" class="constant"><b>SVG_SPREADMETHOD_REFLECT</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to value <span class="attr-value">'reflect'</span>.
+
+</div></dd>
+<dt id="__svg__SVGGradientElement__SVG_SPREADMETHOD_REPEAT" class="constant"><b>SVG_SPREADMETHOD_REPEAT</b><span class="idl-type-parenthetical"> (unsigned short)</span></dt><dd class="constant"><div>
+ Corresponds to value <span class="attr-value">'repeat'</span>.
+
+</div></dd></dl></dd><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGGradientElement__gradientUnits" class="attribute first-child"><b>gradientUnits</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <span class="attr-name">‘gradientUnits’</span>
+ on the given element.  Takes one of the constants defined in
+ <a class="idlinterface" href="types.html#InterfaceSVGUnitTypes">SVGUnitTypes</a>.
+</div></dd>
+<dt id="__svg__SVGGradientElement__gradientTransform" class="attribute"><b>gradientTransform</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="coords.html#InterfaceSVGAnimatedTransformList">SVGAnimatedTransformList</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <span class="attr-name">‘gradientTransform’</span>
+ on the given element.
+</div></dd>
+<dt id="__svg__SVGGradientElement__spreadMethod" class="attribute"><b>spreadMethod</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <span class="attr-name">‘spreadMethod’</span>
+ on the given element.  One of the Spread Method Types defined on
+ this interface.
+</div></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGLinearGradientElement">13.4.2 Interface SVGLinearGradientElement</h3>
+
+
+
+ The <a class="idlinterface" href="pservers.html#InterfaceSVGLinearGradientElement">SVGLinearGradientElement</a> interface corresponds to the
+ <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.
+<pre class="idl">interface <b>SVGLinearGradientElement</b> : <a class="idlinterface" href="pservers.html#InterfaceSVGGradientElement">SVGGradientElement</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGLinearGradientElement__x1">x1</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGLinearGradientElement__y1">y1</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGLinearGradientElement__x2">x2</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGLinearGradientElement__y2">y2</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGLinearGradientElement__x1" class="attribute first-child"><b>x1</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#LinearGradientElementX1Attribute"><span class="attr-name">‘x1’</span></a> on the given
+ <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGLinearGradientElement__y1" class="attribute"><b>y1</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#LinearGradientElementY1Attribute"><span class="attr-name">‘y1’</span></a> on the given
+ <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGLinearGradientElement__x2" class="attribute"><b>x2</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#LinearGradientElementX2Attribute"><span class="attr-name">‘x2’</span></a> on the given
+ <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGLinearGradientElement__y2" class="attribute"><b>y2</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#LinearGradientElementY2Attribute"><span class="attr-name">‘y2’</span></a> on the given
+ <a href="pservers.html#LinearGradientElement"><span class="element-name">‘linearGradient’</span></a> element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGRadialGradientElement">13.4.3 Interface SVGRadialGradientElement</h3>
+
+
+
+ The <a class="idlinterface" href="pservers.html#InterfaceSVGRadialGradientElement">SVGRadialGradientElement</a> interface corresponds to the
+ <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.
+<pre class="idl">interface <b>SVGRadialGradientElement</b> : <a class="idlinterface" href="pservers.html#InterfaceSVGGradientElement">SVGGradientElement</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGRadialGradientElement__cx">cx</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGRadialGradientElement__cy">cy</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGRadialGradientElement__r">r</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGRadialGradientElement__fx">fx</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGRadialGradientElement__fy">fy</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGRadialGradientElement__cx" class="attribute first-child"><b>cx</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#RadialGradientElementCXAttribute"><span class="attr-name">‘cx’</span></a> on the given
+ <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRadialGradientElement__cy" class="attribute"><b>cy</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#RadialGradientElementCYAttribute"><span class="attr-name">‘cy’</span></a> on the given
+ <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRadialGradientElement__r" class="attribute"><b>r</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#RadialGradientElementRAttribute"><span class="attr-name">‘r’</span></a> on the given
+ <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRadialGradientElement__fx" class="attribute"><b>fx</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#RadialGradientElementFXAttribute"><span class="attr-name">‘fx’</span></a> on the given
+ <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRadialGradientElement__fy" class="attribute"><b>fy</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#RadialGradientElementFYAttribute"><span class="attr-name">‘fy’</span></a> on the given
+ <a href="pservers.html#RadialGradientElement"><span class="element-name">‘radialGradient’</span></a> element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGStopElement">13.4.4 Interface SVGStopElement</h3>
+
+
+
+ The <a class="idlinterface" href="pservers.html#InterfaceSVGStopElement">SVGStopElement</a> interface corresponds to the <a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a>
+ element.
+<pre class="idl">interface <b>SVGStopElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedNumber">SVGAnimatedNumber</a> <a href="pservers.html#__svg__SVGStopElement__offset">offset</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGStopElement__offset" class="attribute first-child"><b>offset</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedNumber">SVGAnimatedNumber</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#StopElementOffsetAttribute"><span class="attr-name">‘offset’</span></a> on the given <a href="pservers.html#StopElement"><span class="element-name">‘stop’</span></a>
+ element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGPatternElement">13.4.5 Interface SVGPatternElement</h3>
+
+
+
+ The <a class="idlinterface" href="pservers.html#InterfaceSVGPatternElement">SVGPatternElement</a> interface corresponds to the <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+ element.
+<pre class="idl">interface <b>SVGPatternElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGURIReference">SVGURIReference</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGFitToViewBox">SVGFitToViewBox</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGUnitTypes">SVGUnitTypes</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a> <a href="pservers.html#__svg__SVGPatternElement__patternUnits">patternUnits</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a> <a href="pservers.html#__svg__SVGPatternElement__patternContentUnits">patternContentUnits</a>;
+  readonly attribute <a class="idlinterface" href="coords.html#InterfaceSVGAnimatedTransformList">SVGAnimatedTransformList</a> <a href="pservers.html#__svg__SVGPatternElement__patternTransform">patternTransform</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGPatternElement__x">x</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGPatternElement__y">y</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGPatternElement__width">width</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="pservers.html#__svg__SVGPatternElement__height">height</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGPatternElement__patternUnits" class="attribute first-child"><b>patternUnits</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementPatternUnitsAttribute"><span class="attr-name">‘patternUnits’</span></a> on the given
+ <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element. Takes one of the constants defined in
+ <a class="idlinterface" href="types.html#InterfaceSVGUnitTypes">SVGUnitTypes</a>.
+</div></dd>
+<dt id="__svg__SVGPatternElement__patternContentUnits" class="attribute"><b>patternContentUnits</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedEnumeration">SVGAnimatedEnumeration</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementPatternContentUnitsAttribute"><span class="attr-name">‘patternContentUnits’</span></a> on the given
+ <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element. Takes one of the constants defined in
+ <a class="idlinterface" href="types.html#InterfaceSVGUnitTypes">SVGUnitTypes</a>.
+</div></dd>
+<dt id="__svg__SVGPatternElement__patternTransform" class="attribute"><b>patternTransform</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="coords.html#InterfaceSVGAnimatedTransformList">SVGAnimatedTransformList</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementPatternTransformAttribute"><span class="attr-name">‘patternTransform’</span></a> on the given
+ <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGPatternElement__x" class="attribute"><b>x</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementXAttribute"><span class="attr-name">‘x’</span></a> on the given <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+ element.
+</div></dd>
+<dt id="__svg__SVGPatternElement__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementYAttribute"><span class="attr-name">‘y’</span></a> on the given <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+ element.
+</div></dd>
+<dt id="__svg__SVGPatternElement__width" class="attribute"><b>width</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementWidthAttribute"><span class="attr-name">‘width’</span></a> on the given <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+ element.
+</div></dd>
+<dt id="__svg__SVGPatternElement__height" class="attribute"><b>height</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="pservers.html#PatternElementHeightAttribute"><span class="attr-name">‘height’</span></a> on the given <a href="pservers.html#PatternElement"><span class="element-name">‘pattern’</span></a>
+ element.
+</div></dd></dl></dd></dl>
+
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="color.html">Previous</a> ⋅ <a href="masking.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>

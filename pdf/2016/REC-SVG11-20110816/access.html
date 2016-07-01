@@ -1,0 +1,95 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Appendix H: Accessibility Support
+
+  $Id: access.html,v 1.85 2011/08/10 02:10:29 cmccorma Exp $
+
+  Note: This document is generated from ../master/access.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Accessibility Support – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="conform.html">Previous</a> ⋅ <a href="i18n.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>Appendix H: Accessibility Support</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#AccessibilityAndSVG">H.1 WAI Accessibility Guidelines</a></li>
+<li><a href="#SVGAccessibilityGuidelines">H.2 SVG Content Accessibility Guidelines</a></li></ul>
+
+<p class="normativity"><em>This appendix is informative, not normative.</em></p>
+
+<h2 id="AccessibilityAndSVG">H.1 WAI Accessibility Guidelines</h2>
+
+    <p>This appendix explains how accessibility guidelines
+    published by W3C's Web Accessibility Initiative (WAI) apply to
+    SVG.</p>
+    <ol><li>The <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/"><cite>Web Content Accessibility Guidelines (WCAG) 2.0</cite></a>
+      [<a href="refs.html#ref-WCAG2">WCAG2</a>]
+      explains how authors can create Web content that is
+      accessible to people with disabilities.</li><li>The <a href="http://www.w3.org/TR/2000/REC-ATAG10-20000203/"><cite>Authoring Tool Accessibility Guidelines 1.0</cite></a>
+      [<a href="refs.html#ref-ATAG">ATAG</a>] explains how
+      developers can design accessible authoring tools such as SVG
+      authoring tools. <a href="conform.html#ConformingSVGGenerators">To conform to the
+      SVG specification</a>, an SVG authoring tool must conform to
+      ATAG (priority 1). SVG support for element <a href="struct.html#Groups">grouping</a> and <a href="struct.html#UseElement">reuse</a> is relevant to
+      designing accessible SVG authoring tools.</li><li>The <a href="http://www.w3.org/TR/2002/REC-UAAG10-20021217/"><cite>User Agent Accessibility Guidelines 1.0</cite></a>
+      [<a href="refs.html#ref-UAAG">UAAG</a>] explains how
+      developers can design accessible user agents such as
+      SVG-enabled browsers. To conform to the SVG specification, an
+      SVG user agent should conform to UAAG. SVG support for
+      scaling, style sheets, the DOM, and metadata are all relevant
+      to designing accessible SVG user agents.</li></ol>
+    <p>The W3C Note <a href="http://www.w3.org/TR/2000/NOTE-SVG-access-20000807/"><cite>Accessibility Features of SVG</cite></a>
+    [<a href="refs.html#ref-SVG-ACCESS">SVG-ACCESS</a>]
+    explains in detail how the requirements of the three guidelines
+    apply to SVG.</p>
+
+<h2 id="SVGAccessibilityGuidelines">H.2 SVG Content Accessibility Guidelines</h2>
+
+    <p>This section explains briefly how authors can create
+    accessible SVG documents; it summarizes <a href="http://www.w3.org/TR/2000/NOTE-SVG-access-20000807/"><cite>Accessibility Features of SVG</cite></a> 
+    [<a href="refs.html#ref-SVG-ACCESS">SVG-ACCESS</a>].</p>
+    <dl><dt><span class="gl">Provide text equivalents for
+      graphics.</span></dt><dd>
+        <ul><li>When the text content of a graphic (e.g., in a
+          <a href="text.html#TextElement"><span class="element-name">‘text’</span></a> element) explains its function, no text
+          equivalent is required. Use the <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a> child element
+          to explain the function of <a href="text.html#TextElement"><span class="element-name">‘text’</span></a> elements whose meaning
+          is not clear from their text content.</li><li>When a graphic does not include explanatory text
+          content, it requires a text equivalent. If the equivalent
+          is complex, use the <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a> element, otherwise
+          use the <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a> child element.</li><li>If a graphic is built from meaningful parts, build
+          the description from meaningful parts.</li></ul>
+      </dd><dt><span class="gl">Do not rely on color alone.</span></dt><dd>
+        <ul><li>Do not use color alone to convey information.</li><li>Ensure adequate color contrast. Use style sheets so
+          that users who require certain color combinations may
+          apply them through user style sheets.</li></ul>
+      </dd><dt><span class="gl">Use markup and style sheets and do so
+      properly.</span></dt><dd>
+        <ul><li>Represent text as character data, not as images or
+          curves. Style text with fonts. Authors may describe their
+          own fonts in SVG.</li><li>Separate structure from presentation.</li><li>Use the <a href="struct.html#GElement"><span class="element-name">‘g’</span></a> element and rich
+          descriptions to structure SVG documents. Reuse named
+          objects.</li><li>Publish highly-structured documents, not just
+          graphical representations. Documents that are rich in
+          structure may be rendered graphically, as speech, or as
+          braille. For example, express mathematical relationships
+          in <a href="http://www.w3.org/TR/2001/REC-MathML2-20010221/">MathML</a>
+          [<a href="refs.html#ref-MATHML">MATHML</a>] and use
+          SVG for explanatory graphics.</li><li>Author documents that validate to the SVG
+          grammar.</li><li>Use style sheets to specify graphical and aural
+          presentation.</li><li>Use relative units in style sheets.</li></ul>
+      </dd><dt><span class="gl">Clarify natural language
+      usage.</span></dt><dd>
+        <ul><li>Use <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a> to identify the
+          natural language of content and changes in natural
+          language.</li></ul>
+      </dd><dt><span class="gl">Ensure that dynamic content is
+      accessible.</span></dt><dd>
+        <ul><li>Ensure that text equivalents for dynamic content are
+          updated when the dynamic content changes.</li><li>Ensure that SVG documents are usable when scripts or
+          other programmatic objects are turned off or not
+          supported.</li></ul>
+      </dd></dl>
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="conform.html">Previous</a> ⋅ <a href="i18n.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>

@@ -1,0 +1,760 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Chapter 9: Basic Shapes
+
+  $Id: shapes.html,v 1.93 2011/08/10 02:10:32 cmccorma Exp $
+
+  Note: This document is generated from ../master/shapes.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Basic Shapes – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="paths.html">Previous</a> ⋅ <a href="text.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>9 Basic Shapes</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#Introduction">9.1 Introduction</a></li>
+<li><a href="#RectElement">9.2 The <span class="element-name">‘rect’</span> element</a></li>
+<li><a href="#CircleElement">9.3 The <span class="element-name">‘circle’</span> element</a></li>
+<li><a href="#EllipseElement">9.4 The <span class="element-name">‘ellipse’</span> element</a></li>
+<li><a href="#LineElement">9.5 The <span class="element-name">‘line’</span> element</a></li>
+<li><a href="#PolylineElement">9.6 The <span class="element-name">‘polyline’</span> element</a></li>
+<li><a href="#PolygonElement">9.7 The <span class="element-name">‘polygon’</span> element</a><ul class="toc">
+<li><a href="#PointsBNF">9.7.1 The grammar for points specifications in
+<span class="element-name">‘polyline’</span> and
+<span class="element-name">‘polygon’</span> elements</a></li></ul></li>
+<li><a href="#DOMInterfaces">9.8 DOM interfaces</a><ul class="toc">
+<li><a href="#InterfaceSVGRectElement">9.8.1 Interface SVGRectElement</a></li>
+<li><a href="#InterfaceSVGCircleElement">9.8.2 Interface SVGCircleElement</a></li>
+<li><a href="#InterfaceSVGEllipseElement">9.8.3 Interface SVGEllipseElement</a></li>
+<li><a href="#InterfaceSVGLineElement">9.8.4 Interface SVGLineElement</a></li>
+<li><a href="#InterfaceSVGAnimatedPoints">9.8.5 Interface SVGAnimatedPoints</a></li>
+<li><a href="#InterfaceSVGPolylineElement">9.8.6 Interface SVGPolylineElement</a></li>
+<li><a href="#InterfaceSVGPolygonElement">9.8.7 Interface SVGPolygonElement</a></li></ul></li></ul>
+
+<h2 id="Introduction">9.1 Introduction</h2>
+
+<p>SVG contains the following set of basic shape elements:</p>
+
+<ul><li>rectangles (including optional rounded corners), created with the <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element,</li><li>circles, created with the <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element,</li><li>ellipses, created with the <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element,</li><li>straight lines, created with the <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element,</li><li>polylines, created with the <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a> element, and</li><li>polygons, created with the <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a> element.</li></ul>
+
+<p>Mathematically, these shape elements are equivalent to a
+<a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element that would construct the same shape. The basic
+shapes may be stroked, filled and used as clip paths. All of the
+properties available for <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> elements also apply to the basic
+shapes.</p>
+
+<h2 id="RectElement">9.2 The <span class="element-name">‘rect’</span> element</h2>
+
+
+
+<p>The <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element defines a rectangle which is axis-aligned
+with the current <a href="intro.html#TermUserCoordinateSystem">user
+coordinate system</a>. Rounded rectangles can be achieved by setting
+appropriate values for attributes <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> and <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a>.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘rect’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermBasicShapeElement">Basic shape element</a>, <a href="intro.html#TermGraphicsElement">graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="shapes.html#RectElementXAttribute"><span class="attr-name">‘x’</span></a></li><li><a href="shapes.html#RectElementYAttribute"><span class="attr-name">‘y’</span></a></li><li><a href="shapes.html#RectElementWidthAttribute"><span class="attr-name">‘width’</span></a></li><li><a href="shapes.html#RectElementHeightAttribute"><span class="attr-name">‘height’</span></a></li><li><a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a></li><li><a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="shapes.html#InterfaceSVGRectElement">SVGRectElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="RectElementXAttribute"><span class="adef">x</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The x-axis coordinate of the side of the rectangle
+        which has the smaller x-axis coordinate value in the
+        current user coordinate system.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RectElementYAttribute"><span class="adef">y</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The y-axis coordinate of the side of the rectangle
+        which has the smaller y-axis coordinate value in the
+        current user coordinate system.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RectElementWidthAttribute"><span class="adef">width</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The width of the rectangle.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RectElementHeightAttribute"><span class="adef">height</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The height of the rectangle.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RectElementRXAttribute"><span class="adef">rx</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>For rounded rectangles, the x-axis radius of the
+        ellipse used to round off the corners of the
+        rectangle.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error
+        processing</a>).<br/>
+         See the notes below about what happens if the attribute is
+        not specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="RectElementRYAttribute"><span class="adef">ry</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>For rounded rectangles, the y-axis radius of the
+        ellipse used to round off the corners of the
+        rectangle.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error
+        processing</a>).<br/>
+         See the notes below about what happens if the attribute is
+        not specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+
+
+<p>The values used for the x- and y-axis rounded corner radii are
+determined implicitly if the <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> or <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> attributes (or both)
+are not specified, or are specified but with invalid values.
+The values are also subject to clamping so that the lengths of
+the straight segments of the rectangle are never negative.  The
+effective values for <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> and <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> are determined by following
+these steps in order:</p>
+
+<ol><li>Let <var>rx</var> and <var>ry</var> be length values.</li><li>If neither <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> nor <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> are properly specified, then set both
+  <var>rx</var> and <var>ry</var> to 0.  (This will result in square corners.)</li><li>Otherwise, if a properly specified value is provided for <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a>, but
+  not for <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a>, then set both <var>rx</var> and <var>ry</var> to the value of <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a>.</li><li>Otherwise, if a properly specified value is provided for <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a>, but
+  not for <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a>, then set both <var>rx</var> and <var>ry</var> to the value of <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a>.</li><li>Otherwise, both <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> and <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> were specified properly.  Set <var>rx</var> to
+  the value of <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> and <var>ry</var> to the value of <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a>.</li><li>If <var>rx</var> is greater than half of <a href="shapes.html#RectElementWidthAttribute"><span class="attr-name">‘width’</span></a>, then set
+  <var>rx</var> to half of <a href="shapes.html#RectElementWidthAttribute"><span class="attr-name">‘width’</span></a>.</li><li>If <var>ry</var> is greater than half of <a href="shapes.html#RectElementHeightAttribute"><span class="attr-name">‘height’</span></a>, then set
+  <var>ry</var> to half of <a href="shapes.html#RectElementHeightAttribute"><span class="attr-name">‘height’</span></a>.</li><li>The effective values of <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> and <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> are <var>rx</var> and
+  <var>ry</var>, respectively.</li></ol>
+
+<p>Mathematically, a <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element can be mapped to an
+equivalent <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element as follows: (Note: all coordinate and
+length values are first converted into user space coordinates according
+to <a href="coords.html#Units">Units</a>.)</p>
+
+<ul><li>perform an absolute <a href="paths.html#PathDataMovetoCommands">moveto</a> operation to
+  location (<em>x+rx</em>,<em>y</em>), where <em>x</em> is the value of
+  the <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element's <a href="shapes.html#RectElementXAttribute"><span class="attr-name">‘x’</span></a> attribute converted to user
+  space, <em>rx</em> is the effective value of the <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> attribute
+  converted to user space and <em>y</em> is the value of the <a href="shapes.html#RectElementYAttribute"><span class="attr-name">‘y’</span></a>
+  attribute converted to user space</li><li>perform an absolute horizontal <a href="paths.html#PathDataLinetoCommands">lineto</a>
+  operation to location (<em>x+width-rx</em>,<em>y</em>), where <em>width</em>
+  is the <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element's <a href="shapes.html#RectElementWidthAttribute"><span class="attr-name">‘width’</span></a> attribute converted to user
+  space</li><li>perform an absolute <a href="paths.html#PathDataEllipticalArcCommands">elliptical arc</a>
+  operation to coordinate (<em>x+width</em>,<em>y+ry</em>), where the effective
+  values for the <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> and <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> attributes on the <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a>
+  element converted to user space are used as the <em>rx</em> and <em>ry</em>
+  attributes on the <a href="paths.html#PathDataEllipticalArcCommands">elliptical arc</a>
+  command, respectively, the <em>x-axis-rotation</em> is set to zero, the
+  <em>large-arc-flag</em> is set to zero, and the <em>sweep-flag</em> is set
+  to one</li><li>perform a absolute vertical <em>lineto</em> to location
+  (<em>x+width</em>,<em>y+height-ry</em>), where <em>height</em> is the
+  <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element's <a href="shapes.html#RectElementHeightAttribute"><span class="attr-name">‘height’</span></a> attribute converted to user
+  space</li><li>perform an absolute <a href="paths.html#PathDataEllipticalArcCommands">elliptical arc</a>
+  operation to coordinate (<em>x+width-rx</em>,<em>y+height</em>)</li><li>perform an absolute horizontal <em>lineto</em> to location
+  (<em>x+rx</em>,<em>y+height</em>)</li><li>perform an absolute <a href="paths.html#PathDataEllipticalArcCommands">elliptical arc</a>
+  operation to coordinate (<em>x</em>,<em>y+height-ry</em>)</li><li>perform an absolute absolute vertical <em>lineto</em> to location
+  (<em>x</em>,<em>y+ry</em>)</li><li>perform an absolute <a href="paths.html#PathDataEllipticalArcCommands">elliptical arc</a>
+  operation to coordinate (<em>x+rx</em>,<em>y</em>)</li></ul>
+
+<p id="ExampleRect01"><span class="example-ref">Example rect01</span> shows a
+rectangle with sharp corners. The <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element is filled with yellow
+and stroked with navy.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example rect01 - rectangle with sharp corners&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2"/&gt;
+
+  &lt;rect x="400" y="100" width="400" height="200"
+        fill="yellow" stroke="navy" stroke-width="10"  /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example rect01</caption><tr><td><img alt="Example rect01 — rectangle with sharp corners" src="images/shapes/rect01.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/rect01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+<p id="ExampleRect02"><span class="example-ref">Example rect02</span> shows
+two rounded rectangles. The <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> specifies how to round the corners of
+the rectangles. Note that since no value has been specified for the <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a>
+attribute, it will be assigned the same value as the <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> attribute.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example rect02 - rounded rectangles&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2"/&gt;
+
+  &lt;rect x="100" y="100" width="400" height="200" rx="50"
+        fill="green" /&gt;
+
+  &lt;g transform="translate(700 210) rotate(-30)"&gt;
+    &lt;rect x="0" y="0" width="400" height="200" rx="50"
+          fill="none" stroke="purple" stroke-width="30" /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example rect02</caption><tr><td><img alt="Example rect02 — rounded rectangles expressed in user coordinates" src="images/shapes/rect02.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/rect02.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h2 id="CircleElement">9.3 The <span class="element-name">‘circle’</span> element</h2>
+
+
+
+<p>The <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element defines a circle based on a center point and a
+radius.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘circle’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermBasicShapeElement">Basic shape element</a>, <a href="intro.html#TermGraphicsElement">graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="shapes.html#CircleElementCXAttribute"><span class="attr-name">‘cx’</span></a></li><li><a href="shapes.html#CircleElementCYAttribute"><span class="attr-name">‘cy’</span></a></li><li><a href="shapes.html#CircleElementRAttribute"><span class="attr-name">‘r’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="shapes.html#InterfaceSVGCircleElement">SVGCircleElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="CircleElementCXAttribute"><span class="adef">cx</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The x-axis coordinate of the center of the
+        circle.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="CircleElementCYAttribute"><span class="adef">cy</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The y-axis coordinate of the center of the
+        circle.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="CircleElementRAttribute"><span class="adef">r</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The radius of the circle.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>The arc of a <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element begins at the "3 o'clock" point
+on the radius and progresses towards the "9 o'clock" point. The starting
+point and direction of the arc are affected by the user space transform
+in the same manner as the geometry of the element.</p>
+
+<p id="ExampleCircle01"><span class="example-ref">Example
+circle01</span> consists of a <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element that is filled
+with red and stroked with blue.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example circle01 - circle filled with red and stroked with blue&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2"/&gt;
+
+  &lt;circle cx="600" cy="200" r="100"
+        fill="red" stroke="blue" stroke-width="10"  /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example circle01</caption><tr><td><img alt="Example circle01 — circle filled with red and stroked with blue" src="images/shapes/circle01.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/circle01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h2 id="EllipseElement">9.4 The <span class="element-name">‘ellipse’</span> element</h2>
+
+
+
+<p>The <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element defines an ellipse which is axis-aligned
+with the current <a href="intro.html#TermUserCoordinateSystem">user
+coordinate system</a> based on a center point and two radii.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘ellipse’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermBasicShapeElement">Basic shape element</a>, <a href="intro.html#TermGraphicsElement">graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="shapes.html#EllipseElementCXAttribute"><span class="attr-name">‘cx’</span></a></li><li><a href="shapes.html#EllipseElementCYAttribute"><span class="attr-name">‘cy’</span></a></li><li><a href="shapes.html#EllipseElementRXAttribute"><span class="attr-name">‘rx’</span></a></li><li><a href="shapes.html#EllipseElementRYAttribute"><span class="attr-name">‘ry’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="shapes.html#InterfaceSVGEllipseElement">SVGEllipseElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="EllipseElementCXAttribute"><span class="adef">cx</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The x-axis coordinate of the center of the
+        ellipse.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="EllipseElementCYAttribute"><span class="adef">cy</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The y-axis coordinate of the center of the
+        ellipse.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="EllipseElementRXAttribute"><span class="adef">rx</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The x-axis radius of the ellipse.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="EllipseElementRYAttribute"><span class="adef">ry</span> = "<span class="attr-value"><a href="types.html#DataTypeLength">&lt;length&gt;</a></span>"</dt><dd>The y-axis radius of the ellipse.<br/>
+         A negative value is an error (see <a href="implnote.html#ErrorProcessing">Error processing</a>).
+        A value of zero disables rendering of the element.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p id="ExampleEllipse01">The arc of an <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element begins
+at the "3 o'clock" point on the radius and progresses towards the "9
+o'clock" point. The starting point and direction of the arc are affected
+by the user space transform in the same manner as the geometry of the
+element.</p>
+
+<p><span class="example-ref">Example ellipse01</span> below specifies
+the coordinates of the two ellipses in the user coordinate system
+established by the <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute on the <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a>
+element and the <a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a> attribute on the <a href="struct.html#GElement"><span class="element-name">‘g’</span></a> and
+<a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> elements. Both ellipses use the default values of
+zero for the <a href="shapes.html#EllipseElementCXAttribute"><span class="attr-name">‘cx’</span></a> and <a href="shapes.html#EllipseElementCYAttribute"><span class="attr-name">‘cy’</span></a> attributes (the center of the
+ellipse). The second ellipse is rotated.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example ellipse01 - examples of ellipses&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2" /&gt;
+
+  &lt;g transform="translate(300 200)"&gt;
+    &lt;ellipse rx="250" ry="100"
+          fill="red"  /&gt;
+  &lt;/g&gt;
+
+  &lt;ellipse transform="translate(900 200) rotate(-30)" 
+        rx="250" ry="100"
+        fill="none" stroke="blue" stroke-width="20"  /&gt;
+
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example ellipse01</caption><tr><td><img alt="Example ellipse01 — ellipses expressed in user coordinates" src="images/shapes/ellipse01.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/ellipse01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h2 id="LineElement">9.5 The <span class="element-name">‘line’</span> element</h2>
+
+
+
+<p>The <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element defines a line segment that starts at one point
+and ends at another.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘line’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermBasicShapeElement">Basic shape element</a>, <a href="intro.html#TermGraphicsElement">graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="shapes.html#LineElementX1Attribute"><span class="attr-name">‘x1’</span></a></li><li><a href="shapes.html#LineElementY1Attribute"><span class="attr-name">‘y1’</span></a></li><li><a href="shapes.html#LineElementX2Attribute"><span class="attr-name">‘x2’</span></a></li><li><a href="shapes.html#LineElementY2Attribute"><span class="attr-name">‘y2’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="shapes.html#InterfaceSVGLineElement">SVGLineElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="LineElementX1Attribute"><span class="adef">x1</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The x-axis coordinate of the start of the line.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LineElementY1Attribute"><span class="adef">y1</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The y-axis coordinate of the start of the line.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LineElementX2Attribute"><span class="adef">x2</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The x-axis coordinate of the end of the line.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd><dt id="LineElementY2Attribute"><span class="adef">y2</span> = "<span class="attr-value"><a href="types.html#DataTypeCoordinate">&lt;coordinate&gt;</a></span>"</dt><dd>The y-axis coordinate of the end of the line.<br/>
+         If the attribute is not specified, the effect is as if a
+        value of "0" were specified.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>Mathematically, a <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element can be mapped to an
+equivalent <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element as follows: (Note: all coordinate and
+length values are first converted into user space coordinates according
+to <a href="coords.html#Units">Units</a>.)</p>
+
+<ul><li>perform an absolute <a href="paths.html#PathDataMovetoCommands">moveto</a>
+  operation to absolute location (<em>x1</em>,<em>y1</em>), where <em>x1</em>
+  and <em>y1</em> are the values of the <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element's <a href="shapes.html#LineElementX1Attribute"><span class="attr-name">‘x1’</span></a> and
+  <a href="shapes.html#LineElementY1Attribute"><span class="attr-name">‘y1’</span></a> attributes converted to user space, respectively</li><li>perform an absolute <a href="paths.html#PathDataLinetoCommands">lineto</a>
+  operation to absolute location (<em>x2</em>,<em>y2</em>), where <em>x2</em>
+  and <em>y2</em> are the values of the <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element's <a href="shapes.html#LineElementX2Attribute"><span class="attr-name">‘x2’</span></a> and
+  <a href="shapes.html#LineElementY2Attribute"><span class="attr-name">‘y2’</span></a> attributes converted to user space, respectively</li></ul>
+
+<p>Because <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> elements are single lines and thus are geometrically
+one-dimensional, they have no interior; thus, <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> elements are never
+filled (see the <a href="painting.html#FillProperty"><span class="prop-name">‘fill’</span></a> property).</p>
+
+<p id="ExampleLine01"><span class="example-ref">Example line01</span> below
+specifies the coordinates of the five lines in the user coordinate system
+established by the <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute on the <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a> element. The
+lines have different thicknesses.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example line01 - lines expressed in user coordinates&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2" /&gt;
+
+  &lt;g stroke="green" &gt;
+    &lt;line x1="100" y1="300" x2="300" y2="100"
+            stroke-width="5"  /&gt;
+    &lt;line x1="300" y1="300" x2="500" y2="100"
+            stroke-width="10"  /&gt;
+    &lt;line x1="500" y1="300" x2="700" y2="100"
+            stroke-width="15"  /&gt;
+    &lt;line x1="700" y1="300" x2="900" y2="100"
+            stroke-width="20"  /&gt;
+    &lt;line x1="900" y1="300" x2="1100" y2="100"
+            stroke-width="25"  /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example line01</caption><tr><td><img alt="Example line01 — lines expressed in user coordinates" src="images/shapes/line01.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/line01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h2 id="PolylineElement">9.6 The <span class="element-name">‘polyline’</span> element</h2>
+
+
+
+<p>The <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a> element defines a set of connected straight
+line segments. Typically, <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a> elements define open
+shapes.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘polyline’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermBasicShapeElement">Basic shape element</a>, <a href="intro.html#TermGraphicsElement">graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="shapes.html#PolylineElementPointsAttribute"><span class="attr-name">‘points’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="shapes.html#InterfaceSVGPolylineElement">SVGPolylineElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="PolylineElementPointsAttribute"><span class="adef">points</span> = "<span class="attr-value"><a href="shapes.html#PointsBNF">&lt;list-of-points&gt;</a></span>"</dt><dd>The points that make up the polyline. All coordinate
+        values are in the user coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>If an odd number of coordinates is provided, then the element is in
+error, with the same user agent behavior as occurs with an incorrectly
+specified <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element.</p>
+
+<p>Mathematically, a <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a> element can be mapped to an
+equivalent <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element as follows:</p>
+
+<ul><li>perform an absolute <a href="paths.html#PathDataMovetoCommands">moveto</a>
+  operation to the first coordinate pair in the list of points</li><li>for each subsequent coordinate pair, perform an absolute
+  <a href="paths.html#PathDataLinetoCommands">lineto</a> operation to that
+  coordinate pair.</li></ul>
+
+<p id="ExamplePolyline01"><span class="example-ref">Example polyline01</span>
+below specifies a polyline in the user coordinate system established by the
+<a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute on the <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a> element.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example polyline01 - increasingly larger bars&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2" /&gt;
+
+  &lt;polyline fill="none" stroke="blue" stroke-width="10" 
+            points="50,375
+                    150,375 150,325 250,325 250,375
+                    350,375 350,250 450,250 450,375
+                    550,375 550,175 650,175 650,375
+                    750,375 750,100 850,100 850,375
+                    950,375 950,25 1050,25 1050,375
+                    1150,375" /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example polyline01</caption><tr><td><img alt="Example polyline01 — increasingly larger bars" src="images/shapes/polyline01.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/polyline01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h2 id="PolygonElement">9.7 The <span class="element-name">‘polygon’</span> element</h2>
+
+
+
+<p>The <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a> element defines a closed shape consisting of a
+set of connected straight line segments.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘polygon’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermBasicShapeElement">Basic shape element</a>, <a href="intro.html#TermGraphicsElement">graphics element</a>, <a href="intro.html#TermShapeElement">shape element</a></dd><dt>Content model:</dt><dd>Any number of the following elements, in any order:
+                <ul class="no-bullets"><li><a href="intro.html#TermAnimationElement">animation elements</a><span class="expanding"> — <a href="animate.html#AnimateElement"><span class="element-name">‘animate’</span></a>, <a href="animate.html#AnimateColorElement"><span class="element-name">‘animateColor’</span></a>, <a href="animate.html#AnimateMotionElement"><span class="element-name">‘animateMotion’</span></a>, <a href="animate.html#AnimateTransformElement"><span class="element-name">‘animateTransform’</span></a>, <a href="animate.html#SetElement"><span class="element-name">‘set’</span></a></span></li><li><a href="intro.html#TermDescriptiveElement">descriptive elements</a><span class="expanding"> — <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a>, <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>, <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a></span></li></ul></dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermConditionalProcessingAttribute">conditional processing attributes</a><span class="expanding"> — <a href="struct.html#RequiredFeaturesAttribute"><span class="attr-name">‘requiredFeatures’</span></a>, <a href="struct.html#RequiredExtensionsAttribute"><span class="attr-name">‘requiredExtensions’</span></a>, <a href="struct.html#SystemLanguageAttribute"><span class="attr-name">‘systemLanguage’</span></a></span></li><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li><li><a href="intro.html#TermGraphicalEventAttribute">graphical event attributes</a><span class="expanding"> — <a href="script.html#OnFocusInEventAttribute"><span class="attr-name">‘onfocusin’</span></a>, <a href="script.html#OnFocusOutEventAttribute"><span class="attr-name">‘onfocusout’</span></a>, <a href="script.html#OnActivateEventAttribute"><span class="attr-name">‘onactivate’</span></a>, <a href="script.html#OnClickEventAttribute"><span class="attr-name">‘onclick’</span></a>, <a href="script.html#OnMouseDownEventAttribute"><span class="attr-name">‘onmousedown’</span></a>, <a href="script.html#OnMouseUpEventAttribute"><span class="attr-name">‘onmouseup’</span></a>, <a href="script.html#OnMouseOverEventAttribute"><span class="attr-name">‘onmouseover’</span></a>, <a href="script.html#OnMouseMoveEventAttribute"><span class="attr-name">‘onmousemove’</span></a>, <a href="script.html#OnMouseOutEventAttribute"><span class="attr-name">‘onmouseout’</span></a>, <a href="script.html#OnLoadEventAttribute"><span class="attr-name">‘onload’</span></a></span></li><li><a href="intro.html#TermPresentationAttribute">presentation attributes</a><span class="expanding"> — <a href="text.html#AlignmentBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘alignment-baseline’">‘alignment-baseline’</span></a>, <a href="text.html#BaselineShiftProperty"><span class="attr-name" title="Presentation attribute for property ‘baseline-shift’">‘baseline-shift’</span></a>, <a href="masking.html#ClipProperty"><span class="attr-name" title="Presentation attribute for property ‘clip’">‘clip’</span></a>, <a href="masking.html#ClipPathProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-path’">‘clip-path’</span></a>, <a href="masking.html#ClipRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘clip-rule’">‘clip-rule’</span></a>, <a href="color.html#ColorProperty"><span class="attr-name" title="Presentation attribute for property ‘color’">‘color’</span></a>, <a href="painting.html#ColorInterpolationProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation’">‘color-interpolation’</span></a>, <a href="painting.html#ColorInterpolationFiltersProperty"><span class="attr-name" title="Presentation attribute for property ‘color-interpolation-filters’">‘color-interpolation-filters’</span></a>, <a href="color.html#ColorProfileProperty"><span class="attr-name" title="Presentation attribute for property ‘color-profile’">‘color-profile’</span></a>, <a href="painting.html#ColorRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘color-rendering’">‘color-rendering’</span></a>, <a href="interact.html#CursorProperty"><span class="attr-name" title="Presentation attribute for property ‘cursor’">‘cursor’</span></a>, <a href="text.html#DirectionProperty"><span class="attr-name" title="Presentation attribute for property ‘direction’">‘direction’</span></a>, <a href="painting.html#DisplayProperty"><span class="attr-name" title="Presentation attribute for property ‘display’">‘display’</span></a>, <a href="text.html#DominantBaselineProperty"><span class="attr-name" title="Presentation attribute for property ‘dominant-baseline’">‘dominant-baseline’</span></a>, <a href="filters.html#EnableBackgroundProperty"><span class="attr-name" title="Presentation attribute for property ‘enable-background’">‘enable-background’</span></a>, <a href="painting.html#FillProperty"><span class="attr-name" title="Presentation attribute for property ‘fill’">‘fill’</span></a>, <a href="painting.html#FillOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-opacity’">‘fill-opacity’</span></a>, <a href="painting.html#FillRuleProperty"><span class="attr-name" title="Presentation attribute for property ‘fill-rule’">‘fill-rule’</span></a>, <a href="filters.html#FilterProperty"><span class="attr-name" title="Presentation attribute for property ‘filter’">‘filter’</span></a>, <a href="filters.html#FloodColorProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-color’">‘flood-color’</span></a>, <a href="filters.html#FloodOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘flood-opacity’">‘flood-opacity’</span></a>, <a href="text.html#FontFamilyProperty"><span class="attr-name" title="Presentation attribute for property ‘font-family’">‘font-family’</span></a>, <a href="text.html#FontSizeProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size’">‘font-size’</span></a>, <a href="text.html#FontSizeAdjustProperty"><span class="attr-name" title="Presentation attribute for property ‘font-size-adjust’">‘font-size-adjust’</span></a>, <a href="text.html#FontStretchProperty"><span class="attr-name" title="Presentation attribute for property ‘font-stretch’">‘font-stretch’</span></a>, <a href="text.html#FontStyleProperty"><span class="attr-name" title="Presentation attribute for property ‘font-style’">‘font-style’</span></a>, <a href="text.html#FontVariantProperty"><span class="attr-name" title="Presentation attribute for property ‘font-variant’">‘font-variant’</span></a>, <a href="text.html#FontWeightProperty"><span class="attr-name" title="Presentation attribute for property ‘font-weight’">‘font-weight’</span></a>, <a href="text.html#GlyphOrientationHorizontalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-horizontal’">‘glyph-orientation-horizontal’</span></a>, <a href="text.html#GlyphOrientationVerticalProperty"><span class="attr-name" title="Presentation attribute for property ‘glyph-orientation-vertical’">‘glyph-orientation-vertical’</span></a>, <a href="painting.html#ImageRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘image-rendering’">‘image-rendering’</span></a>, <a href="text.html#KerningProperty"><span class="attr-name" title="Presentation attribute for property ‘kerning’">‘kerning’</span></a>, <a href="text.html#LetterSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘letter-spacing’">‘letter-spacing’</span></a>, <a href="filters.html#LightingColorProperty"><span class="attr-name" title="Presentation attribute for property ‘lighting-color’">‘lighting-color’</span></a>, <a href="painting.html#MarkerEndProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-end’">‘marker-end’</span></a>, <a href="painting.html#MarkerMidProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-mid’">‘marker-mid’</span></a>, <a href="painting.html#MarkerStartProperty"><span class="attr-name" title="Presentation attribute for property ‘marker-start’">‘marker-start’</span></a>, <a href="masking.html#MaskProperty"><span class="attr-name" title="Presentation attribute for property ‘mask’">‘mask’</span></a>, <a href="masking.html#OpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘opacity’">‘opacity’</span></a>, <a href="masking.html#OverflowProperty"><span class="attr-name" title="Presentation attribute for property ‘overflow’">‘overflow’</span></a>, <a href="interact.html#PointerEventsProperty"><span class="attr-name" title="Presentation attribute for property ‘pointer-events’">‘pointer-events’</span></a>, <a href="painting.html#ShapeRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘shape-rendering’">‘shape-rendering’</span></a>, <a href="pservers.html#StopColorProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-color’">‘stop-color’</span></a>, <a href="pservers.html#StopOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stop-opacity’">‘stop-opacity’</span></a>, <a href="painting.html#StrokeProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke’">‘stroke’</span></a>, <a href="painting.html#StrokeDasharrayProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dasharray’">‘stroke-dasharray’</span></a>, <a href="painting.html#StrokeDashoffsetProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-dashoffset’">‘stroke-dashoffset’</span></a>, <a href="painting.html#StrokeLinecapProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linecap’">‘stroke-linecap’</span></a>, <a href="painting.html#StrokeLinejoinProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-linejoin’">‘stroke-linejoin’</span></a>, <a href="painting.html#StrokeMiterlimitProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-miterlimit’">‘stroke-miterlimit’</span></a>, <a href="painting.html#StrokeOpacityProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-opacity’">‘stroke-opacity’</span></a>, <a href="painting.html#StrokeWidthProperty"><span class="attr-name" title="Presentation attribute for property ‘stroke-width’">‘stroke-width’</span></a>, <a href="text.html#TextAnchorProperty"><span class="attr-name" title="Presentation attribute for property ‘text-anchor’">‘text-anchor’</span></a>, <a href="text.html#TextDecorationProperty"><span class="attr-name" title="Presentation attribute for property ‘text-decoration’">‘text-decoration’</span></a>, <a href="painting.html#TextRenderingProperty"><span class="attr-name" title="Presentation attribute for property ‘text-rendering’">‘text-rendering’</span></a>, <a href="text.html#UnicodeBidiProperty"><span class="attr-name" title="Presentation attribute for property ‘unicode-bidi’">‘unicode-bidi’</span></a>, <a href="painting.html#VisibilityProperty"><span class="attr-name" title="Presentation attribute for property ‘visibility’">‘visibility’</span></a>, <a href="text.html#WordSpacingProperty"><span class="attr-name" title="Presentation attribute for property ‘word-spacing’">‘word-spacing’</span></a>, <a href="text.html#WritingModeProperty"><span class="attr-name" title="Presentation attribute for property ‘writing-mode’">‘writing-mode’</span></a></span></li><li><a href="styling.html#ClassAttribute"><span class="attr-name">‘class’</span></a></li><li><a href="styling.html#StyleAttribute"><span class="attr-name">‘style’</span></a></li><li><a href="struct.html#ExternalResourcesRequiredAttribute"><span class="attr-name">‘externalResourcesRequired’</span></a></li><li><a href="coords.html#TransformAttribute"><span class="attr-name">‘transform’</span></a></li><li><a href="shapes.html#PolygonElementPointsAttribute"><span class="attr-name">‘points’</span></a></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="shapes.html#InterfaceSVGPolygonElement">SVGPolygonElement</a></li></ul></dd></dl></div>
+
+    <div class="adef-list">
+      <p><em>Attribute definitions:</em></p>
+      <dl><dt id="PolygonElementPointsAttribute"><span class="adef">points</span> = "<span class="attr-value"><a href="shapes.html#PointsBNF">&lt;list-of-points&gt;</a></span>"</dt><dd>The points that make up the polygon. All coordinate
+        values are in the user coordinate system.<br/>
+         <span class="anim-target"><a href="animate.html#Animatable">Animatable</a>:
+        yes.</span></dd></dl>
+    </div>
+
+<p>If an odd number of coordinates is provided, then the element is in
+error, with the same user agent behavior as occurs with an incorrectly
+specified <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element.</p>
+
+<p>Mathematically, a <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a> element can be mapped to an
+equivalent <a href="paths.html#PathElement"><span class="element-name">‘path’</span></a> element as follows:</p>
+
+<ul><li>perform an absolute <a href="paths.html#PathDataMovetoCommands">moveto</a>
+  operation to the first coordinate pair in the list of points</li><li>for each subsequent coordinate pair, perform an absolute
+  <a href="paths.html#PathDataLinetoCommands">lineto</a> operation to that
+  coordinate pair</li><li>perform a <a href="paths.html#PathDataClosePathCommand">closepath</a>
+  command</li></ul>
+
+<p id="ExamplePolygon01"><span class="example-ref">Example
+polygon01</span> below specifies two polygons (a star and a hexagon) in
+the user coordinate system established by the <a href="coords.html#ViewBoxAttribute"><span class="attr-name">‘viewBox’</span></a> attribute
+on the <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a> element.</p>
+
+<pre class="xml">&lt;?xml version="1.0" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="12cm" height="4cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"&gt;
+  &lt;desc&gt;Example polygon01 - star and hexagon&lt;/desc&gt;
+
+  &lt;!-- Show outline of canvas using 'rect' element --&gt;
+  &lt;rect x="1" y="1" width="1198" height="398"
+        fill="none" stroke="blue" stroke-width="2" /&gt;
+
+  &lt;polygon fill="red" stroke="blue" stroke-width="10" 
+            points="350,75  379,161 469,161 397,215
+                    423,301 350,250 277,301 303,215
+                    231,161 321,161" /&gt;
+  &lt;polygon fill="lime" stroke="blue" stroke-width="10" 
+            points="850,75  958,137.5 958,262.5
+                    850,325 742,262.6 742,137.5" /&gt;
+&lt;/svg&gt;</pre><table summary="Example "><caption align="bottom">Example polygon01</caption><tr><td><img alt="Example polygon01 — star and hexagon" src="images/shapes/polygon01.png"/></td></tr></table><p class="view-as-svg"><a href="images/shapes/polygon01.svg">View this example as SVG (SVG-enabled browsers only)</a></p>
+
+
+
+<h3 id="PointsBNF">9.7.1 The grammar for points specifications in
+<span class="element-name">‘polyline’</span> and
+<span class="element-name">‘polygon’</span> elements</h3>
+
+<p>The following is the Extended Backus-Naur Form (EBNF) for points specifications
+in <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a> and <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a> elements. The following
+notation is used:</p>
+
+<ul><li>*: 0 or more</li><li>+: 1 or more</li><li>?: 0 or 1</li><li>(): grouping</li><li>|: separates alternatives</li><li>double quotes surround literals</li></ul>
+
+<pre>
+list-of-points:
+    wsp* coordinate-pairs? wsp*
+coordinate-pairs:
+    coordinate-pair
+    | coordinate-pair comma-wsp coordinate-pairs
+coordinate-pair:
+    coordinate comma-wsp coordinate
+    | coordinate negative-coordinate
+coordinate:
+    number
+number:
+    sign? integer-constant
+    | sign? floating-point-constant
+negative-coordinate:
+    "-" integer-constant
+    | "-" floating-point-constant
+comma-wsp:
+    (wsp+ comma? wsp*) | (comma wsp*)
+comma:
+    ","
+integer-constant:
+    digit-sequence
+floating-point-constant:
+    fractional-constant exponent?
+    | digit-sequence exponent
+fractional-constant:
+    digit-sequence? "." digit-sequence
+    | digit-sequence "."
+exponent:
+    ( "e" | "E" ) sign? digit-sequence
+sign:
+    "+" | "-"
+digit-sequence:
+    digit
+    | digit digit-sequence
+digit:
+    "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+wsp:
+    (#x20 | #x9 | #xD | #xA)+
+</pre>
+
+<h2 id="DOMInterfaces">9.8 DOM interfaces</h2>
+
+<h3 id="InterfaceSVGRectElement">9.8.1 Interface SVGRectElement</h3>
+
+
+
+ The <a class="idlinterface" href="shapes.html#InterfaceSVGRectElement">SVGRectElement</a> interface corresponds to the <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a>
+ element.
+<pre class="idl">interface <b>SVGRectElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGRectElement__x">x</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGRectElement__y">y</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGRectElement__width">width</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGRectElement__height">height</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGRectElement__rx">rx</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGRectElement__ry">ry</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGRectElement__x" class="attribute first-child"><b>x</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#RectElementXAttribute"><span class="attr-name">‘x’</span></a> on the given <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRectElement__y" class="attribute"><b>y</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#RectElementYAttribute"><span class="attr-name">‘y’</span></a> on the given <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRectElement__width" class="attribute"><b>width</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#RectElementWidthAttribute"><span class="attr-name">‘width’</span></a> on the given <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRectElement__height" class="attribute"><b>height</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#RectElementHeightAttribute"><span class="attr-name">‘height’</span></a> on the given <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRectElement__rx" class="attribute"><b>rx</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#RectElementRXAttribute"><span class="attr-name">‘rx’</span></a> on the given <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGRectElement__ry" class="attribute"><b>ry</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#RectElementRYAttribute"><span class="attr-name">‘ry’</span></a> on the given <a href="shapes.html#RectElement"><span class="element-name">‘rect’</span></a> element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGCircleElement">9.8.2 Interface SVGCircleElement</h3>
+
+
+
+ The <a class="idlinterface" href="shapes.html#InterfaceSVGCircleElement">SVGCircleElement</a> interface corresponds to the <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a>
+ element.
+<pre class="idl">interface <b>SVGCircleElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                             <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                             <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                             <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                             <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                             <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGCircleElement__cx">cx</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGCircleElement__cy">cy</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGCircleElement__r">r</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGCircleElement__cx" class="attribute first-child"><b>cx</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#CircleElementCXAttribute"><span class="attr-name">‘cx’</span></a> on the given <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGCircleElement__cy" class="attribute"><b>cy</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#CircleElementCYAttribute"><span class="attr-name">‘cy’</span></a> on the given <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGCircleElement__r" class="attribute"><b>r</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#CircleElementRAttribute"><span class="attr-name">‘r’</span></a> on the given <a href="shapes.html#CircleElement"><span class="element-name">‘circle’</span></a> element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGEllipseElement">9.8.3 Interface SVGEllipseElement</h3>
+
+
+
+ The <a class="idlinterface" href="shapes.html#InterfaceSVGEllipseElement">SVGEllipseElement</a> interface corresponds to the <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a>
+ element.
+<pre class="idl">interface <b>SVGEllipseElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGEllipseElement__cx">cx</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGEllipseElement__cy">cy</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGEllipseElement__rx">rx</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGEllipseElement__ry">ry</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGEllipseElement__cx" class="attribute first-child"><b>cx</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#EllipseElementCXAttribute"><span class="attr-name">‘cx’</span></a> on the given <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGEllipseElement__cy" class="attribute"><b>cy</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#EllipseElementCYAttribute"><span class="attr-name">‘cy’</span></a> on the given <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGEllipseElement__rx" class="attribute"><b>rx</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#EllipseElementRXAttribute"><span class="attr-name">‘rx’</span></a> on the given <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGEllipseElement__ry" class="attribute"><b>ry</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#EllipseElementRYAttribute"><span class="attr-name">‘ry’</span></a> on the given <a href="shapes.html#EllipseElement"><span class="element-name">‘ellipse’</span></a> element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGLineElement">9.8.4 Interface SVGLineElement</h3>
+
+
+
+ The <a class="idlinterface" href="shapes.html#InterfaceSVGLineElement">SVGLineElement</a> interface corresponds to the <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a>
+ element.
+<pre class="idl">interface <b>SVGLineElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                           <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a> {
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGLineElement__x1">x1</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGLineElement__y1">y1</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGLineElement__x2">x2</a>;
+  readonly attribute <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a> <a href="shapes.html#__svg__SVGLineElement__y2">y2</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGLineElement__x1" class="attribute first-child"><b>x1</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#LineElementX1Attribute"><span class="attr-name">‘x1’</span></a> on the given <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGLineElement__y1" class="attribute"><b>y1</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#LineElementY1Attribute"><span class="attr-name">‘y1’</span></a> on the given <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGLineElement__x2" class="attribute"><b>x2</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#LineElementX2Attribute"><span class="attr-name">‘x2’</span></a> on the given <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element.
+</div></dd>
+<dt id="__svg__SVGLineElement__y2" class="attribute"><b>y2</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="types.html#InterfaceSVGAnimatedLength">SVGAnimatedLength</a>)</span></dt><dd class="attribute"><div>
+ Corresponds to attribute <a href="shapes.html#LineElementY2Attribute"><span class="attr-name">‘y2’</span></a> on the given <a href="shapes.html#LineElement"><span class="element-name">‘line’</span></a> element.
+</div></dd></dl></dd></dl>
+
+
+<h3 id="InterfaceSVGAnimatedPoints">9.8.5 Interface SVGAnimatedPoints</h3>
+
+
+ <p>The <a class="idlinterface" href="shapes.html#InterfaceSVGAnimatedPoints">SVGAnimatedPoints</a> interface supports elements which have a
+ <span class="attr-name">‘points’</span> attribute which holds a list of
+ coordinate values and which support the ability to animate that
+ attribute.</p>
+
+ <p>Additionally, the <span class="attr-name">‘points’</span> attribute on
+ the original element accessed via the XML DOM (e.g., using the
+ <code>getAttribute()</code> method call) will reflect any changes made to
+ <a class="idlattr" href="#__svg__SVGAnimatedPoints__points">points</a>.</p>
+<pre class="idl">interface <b>SVGAnimatedPoints</b> {
+  readonly attribute <a class="idlinterface" href="coords.html#InterfaceSVGPointList">SVGPointList</a> <a href="shapes.html#__svg__SVGAnimatedPoints__points">points</a>;
+  readonly attribute <a class="idlinterface" href="coords.html#InterfaceSVGPointList">SVGPointList</a> <a href="shapes.html#__svg__SVGAnimatedPoints__animatedPoints">animatedPoints</a>;
+};</pre><dl class="interface"><dt class="attributes-header">Attributes:</dt><dd><dl class="attributes">
+<dt id="__svg__SVGAnimatedPoints__points" class="attribute first-child"><b>points</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="coords.html#InterfaceSVGPointList">SVGPointList</a>)</span></dt><dd class="attribute"><div>
+ Provides access to the base (i.e., static) contents of the
+ <span class="attr-name">‘points’</span> attribute.
+</div></dd>
+<dt id="__svg__SVGAnimatedPoints__animatedPoints" class="attribute"><b>animatedPoints</b><span class="idl-type-parenthetical"> (readonly <a class="idlinterface" href="coords.html#InterfaceSVGPointList">SVGPointList</a>)</span></dt><dd class="attribute"><div>
+ Provides access to the current animated contents of the
+ <span class="attr-name">‘points’</span> attribute. If the given attribute
+ or property is being animated, contains the current animated value of
+ the attribute or property. If the given attribute or property is not
+ currently being animated, contains the same value as <a class="idlattr" href="#__svg__SVGAnimatedPoints__points">points</a>.
+</div></dd></dl></dd></dl>
+
+<h3 id="InterfaceSVGPolylineElement">9.8.6 Interface SVGPolylineElement</h3>
+
+
+
+ The <a class="idlinterface" href="shapes.html#InterfaceSVGPolylineElement">SVGPolylineElement</a> interface corresponds to the <a href="shapes.html#PolylineElement"><span class="element-name">‘polyline’</span></a>
+ element.
+<pre class="idl">interface <b>SVGPolylineElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                               <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a>,
+                               <a class="idlinterface" href="shapes.html#InterfaceSVGAnimatedPoints">SVGAnimatedPoints</a> {
+};</pre>
+
+
+<h3 id="InterfaceSVGPolygonElement">9.8.7 Interface SVGPolygonElement</h3>
+
+
+
+ The <a class="idlinterface" href="shapes.html#InterfaceSVGPolygonElement">SVGPolygonElement</a> interface corresponds to the <a href="shapes.html#PolygonElement"><span class="element-name">‘polygon’</span></a>
+ element.
+<pre class="idl">interface <b>SVGPolygonElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGTests">SVGTests</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGLangSpace">SVGLangSpace</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGExternalResourcesRequired">SVGExternalResourcesRequired</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGStylable">SVGStylable</a>,
+                              <a class="idlinterface" href="types.html#InterfaceSVGTransformable">SVGTransformable</a>,
+                              <a class="idlinterface" href="shapes.html#InterfaceSVGAnimatedPoints">SVGAnimatedPoints</a> {
+};</pre>
+
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="paths.html">Previous</a> ⋅ <a href="text.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>

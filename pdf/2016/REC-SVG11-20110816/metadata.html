@@ -1,0 +1,145 @@
+<!--
+  Scalable Vector Graphics (SVG) 1.1 (Second Edition)
+  Chapter 21: Metadata
+
+  $Id: metadata.html,v 1.86 2011/08/10 02:10:31 cmccorma Exp $
+
+  Note: This document is generated from ../master/metadata.html.
+  Run "make" from ../master/ to regenerate it.
+  -->
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><title>Metadata – SVG 1.1 (Second Edition)</title><link rel="stylesheet" type="text/css" media="screen" href="style/svg-style.css"/><link rel="stylesheet" href="style/W3C-REC.css" type="text/css" media="screen"/></head><body><div class="header top"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="fonts.html">Previous</a> ⋅ <a href="backward.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div>
+
+<h1>21 Metadata</h1><h2 id="toc">Contents</h2><ul class="toc">
+<li><a href="#Introduction">21.1 Introduction</a></li>
+<li><a href="#MetadataElement">21.2 The <span class="element-name">‘metadata’</span> element</a></li>
+<li><a href="#Example">21.3 An example</a></li>
+<li><a href="#DOMInterfaces">21.4 DOM interfaces</a><ul class="toc">
+<li><a href="#InterfaceSVGMetadataElement">21.4.1 Interface SVGMetadataElement</a></li></ul></li></ul>
+
+<h2 id="Introduction">21.1 Introduction</h2>
+     
+    <p>Metadata is structured data about data.</p>
+    <p>In the computing industry, there are ongoing standardization
+    efforts towards metadata with the goal of promoting industry
+    interoperability and efficiency. Content creators should track
+    these developments and include appropriate metadata in their
+    SVG content which conforms to these various metadata standards
+    as they emerge.</p>
+    <p>The W3C has a <a href="http://www.w3.org/2001/sw/Activity">Semantic Web
+    Activity</a> which has been established to serve a leadership
+    role, in both the design of enabling specifications and the
+    open, collaborative development of technologies that support
+    the automation, integration and reuse of data across various
+    applications. The Semantic Web Activity builds upon the earlier
+    W3C Metadata Activity, including the definition of Resource
+    Description Framework (RDF). The
+    <a href="http://www.w3.org/TR/2004/REC-rdf-primer-20040210/"><cite>RDF Primer</cite></a>
+    is the first in a set of six documents that define the Resource Description Framework
+    [<a href="refs.html#ref-RDF-PRIMER">RDF-PRIMER</a>].</p>
+    <p>Another activity relevant to most applications of metadata
+    is the <a href="http://dublincore.org/">Dublin Core</a>
+    [<a href="refs.html#ref-DCORE">DCORE</a>], which is
+    a set of generally applicable core metadata properties (e.g.,
+    Title, Creator/Author, Subject, Description, etc.).</p>
+    <p>Individual industries or individual content creators are
+    free to define their own metadata schema but are encouraged to
+    follow existing metadata standards and use standard metadata
+    schema wherever possible to promote interchange and
+    interoperability. If a particular standard metadata schema does
+    not meet your needs, then it is usually better to define an
+    additional metadata schema in an existing framework such as RDF
+    and to use custom metadata schema in combination with standard
+    metadata schema, rather than totally ignore the standard
+    schema.</p>
+
+<h2 id="MetadataElement">21.2 The <span class="element-name">‘metadata’</span> element</h2>
+
+    <p>Metadata which is included with SVG content should be
+    specified within <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>
+    elements. The contents of the <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a> should be elements from
+    other XML namespaces, with these elements from these namespaces
+    expressed in a manner conforming with the <a href="http://www.w3.org/TR/2006/REC-xml-names-20060816/"><cite>Namespaces in XML</cite></a> Recommendation
+    [<a href="refs.html#ref-XML-NS">XML-NS</a>].</p>
+    <p>Authors should provide a <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a> child element to the
+    <a href="intro.html#TermOutermostSVGElement"><span class="svg-term">outermost svg element</span></a> within a
+    stand-alone SVG document. The <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a> child element to an <a href="struct.html#SVGElement"><span class="element-name">‘svg’</span></a> element serves the
+    purposes of identifying document-level metadata.</p>
+    <p>The DTD definitions of many of SVG's elements (particularly,
+    container and text elements) place no restriction on the
+    placement or number of the <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a> sub-elements. This
+    flexibility is only present so that there will be a consistent
+    content model for container elements, because some container
+    elements in SVG allow for mixed content, and because <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#sec-mixed-content">the mixed
+    content rules for XML</a> ([<a href="refs.html#ref-XML10">XML10</a>], section 3.2.2)
+    do not permit the desired restrictions. Representations of
+    future versions of the SVG language might use more expressive
+    representations than DTDs which allow for more restrictive
+    mixed content rules. It is strongly recommended that at most
+    one <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a> element appear
+    as a child of any particular element, and that this element
+    appear before any other child elements (except possibly <a href="struct.html#DescElement"><span class="element-name">‘desc’</span></a> or
+    <a href="struct.html#TitleElement"><span class="element-name">‘title’</span></a> elements) or character
+    data content. If metadata-processing user agents need to choose
+    among multiple <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>
+    elements for processing it should choose the first one.</p>
+
+<div class="element-summary"><div class="element-summary-name"><span class="element-name">‘metadata’</span></div><dl><dt>Categories:</dt><dd><a href="intro.html#TermDescriptiveElement">Descriptive element</a></dd><dt>Content model:</dt><dd>
+                Any elements or character data.
+              </dd><dt>Attributes:</dt><dd><ul class="no-bullets"><li><a href="intro.html#TermCoreAttributes">core attributes</a><span class="expanding"> — <a href="struct.html#IDAttribute"><span class="attr-name">‘id’</span></a>, <a href="struct.html#XMLBaseAttribute"><span class="attr-name">‘xml:base’</span></a>, <a href="struct.html#XMLLangAttribute"><span class="attr-name">‘xml:lang’</span></a>, <a href="struct.html#XMLSpaceAttribute"><span class="attr-name">‘xml:space’</span></a></span></li></ul></dd><dt>DOM Interfaces:</dt><dd><ul class="no-bullets"><li><a class="idlinterface" href="metadata.html#InterfaceSVGMetadataElement">SVGMetadataElement</a></li></ul></dd></dl></div>
+
+<h2 id="Example">21.3 An example</h2>
+
+    <p>Here is an example of how metadata can be included in an SVG
+    document. The example uses the Dublin Core version 1.1 schema.
+    (Other XML-compatible metadata languages, including ones not
+    based on RDF, can be used also.)</p>
+<pre>
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;svg width="4in" height="3in" version="1.1"
+    xmlns = 'http://www.w3.org/2000/svg'&gt;
+    &lt;desc xmlns:myfoo="http://example.org/myfoo"&gt;
+      &lt;myfoo:title&gt;This is a financial report&lt;/myfoo:title&gt;
+      &lt;myfoo:descr&gt;The global description uses markup from the
+        &lt;myfoo:emph&gt;myfoo&lt;/myfoo:emph&gt; namespace.&lt;/myfoo:descr&gt;
+      &lt;myfoo:scene&gt;&lt;myfoo:what&gt;widget $growth&lt;/myfoo:what&gt;
+      &lt;myfoo:contains&gt;$three $graph-bar&lt;/myfoo:contains&gt;
+        &lt;myfoo:when&gt;1998 $through 2000&lt;/myfoo:when&gt; &lt;/myfoo:scene&gt;
+   &lt;/desc&gt;
+    &lt;metadata&gt;
+      &lt;rdf:RDF
+           xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+           xmlns:rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+           xmlns:dc = "http://purl.org/dc/elements/1.1/" &gt;
+        &lt;rdf:Description about="http://example.org/myfoo"
+             dc:title="MyFoo Financial Report"
+             dc:description="$three $bar $thousands $dollars $from 1998 $through 2000"
+             dc:publisher="Example Organization"
+             dc:date="2000-04-11"
+             dc:format="image/svg+xml"
+             dc:language="en" &gt;
+          &lt;dc:creator&gt;
+            &lt;rdf:Bag&gt;
+              &lt;rdf:li&gt;Irving Bird&lt;/rdf:li&gt;
+              &lt;rdf:li&gt;Mary Lambert&lt;/rdf:li&gt;
+            &lt;/rdf:Bag&gt;
+          &lt;/dc:creator&gt;
+        &lt;/rdf:Description&gt;
+      &lt;/rdf:RDF&gt;
+    &lt;/metadata&gt;
+&lt;/svg&gt;
+</pre>
+
+<h2 id="DOMInterfaces">21.4 DOM interfaces</h2>
+
+<h3 id="InterfaceSVGMetadataElement">21.4.1 Interface SVGMetadataElement</h3>
+
+
+ The <a class="idlinterface" href="metadata.html#InterfaceSVGMetadataElement">SVGMetadataElement</a> interface corresponds to the <a href="metadata.html#MetadataElement"><span class="element-name">‘metadata’</span></a>
+ element.
+<pre class="idl">interface <b>SVGMetadataElement</b> : <a class="idlinterface" href="types.html#InterfaceSVGElement">SVGElement</a> {
+};</pre>
+
+<div class="header bottom"><span class="namedate">SVG 1.1 (Second Edition) – 16 August 2011</span><a href="Overview.html">Top</a> ⋅ <a href="expanded-toc.html">Contents</a> ⋅ <a href="fonts.html">Previous</a> ⋅ <a href="backward.html">Next</a> ⋅ <a href="eltindex.html">Elements</a> ⋅ <a href="attindex.html">Attributes</a> ⋅ <a href="propidx.html">Properties</a></div><script src="style/expanders.js" type="text/javascript"> </script></body></html>
