@@ -31,4 +31,6 @@ window.onload = copyRightYear();
 
 https://cdn.xgqfrms.xyz/plugins/getfullyear.js
 
+<script src="https://cdn.xgqfrms.xyz/plugins/getfullyear.js
+" aysnc></script>
 */
