@@ -17,7 +17,7 @@ const copyRightYear = () => {
     let copyYear = Symbol();
     copyYear = new Date().getFullYear();
     const spanYear = document.getElementById('spanYear')
-    return spanYear.innerHTML = `copyright &copy; ${copyYear} xgqfrms`;
+    return spanYear.innerHTML = `Copyright &copy; ${copyYear} xgqfrms`;
 }
 window.onload = copyRightYear();
 
