@@ -23,5 +23,12 @@ window.onload = copyRightYear();
 
 
 
+// IIFE
 
 
+/*
+<p><span ><mark id="spanYear"></mark></span></p>
+
+https://cdn.xgqfrms.xyz/plugins/getfullyear.js
+
+*/
