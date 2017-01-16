@@ -1,8 +1,10 @@
 ###### [:octocat:www.emoji-cheat-sheet.com](http://www.emoji-cheat-sheet.com)
 # cdn 
-## [website] (https://xgqfrms.github.io/cdn/index.html)
-## [website] (http://cdn.xgqfrms.xyz/index.html)
+
+## [website] (https://cdn.xgqfrms.xyz/index.html)
+
 ## CDN for everyone who want speed his website!
+
 * license under CC licensing!
 
 # Disclaimer
