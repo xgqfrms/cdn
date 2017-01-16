@@ -1,0 +1,9 @@
+@media all{
+    body{
+        overflow: hidden;
+        box-sizing: border-content;
+        display: flex;
+        min-width:320px;
+    }
+}
+
