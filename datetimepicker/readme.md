@@ -16,9 +16,14 @@ http://www.malot.fr/bootstrap-datetimepicker/
 
 http://www.malot.fr/bootstrap-datetimepicker/demo.php
 
-# 
+# cdn
 
 https://cdn.xgqfrms.xyz/
+
+
+```js
+zzz = new Date().toISOString().substr(0,10);
+```
 
 
 
