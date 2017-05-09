@@ -56,7 +56,9 @@ https://cdnjs.com/libraries/bootstrap-datetimepicker
             (function(){
                 let xxx = new Date().toISOString().substr(0,10);
                 let yyy = document.querySelector('#start_time');
+                let zzz = document.querySelector('#end_time');
                 yyy.value = xxx;
+                zzz.value = xxx;
             })();
         });
         /*
@@ -65,9 +67,13 @@ https://cdnjs.com/libraries/bootstrap-datetimepicker
         https://learn.jquery.com/using-jquery-core/document-ready/
         */
     </script>
+    <!-- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css" />
+     -->
 </body>
 </html>
-
 
 
 
