@@ -5,7 +5,20 @@ https://github.com/smalot/bootstrap-datetimepicker
 
 https://cdnjs.com/libraries/bootstrap-datetimepicker
 
+![bootstrap-datetimepicker](https://cloud.githubusercontent.com/assets/18028768/25847769/1232647c-34ea-11e7-86e2-eff7d88f765b.png)
 
+
+https://eonasdan.github.io/bootstrap-datetimepicker/
+
+
+
+http://www.malot.fr/bootstrap-datetimepicker/
+
+http://www.malot.fr/bootstrap-datetimepicker/demo.php
+
+# 
+
+https://cdn.xgqfrms.xyz/
 
 
 
