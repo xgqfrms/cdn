@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * https://cdn.xgqfrms.xyz/es6-modules/crossorigin.js
+ * xgqfrms
+ * 2017.06.02
+ */
 
 // check & add crossorigin="anonymous"
 
