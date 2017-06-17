@@ -233,10 +233,11 @@ function goo(curr,adv_id){
 	
 	
 		请选择报告语种：
-        <a href="http://www.chsi.com.cn/xlcx/bg.do?vcode=980699819217&amp;lang=CN&amp;srcid=qrcode" class="current">中文</a>  <a href="http://www.chsi.com.cn/xlcx/bg.do?vcode=980699819217&amp;srcid=qrcode#" id="openerHref">英文</a>
+        <a href="https://cdn.xgqfrms.xyz/xlcx/index.html?vcode=980699819218&lang=CN&srcid=qrcode" class="current">中文</a>
+    <a href="https://cdn.xgqfrms.xyz/xlcx/index.html?vcode=980699819218&lang=CN&srcid=qrcode" id="openerHref">英文</a>
         <div id="noenreport" title="申请英文版">
         	<span class="noenreportArrow"></span>
-            <a href="http://www.chsi.com.cn/xlcx/bg.do?vcode=980699819217&amp;srcid=qrcode#" class="newLayerClose" title="关闭"></a>
+            <a href="https://cdn.xgqfrms.xyz/xlcx/index.html?vcode=980699819218&srcid=qrcode#" class="newLayerClose" title="关闭"></a>
             <strong>该备案表尚无对应的英文版，如需申请，请按照如下步骤操作：</strong><br>1、登录学信档案；<br>2、进入在线验证栏目；<br>3、点击该备案表后的“申请英文版”链接；<br>4、根据提示缴费和核对信息后，待系统审核；<br>5、审核通过后，即可查看英文版。&nbsp;&nbsp;<a href="http://www.chsi.com.cn/xlcx/rhsq.jsp#rhsqxl_en" target="_blank" style="color:#06C;">查看详情 &gt;&gt;</a>
         </div>
 	
@@ -472,11 +473,11 @@ $(".newLayerClose").click(function(){
 	});	
 	
 	$("#emailButton").click(function(){
-		sendEmail("/report/xueli/email.do?vcode=980699819217&amp;rid=49307385667197479366411598464059&amp;ln=cn")
+		sendEmail("https://cdn.xgqfrms.xyz/xlcx/index.html?vcode=980699819218&lang=CN&srcid=qrcode")
 		_gaq.push(['_trackEvent','onlinereport','email','cn',1,false]);
 	});
 	$("#emailButton_en").click(function(){
-		sendEmail("/report/xueli/email.do?vcode=980699819217&amp;rid=49307385667197479366411598464059&amp;ln=cn")
+		sendEmail("https://cdn.xgqfrms.xyz/xlcx/index.html?vcode=980699819218&lang=CN&srcid=qrcode")
 		_gaq.push(['_trackEvent','onlinereport','email','en',1,false]);
 	});
 
