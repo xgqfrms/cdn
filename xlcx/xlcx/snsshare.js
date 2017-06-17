@@ -10,7 +10,7 @@ function SnsShare(id,uid) {
     this.html = '<img class="share_imgl" src="http://t1.chsi.com.cn/common/images/shareto.png" /><span class="share_text">分享到：</span><ul><li><a title="新浪微博" class="sinawb" href="javascript:void(0);">新浪微博</a></li><li><a title="QQ空间" class="qqkj" href="javascript:void(0);">QQ空间</a></li><li><a title="腾讯微博" class="qqwb" href="javascript:void(0);">腾讯微博</a></li><li class="wx_part"><a class="qqwx" href="javascript:void(0);">微信</a><span class="wx_code"><span class="qrcode"></span><span class="wx_text">用微信扫描二维码<br/>分享至好友和朋友圈</span></span></li></ul>';
     this.recordUrl = "http://www.chsi.com.cn/snsshare.jsp";
     this.recordFlag = true;
-    this.ewm_img = '<img src="http://www.chsi.com.cn/qrcodeImg.do" alt="二维码" />';
+    this.ewm_img = '<img src="https://cdn.xgqfrms.xyz/xlcx/xlcx/349307138q566271974ca79366411f1598c4640599.jpg" alt="二维码" />';
     this.topic="";
 }
 SnsShare.prototype = {
