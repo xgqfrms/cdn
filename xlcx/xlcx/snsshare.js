@@ -1,9 +1,3 @@
-/**
- * 用法见wiki文档：http://jira.chsi.com.cn/wiki/pages/viewpage.action?pageId=3671974
- * 
- * @param id 要显示分享按钮的容器的Id
- * @param uid 分享的注册用户，可以为空
- */
 function SnsShare(id,uid) {
     this.cid = id;
     this.userId = uid;
