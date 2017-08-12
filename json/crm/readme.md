@@ -1,6 +1,6 @@
 fund.f9.fund_profile.FundManager.BasicInformations
 
-```json
+```md
 
 output
 {'Admin':'report','Action':'GetRowSchema','WriteType':'json','ReportName':'fund.f9.fund_profile.FundManager.BasicInformations'}
