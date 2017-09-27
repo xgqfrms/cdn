@@ -24,3 +24,7 @@ https://github.com/xgqfrms/cdn/blob/gh-pages/sw.js
 ## The licensor cannot revoke these freedoms as long as you follow the license terms.
 
 
+# MIT LICENSE
+
+https://opensource.org/licenses/MIT
+
