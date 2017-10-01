@@ -1,7 +1,7 @@
 // utils.js
 export function addTextToBody(text) {
     const div = document.createElement('div');
-    div.textContent = text;
+    div.textContent = `some text`;
     document.body.appendChild(div);
 }
 
