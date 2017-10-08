@@ -4,19 +4,20 @@ window.onload = (() => {
         alert("After 3s, Auto goto URL\n => \n https://es6.xgqfrms.xyz/ ");
     */
     const arr = ["www", "es6", "ajax", "app", "blogs", "ng2-app", "cdn"];
-    // ???
-    let redirection = () => {
+    // https://regexper.com/#%2F%5Ehttps%3A%5C%2F%5C%2F%5Ba-zA-Z%5D%7B3%2C%7D%5C.xgqfrms%5C.xyz%24%2Fgi
+    const redirection = () => {
         let http = `http://${arr[0]}.xgqfrms.xyz/`,
             https = `https://${arr[0]}.xgqfrms.xyz/`,
             regex = /^https:\/\/[a-zA-Z]{3,}\.xgqfrms\.xyz$/gi,
-            result = regex.test(window.location);
+            // window.location.origin
+            result = regex.test(window.location.origin);
             // true
         if (!result) {
             // window.location = http + '/#body/' + result[1] + '#' + result[2];
-            window.location = https;
+            window.location.protocol = https;
         } else {
-            // window.location = http;
-            console.log(`window.location = https;`);
+            // window.location.protocol
+            console.log(`window.location.protocol = \n`, window.location.protocol);
         }
     }
     redirection();
@@ -69,6 +70,8 @@ https://msdn.microsoft.com/zh-cn/library/ms533022(v=vs.85).aspx
 
 */
 
+/*
+
 if(result) {
     console.log(`window.location = https`);
 } else {
@@ -83,6 +86,7 @@ null == null
 null === null
 // true
 
+*/
 
 
 
