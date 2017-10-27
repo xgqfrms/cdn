@@ -13,7 +13,7 @@ const css_fd = `
 // callback function
 onmessage = function (e){
     // let id = e.data;//通过evt.data获得发送来的数据
-    console.log(`%c 主线程 e = `, css, e);
+    console.log(`主线程 e = `, e);
     // MessageEvent {isTrusted: true, data: "hello world", origin: "", lastEventId: "", source: null, …}
     // data: "https://cdn.xgqfrms.xyz/json/xgqfrms.json"
 
@@ -24,14 +24,14 @@ onmessage = function (e){
     // const url = `https://cdn.xgqfrms.xyz/json/xgqfrms.json`;
     let url = e.data;
     // decodeURI()
-    console.log(`%c 主线程 url = \n`, css, `"${url}"`);
+    console.log(`主线程 url = \n`, `"${url}"`);
     fetch(url = `https://cdn.xgqfrms.xyz/json/xgqfrms.json`)
     .then(res => res.json())// SyntaxError: Unexpected token / in JSON at position 0 at fetch.then.res (worker.js:18)
     .then(
         (json) => {
             // console.log(`fetched json = \n`, JSON.stringify(json, null, 4));
             let userInfos = json.user;
-            console.log(`%c userInfos = \n`, css_fd, JSON.stringify(userInfos, null, 4));
+            console.log(`userInfos = \n`, JSON.stringify(userInfos, null, 4));
             datas.push(userInfos);
             postMessage(userInfos);
             // 将获取的数据发送到主线程
