@@ -10,6 +10,9 @@ https://github.com/gildata/RAIO/issues/283#issuecomment-356011836
 
 https://learning.xgqfrms.xyz/webpack-next/000-xyz/no-jquery-modal/modal/company-news.html
 
+https://learning.xgqfrms.xyz/webpack-next/000-xyz/no-jquery-modal/modal/libs/test.html#
+
+
 
 
 ## no news datas ???
