@@ -4,7 +4,7 @@
  * @author xgqfrm 2018.07.07
  * @license MIT
  * @link http://github.com/rubaxa/Sortable
- *
+ * @cdn https://cdn.xgqfrms.xyz/Sortable/sortable.min.js
  */
 
 (function sortableModule(factory) {
