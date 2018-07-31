@@ -7,3 +7,8 @@ https://hammerjs.github.io/getting-started/
     // todo
 
 ```
+
+https://hammerjs.github.io/dist/hammer.js
+
+https://hammerjs.github.io/dist/hammer.min.js
+
