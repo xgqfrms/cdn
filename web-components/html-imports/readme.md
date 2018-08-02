@@ -1,6 +1,10 @@
 # html-imports
 
-> bug
+> preload bug & imports bug
+
+https://cdn.xgqfrms.xyz/web-components/html-imports/index.html
+
+
 
 ## polyfill
 
