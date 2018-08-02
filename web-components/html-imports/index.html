@@ -9,11 +9,15 @@
     <meta name="generator" content="VS code">
     <title>H5 html template</title>
     <!-- firefox bug -->
+    <!-- polyfill & preload -->
+    <!-- <link rel="preload" href="./webcomponents-hi-sd-ce.min.js" as="script"> -->
+    <script src="./webcomponents-hi-sd-ce.min.js"></script>
+    <!-- <link rel="preload" href="style.css" as="style"> -->
 </head>
 
 <body>
     <section>
-        <h1>H5 html template</h1>
+        <h1>H5 html template & preload && delay</h1>
     </section>
     <section data-test="html-template">
         <!-- test -->
@@ -25,8 +29,6 @@
             <!-- templates -->
         </section>
     </section>
-    <!-- polyfill -->
-    <script src="./webcomponents-hi-sd-ce.min.js"></script>
     <!-- js -->
     <script>
         // no need jQuery
@@ -57,21 +59,29 @@
             }
         };
         const showDOM = (uid = `full-width`) => {
-                let container = $.qs(`[data-test="html-template"]`),
-                    temp = $.qs(`[data-template="template-containers-${uid}"]`),
-                    clone = temp ? temp.content.cloneNode(true) : null;
-                if (clone) {
-                    container.appendChild(clone);
-                }
+            let container = $.qs(`[data-test="html-template"]`),
+                temp = $.qs(`[data-template="template-containers-${uid}"]`),
+                clone = temp ? temp.content.cloneNode(true) : null;
+            if (clone) {
+                container.appendChild(clone);
             }
-            // DOM fully loaded and parsed!
-        document.addEventListener("DOMContentLoaded", () => {
-            loadTemplate();
-        });
-        window.onload = () => {
-            // init
-            showDOM();
         };
+        // DOM fully loaded and parsed!
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                // preload && delay
+                loadTemplate();
+                // init
+                showDOM();
+            }, 100);
+        });
+        // window.onload = () => {
+        //     setTimeout(() => {
+        //         loadTemplate();
+        //         // init
+        //         showDOM();
+        //     }, 1000);
+        // };
     </script>
 </body>
 
