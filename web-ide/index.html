@@ -10,11 +10,16 @@
     <title>ACE in Action</title>
     <style type="text/css" media="screen">
         #editor {
-            position: absolute;
+            /* position: absolute; */
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
+        }
+        
+        #editor {
+            width: 500px;
+            height: 300px;
         }
     </style>
 </head>
@@ -26,6 +31,11 @@
         </h1>
     </section>
     <!-- https://github.com/ajaxorg/ace-builds/tree/master/src-min-noconflict -->
+    <section>
+        <button data-btn="edit">编辑</button>
+        <button data-btn="save">保存</button>
+        <button data-btn="cancel">取消</button>
+    </section>
     <pre>
 <div id="editor">
     function foo(items) {
@@ -35,19 +45,37 @@
 </div>
     </pre>
     <!-- libs -->
-    <script src="https://cdn.xgqfrms.xyz/web-ide/ace.js" type="text/javascript" charset="utf-8"></script>
-    <!-- <script src="./ace.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- <script src="https://cdn.xgqfrms.xyz/web-ide/ace.js" type="text/javascript" charset="utf-8"></script> -->
+    <script src="./ace.js" type="text/javascript" charset="utf-8"></script>
     <!-- js -->
     <script>
         let editor = ace.edit("editor");
+        editor.setReadOnly(true);
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/javascript");
-        setTimeout(() => {
-            const ace = document.querySelector(`.ace_content`);
-            let text = ace.innerText;
-            let html = ace.innerHTML;
+        const ace_content = document.querySelector(`.ace_content`);
+        let initial_text = ace_content.innerText;
+        const showText = () => {
+            let text = ace_content.innerText,
+                html = ace_content.innerHTML;
             console.log(`text =\n`, text);
-        }, 1000);
+        };
+        let edit_btn = document.querySelector(`[data-btn="edit"]`),
+            save_btn = document.querySelector(`[data-btn="save"]`),
+            cancel_btn = document.querySelector(`[data-btn="cancel"]`);
+        edit_btn.addEventListener(`click`, () => {
+            editor.setReadOnly(false);
+        });
+        save_btn.addEventListener(`click`, () => {
+            editor.setReadOnly(false);
+            showText();
+            // update data
+            initial_text = ace_content.innerText;
+        });
+        cancel_btn.addEventListener(`click`, () => {
+            editor.setReadOnly(false);
+            ace_content.innerText = initial_text;
+        });
     </script>
 </body>
 
