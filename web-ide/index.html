@@ -54,10 +54,11 @@
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/javascript");
         const ace_content = document.querySelector(`.ace_content`);
-        let initial_text = ace_content.innerText;
+        const ace_box = document.querySelector(`#editor`);
+        let initial_html = ``;
+        // let initial_text = ``;
         const showText = () => {
-            let text = ace_content.innerText,
-                html = ace_content.innerHTML;
+            let text = ace_content.innerText;
             console.log(`text =\n`, text);
         };
         let edit_btn = document.querySelector(`[data-btn="edit"]`),
@@ -65,16 +66,25 @@
             cancel_btn = document.querySelector(`[data-btn="cancel"]`);
         edit_btn.addEventListener(`click`, () => {
             editor.setReadOnly(false);
+            initial_html = ace_box.innerHTML;
+            // initial_html = ace_content.innerHTML;
+            // initial_text = ace_content.innerText;
+            console.log(`initial_html =\n`, initial_html);
+            // console.log(`initial_text =\n`, initial_text);
         });
         save_btn.addEventListener(`click`, () => {
-            editor.setReadOnly(false);
-            showText();
             // update data
-            initial_text = ace_content.innerText;
+            initial_html = ace_box.innerHTML;
+            // initial_html = ace_content.innerHTML;
+            // initial_text = ace_content.innerText;
+            showText();
+            editor.setReadOnly(true);
         });
         cancel_btn.addEventListener(`click`, () => {
-            editor.setReadOnly(false);
-            ace_content.innerText = initial_text;
+            ace_box.innerHTML = initial_html;
+            // ace_content.innerHTML = initial_html;
+            // ace_box.innerText = initial_text;
+            editor.setReadOnly(true);
         });
     </script>
 </body>
