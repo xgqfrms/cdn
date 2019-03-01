@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="xgqfrms">
     <meta name="generator" content="VS code">
-    <title>links</title>
+    <title>window.open() & iframe</title>
     <style>
         [data-dom="alink"]{
             color: #0f0;
@@ -91,6 +91,7 @@
                                 alink.dataset.onceFlag = true;
                                 alink.addEventListener(`click`, () => {
                                     let link = alink.dataset.link || ``;
+                                    alink.style.color = "#f00";
                                     autoOpenIframe(link);
                                 });
                             }
