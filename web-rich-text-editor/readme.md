@@ -2,6 +2,10 @@
 
 > CDN
 
+https://cdn.xgqfrms.xyz/web-rich-text-editor/ck-editor-v4.html
+
+https://cdn.xgqfrms.xyz/web-rich-text-editor/ck-editor-v5.html
+
 
 basic - the Basic preset
 standard - the Standard preset
