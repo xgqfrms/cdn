@@ -46,7 +46,8 @@ let config = {
     // Host: "cdn.xgqfrms.xyz",
     Host: "cdn.xgqfrms.xyz",
     // HTTPS
-    https: false,
+//     https: false,
+    https: true,
     isHttpDNS: true,
     // isMultiLoginSessions 是否开启多点登录
     isMultiLoginSessions: false,
