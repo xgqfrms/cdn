@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="xgqfrms">
+    <meta name="generator" content="VS code">
+    <!-- <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="icon" type="image/png" href="./favicon.png" /> -->
+    <title>user-tracking</title>
+</head>
+<body>
+    <section>
+        <h1>user-tracking</h1>
+        <!-- user-tracking.html -->
+        <a href="https://cdn.xgqfrms.xyz/api" ping="/log?foo=bar">
+            click ping
+        </a>
+    </section>
+    <!-- js -->
+    <script>
+        /*
+            https://www.ruanyifeng.com/blog/2019/04/user-tracking.html
+            https://github.com/ruanyf/user-tracking-demos
+            https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
+            https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval
+        */
+        window.addEventListener(`DOMContentLoaded`, (e) => {
+            console.log(`DOM fully loaded and parsed`);
+            let count = 0;
+            let intervalFlag = setInterval(() => {
+                navigator.sendBeacon(
+                `https://cdn.xgqfrms.xyz/api`,
+                {
+                    "user": "admin",
+                }
+                );
+                count ++;
+            }, 3000);
+            if(count > 100) {
+                clearInterval(intervalFlag);
+            }
+        });
+    </script>
+</body>
+</html>
