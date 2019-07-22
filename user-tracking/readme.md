@@ -9,6 +9,9 @@ https://davidwalsh.name/ping-attribute
 https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API
 
 
+> demo
+
+https://cdn.xgqfrms.xyz/user-tracking/index.html
 
 
 
