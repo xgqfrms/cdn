@@ -432,7 +432,7 @@ const autoShowReadData = () => {
 document.addEventListener(`autoReadStoreData`, autoShowReadData, false);
 
 window.addEventListener(`DOMContentLoaded`, (e) => {
-    // log(`DOM fully loaded and parsed!`, e);
+    log(`DOM fully loaded and parsed!`, e);
     IndexDBDemo();
     idbTest();
 });
@@ -506,3 +506,8 @@ const idb_operations = (idb, datas = []) => {
     };
 };
 
+(() => {
+    log(`IIFE function!`);
+    IndexDBDemo();
+    idbTest();
+})();
