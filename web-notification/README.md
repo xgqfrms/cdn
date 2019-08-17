@@ -92,3 +92,5 @@ https://i.stack.imgur.com/d84rw.png
 
 
 https://www.cnblogs.com/xgqfrms/p/11169370.html
+
+https://cdn.xgqfrms.xyz/web-notification/index.html
