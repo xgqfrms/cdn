@@ -6,4 +6,4 @@ https://cdn.xgqfrms.xyz/apple/ipados-buletooth-bug.mp4
 
 > feature / bug
 
-https://cdn.xgqfrms.xyz/apple/ipadpro-hidden-buletooth-bug.mp4
+https://cdn.xgqfrms.xyz/apple/ipadpro-hidden-bluetooth-bug.mp4
