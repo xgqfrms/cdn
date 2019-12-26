@@ -1,5 +1,7 @@
 # zrender cdn
 
+https://cdn.xgqfrms.xyz/svg/zrender/zrender.min.js
+
 
 https://raw.githubusercontent.com/ecomfe/zrender/master/dist/zrender.min.js
 
