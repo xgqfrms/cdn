@@ -1,11 +1,18 @@
 # zrender cdn
 
+https://cdn.xgqfrms.xyz/svg/zrender/zrender.js
+
 https://cdn.xgqfrms.xyz/svg/zrender/zrender.min.js
 
+> stats.js
 
-https://raw.githubusercontent.com/ecomfe/zrender/master/dist/zrender.min.js
+https://github.com/mrdoob/stats.js/
 
-https://raw.githubusercontent.com/ecomfe/zrender/master/dist/zrender.js
+![](https://raw.githubusercontent.com/mrdoob/stats.js/master/files/fps.png)
+
+## demo
+
+https://codepen.io/xgqfrms/pen/jOEGNvw?editors=1111
 
 
 ```html
