@@ -23,3 +23,8 @@ https://cdn.xgqfrms.xyz/svg/tada-flower.html
     // todo...
 
 ```
+
+## svg seat demo
+
+
+https://cdn.xgqfrms.xyz/svg/seat.svg
