@@ -17,6 +17,25 @@
 
 let log = console.log;
 
+(() => {
+  log('DOM fully loaded and parsed', `disabled copy`);
+
+  document.body.oncontextmenu = 
+  document.body.ondragstart = 
+  document.body.onselectstart = 
+  document.body.onbeforecopy = function() {
+    return false;
+  };
+
+  document.body.onselect = 
+  document.body.oncopy = 
+  document.body.onmouseup = function() {
+    document.selection.empty();
+  };
+})();
+
+/*
+
 window.addEventListener('DOMContentLoaded', (event) => {
   log('DOM fully loaded and parsed', `disabled copy`);
 
@@ -33,3 +52,5 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.selection.empty();
   };
 });
+
+*/
