@@ -22,9 +22,14 @@
     <title>free CDN by cdn.xgqfrms.xyz</title>
     <link rel="author" type="text/plain" href="https://cdn.xgqfrms.xyz/humans.txt" />
     <!-- preload & prefetch -->
-    <script rel="preload" href="./js-hacks/drc-drm.js" as="script"></script>
+    <link rel="preload"  href="./js-hacks/drc-drm.js" as="script">
+    <!-- <link rel="prefetch" href="https://cdn.xgqfrms.xyz/js-hacks/drc-drm.js" as="script"> -->
     <!-- 不会执行,必须js 操作 -->
-<!--     <script rel="preload" href="https://cdn.xgqfrms.xyz/js-hacks/drc-drm.js" as="script"></script> -->
+    <script>
+      const usedLaterScript = document.createElement('script');
+      usedLaterScript.src = './js-hacks/drc-drm.js';
+      document.body.appendChild(usedLaterScript);
+    </script>
     <style>
         .data-anchor {
             /* display: none; */
@@ -752,7 +757,9 @@
         </footer>
     </section>
     <script src="https://cdn.xgqfrms.xyz/plugins/getfullyear.js" async></script>
-    <script src="https://cdn.xgqfrms.xyz/js-hacks/drc-drm.js" async></script>
+    <!-- async & defer -->
+    <!-- <script src="https://cdn.xgqfrms.xyz/js-hacks/drc-drm.js" async></script> -->
+    <!-- <script src="https://cdn.xgqfrms.xyz/js-hacks/drc-drm.js" defer></script> -->
     <!-- js -->
     <div class="seo-plugins">
         <script>
