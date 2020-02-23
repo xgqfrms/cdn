@@ -54,6 +54,8 @@ function renderPosts(posts, container) {
     const posts = await fetch(url).then(res => res.json());
     log(`posts`, posts);
     const container = document.querySelector('#container');
+    const header = document.querySelector('header');
+    header.insertAdjacentHTML(`beforeend`, timestamp);
     const PRE_RENDERED = container.querySelector('#posts');
     // in case of duplication render
     if (!PRE_RENDERED) {
