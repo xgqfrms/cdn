@@ -2,6 +2,11 @@
 
 > poster template
 
+## demo
+
+https://cdn.xgqfrms.xyz/ssr/template/index.html
+
+
 https://cdn.xgqfrms.xyz/json/ssr/posts.json
 
 ***
