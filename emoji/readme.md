@@ -1,5 +1,6 @@
 # emoji
 
+https://cdn.xgqfrms.xyz/emoji/index.html
 
 > big-emoji.html
 
