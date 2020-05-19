@@ -15,7 +15,7 @@
  *
  */
 
-const log = console.log;
+// const log = console.log;
 
 log(`index.js`);
 
