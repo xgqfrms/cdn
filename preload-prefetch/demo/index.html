@@ -15,7 +15,17 @@
   <link rel="prefetch" as="style" onload="this.rel = 'stylesheet'" href="./prefetch.css">
   <!-- js -->
   <link rel="preload" as="script" href="./preload.js">
+  <script>
+    const usedLaterScript = document.createElement('script');
+    usedLaterScript.src = `./preload.js`;
+    document.body.appendChild(usedLaterScript);
+  </script>
   <link rel="prefetch" as="script" href="./prefetch.js">
+  <script>
+    const usedLaterScript = document.createElement('script');
+    usedLaterScript.src = `./prefetch.js`;
+    document.body.appendChild(usedLaterScript);
+  </script>
   <noscript>
     <!-- fallback -->
     <link rel="stylesheet" href="./preload.css">
