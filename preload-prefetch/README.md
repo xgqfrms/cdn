@@ -16,3 +16,7 @@ https://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html
 > demo
 
 https://cdn.xgqfrms.xyz/preload-prefetch/demo/index.html
+
+> test
+
+https://cdn.xgqfrms.xyz/preload-prefetch/test/index.html
