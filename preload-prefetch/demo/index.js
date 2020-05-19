@@ -22,8 +22,8 @@ log(`index.js`);
 document.addEventListener('DOMContentLoaded', () => {
   log(`DOMContentLoaded, DOM ready after defer!`);
   try {
-    const preload = document.querySelector([`data-uid="preload"`]);
-    const prefetch = document.querySelector([`data-uid="prefetch"`]);
+    const preload = document.querySelector(`[data-uid="preload"]`);
+    const prefetch = document.querySelector(`[data-uid="prefetch"]`);
     if(preload) {
       log(`preload OK`);
       preload.innerText = `预加载`;
@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('load', () => {
   log(`All Loaded`);
   try {
-    const preload = document.querySelector([`data-uid="preload"`]);
-    const prefetch = document.querySelector([`data-uid="prefetch"`]);
+    const preload = document.querySelector(`[data-uid="preload"]`);
+    const prefetch = document.querySelector(`[data-uid="prefetch"]`);
     if(preload) {
       log(`预加载 OK`);
       preload.innerText = `预加载 OK`;
