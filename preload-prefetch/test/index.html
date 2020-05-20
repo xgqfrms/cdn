@@ -14,18 +14,8 @@
   <link rel="preload" as="style" onload="this.rel = 'stylesheet'" href="./preload.css">
   <link rel="prefetch" as="style" onload="this.rel = 'stylesheet'" href="./prefetch.css">
   <!-- js -->
-  <link rel="preload" as="script" href="./preload.js">
-  <script>
-    const usedLaterScript = document.createElement('script');
-    usedLaterScript.src = `./preload.js`;
-    document.body.appendChild(usedLaterScript);
-  </script>
-  <link rel="prefetch" as="script" href="./prefetch.js">
-  <script>
-    const usedLaterScript = document.createElement('script');
-    usedLaterScript.src = `./prefetch.js`;
-    document.body.appendChild(usedLaterScript);
-  </script>
+  <link rel="preload" as="script" href="./preload.js" onload="log(`preload.js load`);const preloadScript = document.createElement(`script`);preloadScript.src = `./preload.js`;document.body.appendChild(preloadScript);">
+  <link rel="prefetch" as="script" href="./prefetch.js" onload="log(`prefetch.js load`);const prefetchScript = document.createElement(`script`);prefetchScript.src = `./prefetch.js`;document.body.appendChild(prefetchScript);">
   <noscript>
     <!-- fallback -->
     <link rel="stylesheet" href="./preload.css">
