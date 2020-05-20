@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const preload = document.querySelector(`[data-uid="preload"]`);
     const prefetch = document.querySelector(`[data-uid="prefetch"]`);
     if(preload) {
-      log(`preload OK`);
+      log(`预加载`);
       preload.innerText = `预加载`;
     } else {
       //
     }
     if(prefetch) {
-      log(`prefetch OK`);
-      preload.innerText = `预获取`;
+      log(`预获取`);
+      prefetch.innerText = `预获取`;
     } else {
       //
     }
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-document.addEventListener('load', () => {
-  log(`All Loaded`);
+window.addEventListener('load', () => {
+  log(`page All Loaded`);
   try {
     const preload = document.querySelector(`[data-uid="preload"]`);
     const prefetch = document.querySelector(`[data-uid="prefetch"]`);
