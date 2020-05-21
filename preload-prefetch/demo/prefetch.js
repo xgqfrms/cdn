@@ -25,7 +25,9 @@ if(log) {
 
 (() => {
   const prefetch = document.querySelector(`[data-uid="prefetch"]`);
-  prefetch.innerText = `prefetch.js 预获取`;
+  if(prefetch) {
+    prefetch.innerText = `prefetch.js 预获取`;
+  }
   if(log) {
     log(`prefetch.js OK`);
   } else {
