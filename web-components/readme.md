@@ -1,5 +1,19 @@
 # web components
 
+## custom-element
+
+https://cdn.xgqfrms.xyz/web-components/webcomponents-loader.js
+
+https://cdn.xgqfrms.xyz/web-components/custom-element/index.html
+
+
+https://webcomponents.org/polyfills/
+
+https://github.com/webcomponents/polyfills/tree/master/packages/webcomponentsjs
+
+
+https://github.com/webcomponents/polyfills/tree/master/packages/webcomponentsjs/src/entrypoints
+
 
 ## import html template bug
 
