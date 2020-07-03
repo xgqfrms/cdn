@@ -3,7 +3,7 @@
 
 ## import html template bug
 
-https://github.com/gildata/RAIO/issues/373
+https://github.com/xgqfrms/RAIO/issues/373
 
 ```js
     // todo
@@ -21,6 +21,8 @@ https://github.com/webcomponents/webcomponentsjs/raw/v1/webcomponents-hi-sd-ce.j
 ***
 
 # html imports 有用过的吗？已入坑，发现除了 Chrome 都不好使呀。
+
+> html imports 已经被 web components 废弃了
 
 https://developer.mozilla.org/en-US/docs/Web/Web_Components
 
