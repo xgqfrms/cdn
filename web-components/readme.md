@@ -7,6 +7,11 @@ https://cdn.xgqfrms.xyz/web-components/webcomponents-loader.js
 https://cdn.xgqfrms.xyz/web-components/custom-element/index.html
 
 
+> polyfills
+
+https://www.webcomponents.org/polyfills/
+
+
 https://webcomponents.org/polyfills/
 
 https://github.com/webcomponents/polyfills/tree/master/packages/webcomponentsjs
