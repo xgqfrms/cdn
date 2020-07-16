@@ -47,6 +47,39 @@
   <!-- js -->
   <script>
     const log = console.log;
+    const btn = document.querySelector(`[type="submit"]`);
+    const name = document.querySelector(`#username`);
+    const pwd = document.querySelector(`#password`);
+    btn.addEventListener(`click`, (e) => {
+      e.preventDefault();
+      log(`name`, name.value)
+      log(`pwd`, pwd.value)
+      const obj = {
+        username: name,
+        password: pwd,
+      };
+      // Fetch API cannot load file:///.../index. URL scheme must be "http" or "https" for CORS request.
+      // Fetch API cannot load file:///.../index. URL scheme "file" is not supported.
+      fetch(`./index`, {
+        method: "POST",
+        // mode: "no-cors",
+        mode: "cors",
+        // cookies
+        credentials: "include",
+        headers: {
+          // "Content-Type": "text/plain",
+          // "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
+          "x-csrf-token": `csrftoken`,
+        },
+        body: JSON.stringify(obj),
+      })
+      .then(res => {
+        log(`res`, res);
+        return res.json();
+      })
+      .catch(err => log(`fetch error`, err));
+    });
   </script>
 </body>
 </html>
