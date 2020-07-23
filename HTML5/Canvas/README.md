@@ -1,5 +1,7 @@
 # Canvas
 
+https://cdn.xgqfrms.xyz/HTML5/Canvas/safety-canvas.html
+
 
 https://github.com/xgqfrms/HTML5/blob/gh-pages/Canvas/safety-canvas.html
 
