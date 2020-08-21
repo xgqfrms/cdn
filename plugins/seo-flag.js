@@ -20,19 +20,22 @@
 
 // const log = console.log;
 
+// window.SEO_FALG_FINISHED = window.SEO_FALG_FINISHED || false;
+window.SEO_FALG_FINISHED = false;
+
 const SEO_FALG = () => {
   const log = console.log;
-  let finished = false;
+  // let finished = false;
   let counter = 1;
   function auto() {
-    const img = document.querySelector(`[data-flagcounter="img" ]`);
-    const a = document.querySelector(`[data-flagcounter="a" ]`);
-    if(a && img && !finished) {
+    const img = document.querySelector(`[data-flagcounter="img"]`);
+    const a = document.querySelector(`[data-flagcounter="a"]`);
+    if(a && img && !window.SEO_FALG_FINISHED) {
       log(`❓flagcounter.com trying ${counter} times`);
       a.href = `https://s11.flagcounter.com/count2/QIXi`;
       img.src = `https://s11.flagcounter.com/count2/QIXi/bg_000000/txt_00FF00/border_FF00FF/columns_3/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_1/`;
     } else {
-      finished = true;
+      window.SEO_FALG_FINISHED = true;
       log(` 🎉 flagcounter.com finished!`);
     }
     counter += 1;
