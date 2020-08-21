@@ -41,7 +41,7 @@ const SEO_FALG = () => {
     counter += 1;
   }
   let timer = setInterval(() => {
-    if(!finished) {
+    if(!window.SEO_FALG_FINISHED) {
       auto();
     } else {
       log(` ✅ clearInterval, after ${counter} times`);
