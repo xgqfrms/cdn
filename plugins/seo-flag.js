@@ -49,3 +49,8 @@ const SEO_FALG = () => {
     }
   }, 1000);
 }
+
+// IIFE
+(() => SEO_FALG())();
+    
+    
