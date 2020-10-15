@@ -46,8 +46,21 @@
   <script type="text/javascript" src="./text-javascript.js"></script>
   <!-- 不会处理, 被忽略 -->
   <script type="other/types" src="other.js"></script>
-  <script type="module" src="./module.js">
-    // const sum = require("./module.js");
+  <!-- <script type="module" src="./module.mjs">
+    sum(1, 2);
+  </script> -->
+  <!-- <script type="module" src="./module.js">
+    sum(1, 2);
+  </script> -->
+  <!-- <script type="module" src="./module.js">
+    (() => {
+      const log = console.log;
+      log(`module.js`);
+    })();
+    import sum from "./module.js";
+    sum(1, 2);
+  </script> -->
+  <script type="module">
     (() => {
       const log = console.log;
       log(`module.js`);
