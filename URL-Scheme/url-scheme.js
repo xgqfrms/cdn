@@ -24,7 +24,8 @@ const log = console.log;
 
 try {
   if(navigator.registerProtocolHandler) {
-    navigator.registerProtocolHandler("web+xgqfrms/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
+    // navigator.registerProtocolHandler("web+xgqfrms\/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
+    // navigator.registerProtocolHandler("web+xgqfrms/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
     navigator.registerProtocolHandler("web+xgqfrms", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms");
     navigator.registerProtocolHandler("web+cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, cdn");
     log(`navigator.registerProtocolHandler OK ✅`)
