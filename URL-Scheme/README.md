@@ -4,3 +4,4 @@
 
 https://www.cnblogs.com/xgqfrms/p/13965075.html
 
+https://cdn.xgqfrms.xyz/URL-Scheme/index.html
