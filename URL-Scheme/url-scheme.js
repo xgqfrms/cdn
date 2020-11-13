@@ -22,12 +22,15 @@
 
 const log = console.log;
 
+// https://cdn.xgqfrms.xyz?uri=%s
+// https://cdn.xgqfrms.xyz/URL-Scheme/handler.html
+
 try {
   if(navigator.registerProtocolHandler) {
     // navigator.registerProtocolHandler("web+xgqfrms\/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
     // navigator.registerProtocolHandler("web+xgqfrms/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
-    navigator.registerProtocolHandler("web+xgqfrms", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms");
-    navigator.registerProtocolHandler("web+cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, cdn");
+    navigator.registerProtocolHandler("web+xgqfrms", "https://cdn.xgqfrms.xyz/URL-Scheme/handler.html?uri=%s", "自定义 URL Scheme, xgqfrms");
+    navigator.registerProtocolHandler("web+cdn", "https://cdn.xgqfrms.xyz/URL-Scheme/handler.html?uri=%s", "自定义 URL Scheme, cdn");
     log(`navigator.registerProtocolHandler OK ✅`)
   }
 } catch (error) {
@@ -36,8 +39,8 @@ try {
 
 try {
   if(navigator.registerProtocolHandler) {
-    navigator.registerProtocolHandler("web+xgqfrms\/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
-    navigator.registerProtocolHandler("web+xgqfrms/cdn", "https://cdn.xgqfrms.xyz?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
+    navigator.registerProtocolHandler("web+xgqfrms\/cdn", "https://cdn.xgqfrms.xyz/URL-Scheme/handler.html?uri=%s", "自定义 URL Scheme, xgqfrms\/cdn");
+    navigator.registerProtocolHandler("web+xgqfrms/cdn", "https://cdn.xgqfrms.xyz/URL-Scheme/handler.html?uri=%s", "自定义 URL Scheme, xgqfrms/cdn");
     log(`navigator.registerProtocolHandler OK ✅`)
   }
 } catch (error) {
