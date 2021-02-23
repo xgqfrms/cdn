@@ -23,8 +23,8 @@
     function rewriteHistory (type) {
         const origin = window.history[type];
         return function () {
-            console.log(`arguments =`， arguments);
-            console.log(`type =`，type, type.toLocaleLowerCase());
+            console.log(`this, arguments =`, this, arguments);
+            console.log(`type =`, type, type.toLocaleLowerCase());
             const rs = origin.apply(this, arguments);
             // custom event
             const e = new Event(type.toLocaleLowerCase());
