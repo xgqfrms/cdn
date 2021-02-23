@@ -20,7 +20,7 @@
         <p>copyriht&copy; xgqfrms 2020</p>
     </footer>
     <script>
-    rewriteHistory (type) {
+    function rewriteHistory (type) {
         const origin = window.history[type];
         return function () {
             console.log(`arguments =`， arguments);
@@ -36,8 +36,8 @@
     }
         const log = console.log;
         // rewrite function 🚀, why❓
-        window.history.pushState = this.rewriteHistory('pushState');
-        window.history.replaceState = this.rewriteHistory('replaceState');
+        window.history.pushState = rewriteHistory('pushState');
+        window.history.replaceState = rewriteHistory('replaceState');
         window.addEventListener('pushstate', (state) => {
             log('❓单页路由变化 pushstate', state);
         });
