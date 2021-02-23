@@ -7,7 +7,7 @@ https://cdn.xgqfrms.xyz/HTML5/history-api/pushstate-event.html
 https://cdn.xgqfrms.xyz/HTML5/history-api/url-change-event.html
 
 ```js
-    _rewriteHistory (type) {
+    function rewriteHistory(type) {
         const origin = window.history[type];
         return function () {
             console.log(`arguments =`， arguments);
