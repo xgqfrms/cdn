@@ -1,5 +1,5 @@
 const loadJSON = (callback) => {
-  let xObj = new XMLHttpRequest();
+  const xObj = new XMLHttpRequest();
   xObj.overrideMimeType("application/json");
   // 1. replace './data.json' with the local path of your file
   xObj.open('GET', './data.json', true);
