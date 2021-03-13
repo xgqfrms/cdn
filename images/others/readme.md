@@ -4,7 +4,7 @@
 https://cdn.xgqfrms.xyz/images/others/jetbrains.png
 
 
-特别感谢 [JetBrains](https://www.jetbrains.com/?from=xgqfrms) 为我的开源项目提供免费的 ![IntelliJ IDEA](https://www.jetbrains.com/go/?from=xgqfrms) 授权
+特别感谢 [JetBrains](https://www.jetbrains.com/?from=xgqfrms) 为我的开源项目提供免费的 [IntelliJ IDEA](https://www.jetbrains.com/go/?from=xgqfrms) 授权
 
 <p>
  <a href="https://www.jetbrains.com/?from=xgqfrms">
