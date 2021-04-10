@@ -1,5 +1,5 @@
 
-// const html = document.querySelector('html');
+const html = document.querySelector('html');
 // const body = document.querySelector('body');
 
 // window;
@@ -44,6 +44,19 @@ window.addEventListener('beforeunload', (e) => {
   textArea.textContent += 'beforeunload\n';
   pre.insertAdjacentHTML('beforeend', `<span>beforeunload, 7</span><br/>`);
   // Beacon API
+  // delay close tab
+  for (let i = 0; i < 10**7; i++) {
+    if(i % 100 === 0) {
+      console.log(`i`, i);
+    }
+  }
+  // for (let i = 0; i < 10**7; i++) {
+  //   for (const item of [new Uint8Array(5).map((item, i) => i + 3)]) {
+  //     if(i === 10**item ) {
+  //       console.log(`${10**item}`, i);
+  //     }
+  //   }
+  // }
 });
 
 window.addEventListener('unload', () => {
