@@ -10,14 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // UA
   const UA = new UAChecker();
   const obj = {
-    os: new UA.ua ?? navigator.userAgent,
-    os: new UA.getOS() ?? 'unknown os',
-    osVersion: new UA.getOSVersion() ?? 'unknown os version',
-    browser: new UA.getBrowser() ?? 'unknown browser',
+    os: UA.ua ?? navigator.userAgent,
+    os: UA.getOS() ?? 'unknown os',
+    osVersion: UA.getOSVersion() ?? 'unknown os version',
+    browser: UA.getBrowser() ?? 'unknown browser',
     browserVersion: new UA.getBrowserVersion() ?? 'unknown browser version',
   };
   // pre
   app.insertAdjacentHTML('beforeend', `<pre>${JSON.stringify(obj, null, 4)}</pre><br/>`);
+  // all
+  app.insertAdjacentHTML('beforeend', `<pre>${JSON.stringify(UA.getAll(), null, 4)}</pre><br/>`);
 });
 
 
