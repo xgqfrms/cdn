@@ -1,10 +1,8 @@
 const log = console.log;
 // setTimeout(() => document.write(navigator.userAgent), 1000);
 
-const app = document.querySelector(`#app`);
-
-
 document.addEventListener('DOMContentLoaded', () => {
+  const app = document.querySelector(`#app`);
   log('DOMContentLoaded');
   app.insertAdjacentHTML('beforeend', `<span>${navigator.userAgent}</span><br/>`);
   // UA
@@ -14,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     os: UA.getOS() ?? 'unknown os',
     osVersion: UA.getOSVersion() ?? 'unknown os version',
     browser: UA.getBrowser() ?? 'unknown browser',
-    browserVersion: new UA.getBrowserVersion() ?? 'unknown browser version',
+    browserVersion: UA.getBrowserVersion() ?? 'unknown browser version',
   };
   // pre
   app.insertAdjacentHTML('beforeend', `<pre>${JSON.stringify(obj, null, 4)}</pre><br/>`);
