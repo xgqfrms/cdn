@@ -7,7 +7,7 @@ const screenSize = new ScreenChecker().getScreenSize();
  * @author ericxia
  * @class UAChecker
  * @created 2020.12.23
- * @modified 2021.02.23
+ * @modified 2021.04.11
  */
 class UAChecker {
     constructor (ua = '') {
@@ -15,7 +15,9 @@ class UAChecker {
             this.ua = ua.toLocaleLowerCase();
         } else {
             this.ua = navigator.userAgent.toLocaleLowerCase();
+            // this.ua = "Mozilla/5.0 (iPad; CPU OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1".toLocaleLowerCase();
         }
+        // this.userAgent = "Mozilla/5.0 (iPad; CPU OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1";
         this.userAgent = navigator.userAgent;
         this.os = 'unknown';
         this.osVersion = 'unknown';
@@ -46,11 +48,15 @@ class UAChecker {
             this.os = 'Android';
         } else if (UAChecker.regexTester(/ios|iphone|ipod/g, this.ua)) {
             this.os = 'iOS';
-        } else if (UAChecker.regexTester(/ipad/g, this.ua)) {
+        }
+        if (UAChecker.regexTester(/ipad/g, this.ua)) {
             this.os = 'iPadOS';
-        } else if (UAChecker.regexTester(/iwatch/g, this.ua)) {
+        }
+        if (UAChecker.regexTester(/iwatch/g, this.ua)) {
             this.os = 'watchOS';
         }
+        console.log('iOS', UAChecker.regexTester(/ios|iphone|ipod/g, this.ua));
+        console.log('iPadOS', UAChecker.regexTester(/ipad/g, this.ua));
         console.log('this.ua', this.ua, this.os);
         return this.os;
     }
@@ -88,6 +94,9 @@ class UAChecker {
                 this.osVersion = UAChecker.versionTester(/android [\d._]+/g, this.ua);
                 break;
             case 'iOS':
+                this.osVersion = UAChecker.versionTester(/os [\d._]+/g, this.ua);
+                break;
+            case 'iPadOS':
                 this.osVersion = UAChecker.versionTester(/os [\d._]+/g, this.ua);
                 break;
             case 'Linux':
