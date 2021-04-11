@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // UA
   const UA = new UAChecker();
   const obj = {
-    os: UA.ua ?? navigator.userAgent,
+    ua: UA.ua ?? navigator.userAgent,
     os: UA.getOS() ?? 'unknown os',
     osVersion: UA.getOSVersion() ?? 'unknown os version',
     browser: UA.getBrowser() ?? 'unknown browser',
