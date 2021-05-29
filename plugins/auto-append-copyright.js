@@ -17,10 +17,10 @@
  * 
  */
 
-let log = console.log;
-
 // js 自动添加 copyright©️版权所有声明信息
 document.body.oncopy = event => {
+    const log = console.log;
+    log('js 自动添加 copyright©️版权所有声明信息 ✅');
     event.preventDefault(); 
         // 阻止默认事件 
     const copyTexts = window.getSelection(0).toString();
