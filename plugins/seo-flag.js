@@ -18,9 +18,27 @@
  *
  */
 
+
+// new version, 2021.07.13
+setTimeout(() => {
+    (() => {
+        const flagBox = document.querySelector(`[data-uid="seo-flag"]`);
+        const domStr = `
+            <a href="https://s11.flagcounter.com/count2/QIXi" data-flagcounter="a">
+            <img data-flagcounter="img" src="https://s11.flagcounter.com/count2/QIXi/bg_000000/txt_00FF00/border_FF00FF/columns_3/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="cnblogs" border="0" />
+            </a>
+        `;
+        flagBox.insertAdjacentHTML(`beforeend`, domStr);
+        const log = console.log;
+        log(` 🎉 flagcounter.com finished!`);
+    })();
+}, 1000);
+    
+    
 // const log = console.log;
 
 // window.SEO_FALG_FINISHED = window.SEO_FALG_FINISHED || false;
+/*
 window.SEO_FALG_FINISHED = false;
 
 const SEO_FALG = () => {
@@ -51,20 +69,6 @@ const SEO_FALG = () => {
 }
 
 // IIFE
-// (() => SEO_FALG())();
+(() => SEO_FALG())();
 
-// new version, 2021.07.13
-setTimeout(() => {
-    (() => {
-    const flagBox = document.querySelector(`[data-uid="seo-flag"]`);
-    const domStr = `
-        <a href="https://s11.flagcounter.com/count2/QIXi" data-flagcounter="a">
-        <img data-flagcounter="img" src="https://s11.flagcounter.com/count2/QIXi/bg_000000/txt_00FF00/border_FF00FF/columns_3/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="cnblogs" border="0" />
-        </a>
-    `;
-    flagBox.insertAdjacentHTML(`beforeend`, domStr);
-    log(` 🎉 flagcounter.com finished!`);
-    })();
-}, 1000);
-    
-    
+*/
