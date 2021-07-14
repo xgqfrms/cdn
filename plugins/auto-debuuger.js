@@ -1,0 +1,11 @@
+/*
+
+(function anonymous() {
+   debugger;
+})();
+
+*/
+
+(() => {
+   debugger;
+})();
