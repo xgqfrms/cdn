@@ -10,6 +10,7 @@ https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.woff
 https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.svg
 
 
+https://github.com/xgqfrms/cdn/blob/gh-pages/icon-fonts/icomoon/style.css
 
 
 ```css
