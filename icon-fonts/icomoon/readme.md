@@ -2,8 +2,11 @@
 
 
 https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.eot
+
 https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.ttf
+
 https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.woff
+
 https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.svg
 
 
