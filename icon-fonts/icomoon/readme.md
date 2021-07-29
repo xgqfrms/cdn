@@ -9,8 +9,9 @@ https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.woff
 
 https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.svg
 
+## css
 
-https://github.com/xgqfrms/cdn/blob/gh-pages/icon-fonts/icomoon/style.css
+https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon/style.css
 
 
 ```css
