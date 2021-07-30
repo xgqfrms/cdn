@@ -11,7 +11,7 @@ https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon.svg
 
 ## css
 
-https://cdn.xgqfrms.xyz/icon-fonts/icomoon/icomoon/style.css
+https://cdn.xgqfrms.xyz/icon-fonts/icomoon/style.css
 
 https://codepen.io/xgqfrms/pen/oNWqrBz
 
