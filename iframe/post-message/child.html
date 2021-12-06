@@ -163,7 +163,6 @@
         }, "https://iframe.xgqfrms.xyz/post-message/index.html");
         // CORS test
       };
-      setTimeout(() => {
         function debounce (func, times = 1000) {
             let timer = null;
             return function () {
@@ -173,12 +172,18 @@
                 timer = setTimeout(func, times);
             };
         };
+      setTimeout(() => {
         const section = document.querySelector('section');
-        // console.log('section =', section);
-        section.addEventListener('scroll', (event) => {
-            // console.log('iframe scroll', event);
-            debounce(sendScrollMessage, 500)();
-        }, false);
+        let flag = false;
+        // once
+        if(section && !flag) {
+            flag = true;
+            // console.log('section =', section);
+            section.addEventListener('scroll', (event) => {
+                // console.log('iframe scroll', event);
+                debounce(sendScrollMessage, 500)();
+            }, false);
+        }
       }, 1000);
     </script>
 </body>
