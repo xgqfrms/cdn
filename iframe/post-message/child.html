@@ -155,7 +155,7 @@
         const app = document.querySelector(`[id="app"]`);
         const height = Math.abs(app.scrollTop);
         // const height = app.scrollHeight - app.clientHeight;
-        console.log('app, height', app, app.scrollTop, height);
+        // console.log('app, height', app, app.scrollTop, height);
         parent.postMessage({
           type: "iframeScrollEvent",
           other: "other data to pass",
