@@ -27,7 +27,7 @@
       setTimeout(() => {
         const iframe = document.getElementById('iframe');
         console.log("proxy's iframe =", iframe, iframe.contentDocument);
-        const section = iframe2.contentDocument.querySelector('section');
+        const section = iframe.contentDocument.querySelector('section');
         console.log("proxy's section =", section);
         section.addEventListener('scroll', (event) => {
              console.log('iframe scroll message', event);
