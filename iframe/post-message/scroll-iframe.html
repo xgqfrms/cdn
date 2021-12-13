@@ -138,13 +138,14 @@
              app.scrollTop += height;
            }
         };
-      window.addEventListener('message', (message) => {
-          if(message.data.type=="iframeScrollEvent"){
-            console.log('\n parent scroll message =', message); 
-            // message.height
-            autoScroll(100);
-          }
-      });
+          console.log('\n parent scroll message???');
+          window.addEventListener('message', (message) => {
+              console.log('\n parent scroll message =', message);  
+              if(message.data.type=="iframeScrollEvent"){
+                // message.height
+                autoScroll(100);
+              }
+          });
     </script>
 </body>
 </html>
