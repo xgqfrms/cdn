@@ -132,16 +132,18 @@
     </footer>
     <script>
         const app = document.querySelector(`[id="app"]`);
-        console.log('\n target iframe', app);
+        // console.log('\n target iframe', app);
         const autoScroll = (height) => {
-           // const height = Math.abs(app.scrollTop);
-           if(app.scrollTop < app.scrollHeigh) {
-             app.scrollTop += height;
-           }
+               console.log('\nauto scroll');
+//            if(app.scrollTop < app.scrollHeigh) {
+//              app.scrollTop += height;
+//            }
+           app.scrollTop += height;
         };
-          console.log('\n parent scroll message???');
+          console.log('%cparent scroll message', 'background: #000; color: #0f0; font-size: 23px;');
+          // console.log('\nparent scroll message???');
           window.addEventListener('message', (message) => {
-              console.log('\n parent scroll message =', message);  
+              console.log('\nparent scroll message =', message);  
               if(message.data.type=="iframeScrollEvent"){
                 // message.height
                 autoScroll(100);
