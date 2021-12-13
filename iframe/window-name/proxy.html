@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="xgqfrms">
+    <meta name="generator" content="VS code">
+    <title>proxy page 通信</title>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+</head>
+<body>
+    <header>
+        <h1>proxy page 通信</h1>
+    </header>
+    <main>
+        <section>
+            <h3>同域 iframe 通信</h3>
+            <iframe id="iframe" name="iframe" src="https://cdn.xgqfrms.xyz/iframe/window-name/index.html" frameborder="0"></iframe>
+        </section>
+    <main>
+    <footer>
+        <p>copyriht&copy; xgqfrms 2021</p>
+    </footer>
+    <script>
+      // 2. 同域 iframe 通信
+      setTimeout(() => {
+        const iframe = document.getElementById('iframe');
+        console.log("proxy's iframe =", iframe, iframe.contentDocument);
+        const section = iframe2.contentDocument.querySelector('section');
+        console.log("proxy's section =", section);
+        section.addEventListener('scroll', (event) => {
+             console.log('iframe scroll message', event);
+        }, false);
+      }, 3000);
+    </script>
+</body>
+</html>
