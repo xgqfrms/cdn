@@ -136,6 +136,47 @@
         // const app = document.querySelector(`[id="app"]`);
         // console.log('\n target iframe', app);
         // postMessage iframe page height ✅ ❓
+
+const sendScrollMessage = () => {
+    // const app = document.querySelector('#app');
+    const app = document.querySelector('body');
+    // const height = Math.abs(app.scrollTop);
+    const rect = app.getBoundingClientRect();
+    const clientHeight = app.clientHeight;
+    const scrollHeight = app.scrollHeight;;
+    parent.postMessage({
+        type: 'iframeHeight',
+        clientHeight: clientHeight,
+        scrollHeight: scrollHeight,
+        rect: rect,
+    }, 'https://iframe.xgqfrms.xyz/post-message/mask-scroll.html');
+};
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    sendScrollMessage();
+});
+
+window.addEventListener('load', (event) => {
+    console.log('page is fully loaded');
+    sendScrollMessage();
+});
+
+// function debounce (func, times = 1000) {
+//     let timer = null;
+//     return function () {
+//         if (timer){
+//             clearTimeout(timer);
+//         }
+//         timer = setTimeout(func, times);
+//     };
+// };
+
+// const app = document.querySelector('#app');
+// app.addEventListener('scroll', (event) => {
+//     debounce(sendScrollMessage, 100)();
+// }, false);
+
     </script>
 </body>
 </html>
