@@ -166,6 +166,14 @@ window.addEventListener('load', (event) => {
     console.log('page is fully loaded');
     sendScrollMessage();
 });
+        
+
+
+setTimeout(() => {
+    console.log('setTimeout 3000');
+    sendScrollMessage();
+}, 3000);
+        
 
 // function debounce (func, times = 1000) {
 //     let timer = null;
