@@ -144,7 +144,11 @@ const sendScrollMessage = () => {
     // const height = Math.abs(app.scrollTop);
     const rect = app.getBoundingClientRect();
     const clientHeight = app.clientHeight;
-    const scrollHeight = app.scrollHeight;;
+    const scrollHeight = app.scrollHeight;
+    if(!parent) {
+      return;
+    }
+    console.log('parent window', parent);
     parent.postMessage({
         type: 'iframeHeight',
         clientHeight: clientHeight,
