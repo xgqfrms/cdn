@@ -20,13 +20,13 @@
     </style>
     <!-- https://cdn.xgqfrms.xyz/iframe/post-message/landing-page.html -->
 </head>
-<body>
+<body id="root">
     <header>
         <h1>landing-page</h1>
     </header>
     <main>
-        <!-- section#id>p{landing-page_$}*100 -->
-        <section id="id">
+        <!-- section#app>p{landing-page_$}*100 -->
+        <section id="app">
             <p>landing-page_1</p>
             <p>landing-page_2</p>
             <p>landing-page_3</p>
@@ -139,6 +139,7 @@
 
 const sendScrollMessage = () => {
     // const app = document.querySelector('#app');
+    // const app = document.querySelector('#root');
     const app = document.querySelector('body');
     // const height = Math.abs(app.scrollTop);
     const rect = app.getBoundingClientRect();
