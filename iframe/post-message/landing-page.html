@@ -148,8 +148,10 @@ const sendScrollMessage = () => {
     if(!parent) {
       return;
     }
+    console.log('window.parent', window.parent);
     console.log('parent window', parent);
-    parent.postMessage({
+    console.log('window.location', window.location);
+    window.parent.postMessage({
         type: 'iframeHeight',
         clientHeight: clientHeight,
         scrollHeight: scrollHeight,
