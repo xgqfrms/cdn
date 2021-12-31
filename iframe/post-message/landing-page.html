@@ -138,24 +138,30 @@
         // postMessage iframe page height ✅ ❓
 
 const sendScrollMessage = () => {
+    const app = document.querySelector('body');
     // const app = document.querySelector('#app');
     // const app = document.querySelector('#root');
-    const app = document.querySelector('body');
     // const height = Math.abs(app.scrollTop);
     const rect = app.getBoundingClientRect();
     const clientHeight = app.clientHeight;
     const scrollHeight = app.scrollHeight;
-    if(!parent) {
-      return;
-    }
-    console.log('window.parent', window.parent);
-    console.log('parent window', parent);
-    console.log('window.location', window.location);
+//     if(!parent) {
+//       return;
+//     }
+    console.log('\nwindow.parent = ', window.parent);
+    console.log('parent window =', parent);
+   
+    console.log('\nwindow.parent.location =', window.parent.location);
+    console.log('window.location =', window.location);
+    
+    console.log('\nwindow.top = ', window.top);
+    console.log('\nwindow.opener = ', window.opener);
     window.parent.postMessage({
         type: 'iframeHeight',
         clientHeight: clientHeight,
         scrollHeight: scrollHeight,
         rect: rect,
+        from: window.location.origin,
     }, 'https://iframe.xgqfrms.xyz/post-message/heat-map.html');
 };
 
