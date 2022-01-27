@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="xgqfrms">
+    <meta name="generator" content="VS code">
+    <title>js export to base64 svg image</title>
+    <style>
+        #app > svg {
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
+        #app {
+            width: 100vw;
+            height: 100vh;
+            min-width: 1366px;
+            min-height: 768px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>js export to base64 svg image</h1>
+    </header>
+    <main id="app">
+        <img id="img" src=""/>
+        <pre id="pre"></pre>
+        <canvas id="canvas"></canvas>
+        <section>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+            <p>abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz abcdefg hijklmn opqrst uvwxyz</p>
+        </section>
+    </main>
+    <footer>
+        <p>copyriht&copy; xgqfrms 2021</p>
+    </footer>
+    <script src="./app.js"></script>
+</body>
+</html>
