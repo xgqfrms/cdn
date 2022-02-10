@@ -25,3 +25,21 @@ https://unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.cs ❌
 ![image](https://user-images.githubusercontent.com/7291672/153376043-a93d1143-91ac-4d3b-a9bd-abfb129b1d47.png)
 
 
+## solution
+
+
+https://unpkg.com/vue@2.6.10/dist/vue.js ✅
+
+https://unpkg.com/vue@2.6.10/dist/vue.min.js ✅
+
+
+
+https://unpkg.com/element-ui@2.15.7/lib/index.js ✅
+
+https://unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.css ✅
+
+> demo
+
+Uncaught ReferenceError: Vue is not defined  (codepen demo)
+
+
