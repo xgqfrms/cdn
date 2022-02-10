@@ -1,6 +1,7 @@
 # solution
 
 https://cdn.xgqfrms.xyz/vue/2.6.10/vue.js ✅
+
 https://cdn.xgqfrms.xyz/vue/2.6.10/vue.min.js ✅
 
 
