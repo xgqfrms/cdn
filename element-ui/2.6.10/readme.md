@@ -1,5 +1,9 @@
 # solution
 
+https://cdn.xgqfrms.xyz/vue/2.6.10/vue.js ✅
+https://cdn.xgqfrms.xyz/vue/2.6.10/vue.min.js ✅
+
+
 https://unpkg.com/vue@2.6.10/dist/vue.js ✅
 
 https://unpkg.com/vue@2.6.10/dist/vue.min.js ✅
