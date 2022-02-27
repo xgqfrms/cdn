@@ -1,6 +1,18 @@
-# social media share
+# Social media share icons All In One
+
+
+https://cdn.xgqfrms.xyz/icons/share/twitter.svg
+
+https://cdn.xgqfrms.xyz/icons/share/facebook.svg
+
 
 <!-- https://dmitripavlutin.com/typescript-unknown-vs-any/ -->
+
+<!--
+  
+https://www.facebook.com/sharer/sharer.php/?u=https%3A%2F%2Fdmitripavlutin.com%2Ftypescript-unknown-vs-any%2F
+
+-->
 
 ```css
 
@@ -47,6 +59,11 @@ a:-webkit-any-link {
     text-decoration: underline;
 }
 
+
+.T_bZ {
+    background: url(/icons/facebook.svg) 50%/1.6rem no-repeat rgba(59,89,152,.75);
+}
+
 ```
 
 ```html
@@ -55,6 +72,11 @@ a:-webkit-any-link {
        href="https://twitter.com/share?url=https%3A%2F%2Fdmitripavlutin.com%2Ftypescript-unknown-vs-any%2F&amp;text=unknown%20vs%20any%20in%20TypeScript&amp;hashtags=typescript%2Cunknown%2Cany&amp;via=panzerdp"
        title="Share on Twitter" 
        class="W_b1 X_b2">
+    </a>
+    <a 
+       href="https://www.facebook.com/sharer/sharer.php/?u=https%3A%2F%2Fdmitripavlutin.com%2Ftypescript-unknown-vs-any%2F"
+       title="Share on Facebook" 
+       class="T_bZ X_b2">
     </a>
 </div>
 ```
