@@ -1,15 +1,7 @@
-###### [:octocat:www.emoji-cheat-sheet.com](http://www.emoji-cheat-sheet.com)
-# cdn 
+# free cdn for everyone
 
-## [website](https://cdn.xgqfrms.xyz/index.html)
+> [https://cdn.xgqfrms.xyz/index.html](https://cdn.xgqfrms.xyz/index.html)
 
-> https://cdn.xgqfrms.xyz/sw.js
-
-```js
-
-https://github.com/xgqfrms/cdn/blob/gh-pages/sw.js
-
-```
 
 ## CDN for everyone who want speed his website!
 
@@ -28,3 +20,15 @@ https://github.com/xgqfrms/cdn/blob/gh-pages/sw.js
 
 https://opensource.org/licenses/MIT
 
+<!--
+
+
+```js
+
+https://github.com/xgqfrms/cdn/blob/gh-pages/sw.js
+
+https://cdn.xgqfrms.xyz/sw.js
+
+```
+
+-->
