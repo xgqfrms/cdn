@@ -15,8 +15,15 @@ const autoGeneratorMeta = (options = {
   const flag = `https://s11.flagcounter.com/count2/QIXi/bg_000000/txt_00FF00/border_FF00FF/columns_3/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_1/`;
   const img = post.querySelector('img')?.src ?? flag;
   // const imgSrc = window.encodeURIComponent(post.querySelector('img')?.src ?? flag);
+  // https://www.cnblogs.com/xgqfrms/p/15990413.html
+  /*
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="app">
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:card" content="summary_large_image">
+  */
   const meta = `
-    <meta name="twitter:card" content="${img}">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="${img}">
     <meta name="twitter:title" content="${text}">
     <meta name="twitter:description" content="${content}">
