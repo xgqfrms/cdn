@@ -3,7 +3,7 @@
 > [https://cdn.xgqfrms.xyz/index.html](https://cdn.xgqfrms.xyz/index.html)
 
 
-## CDN for everyone who want speed his website!
+## CDN for everyone who want to speed his website!
 
 * license under CC licensing!
 
