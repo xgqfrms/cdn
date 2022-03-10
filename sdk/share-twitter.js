@@ -8,12 +8,16 @@ const shareToTwitter = (options = {
     uid: 'h1.postTitle',
     user: 'xgqffrms',
     tags: 'js,cnblogs',
+    imgId: 'cnblogs_post_body',
   }) => {
-  const {uid, user, tags} = options;
+  const {uid, user, tags, imgId} = options;
   // 一键分享
   const h1 = document.querySelector(`${uid}`);
   const text = window.encodeURIComponent(h1?.innerText ?? '暂无文章标题');
   const link = window.encodeURIComponent(window.location.href);
+  for (let img of document.querySelector(`[id="${imgId}"]`).querySelectorAll('img')) {
+    console.log('img', img.src);
+  }
   const url = `https://twitter.com/intent/tweet?url=${link}&text=${text}&via=${user}&hashtags=${tags}`;
   try {
     // window.open(url, '_blank');
