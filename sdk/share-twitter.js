@@ -23,6 +23,11 @@ const shareToTwitter = (options = {
   }
 }
 
+const autoGeneratorShareButton = () => {
+ // 自动生成 UI (web components ???)
+ 
+};
+
 // export shareToTwitter;
 // export {shareToTwitter, };
 // export default shareToTwitter;
