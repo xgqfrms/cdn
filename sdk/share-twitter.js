@@ -4,24 +4,24 @@ const copyright = `
 www.cnblogs.com 发布文章使用：只允许注册用户才可以访问！
      原创文章，版权所有©️xgqfrms, 禁止转载 🈲️，侵权必究⚠️！
 `;
-
 const shareToTwitter = (options = {
-    uid = 'h1.postTitle',
-    user= 'xgqffrms',
-    tags = 'js,cnblogs',
+    uid: 'h1.postTitle',
+    user: 'xgqffrms',
+    tags: 'js,cnblogs',
   }) => {
   const {uid, user, tags} = options;
   // 一键分享
   const h1 = document.querySelector(`${uid}`);
-  const text = h1?.innerText ?? '暂无文章标题';
+  const text = window.encodeURIComponent(h1?.innerText ?? '暂无文章标题');
   const link = window.encodeURIComponent(window.location.href);
   const url = `https://twitter.com/intent/tweet?url=${link}&text=${text}&via=${user}&hashtags=${tags}`;
   try {
-    window.open('_blank', url);
+    // window.open(url, '_blank');
+    window.open(url, '_blank', 'location=yes,height=600,width=800,scrollbars=yes,status=yes');
   } catch (err) {
     console.log('share error', err);
   }
-};
+}
 
 // export shareToTwitter;
 // export {shareToTwitter, };
