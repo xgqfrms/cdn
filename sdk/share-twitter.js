@@ -22,9 +22,9 @@ const shareToTwitter = (options = {
   } catch (err) {
     console.log('share error', err);
   }
-}
+};
 
-
+console.log('shareToTwitter', shareToTwitter);
 
 const autoGeneratorShareButton = () => {
  // 自动生成 UI (web components ???)
