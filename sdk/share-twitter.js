@@ -24,7 +24,7 @@ const shareToTwitter = (options = {
   }
 };
 
-console.log('shareToTwitter', shareToTwitter);
+// console.log('shareToTwitter', shareToTwitter);
 
 const autoGeneratorShareButton = () => {
  // 自动生成 UI (web components ???)
