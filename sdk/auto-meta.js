@@ -25,7 +25,12 @@ const autoGeneratorMeta = (options = {
     <meta name="twitter:creator" content="@${author}">
   `;
   const head = document.querySelector('head');
-  head.insertAdjacentHTML('beforeend', meta);
+  if(head) {
+    console.log('meta ✅');
+    head.insertAdjacentHTML('beforeend', meta);
+  } else {
+    console.log('meta ❌');
+  }
 }
 
 autoGeneratorMeta();
