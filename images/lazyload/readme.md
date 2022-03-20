@@ -4,6 +4,9 @@
 https://codepen.io/xgqfrms/pen/bGGQNrW?editors=1111
 
 
+https://cdn.xgqfrms.xyz/images/lazyload/index.html
+
+
 > raw
 
 
