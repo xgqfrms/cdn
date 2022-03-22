@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" href="/favicon.ico" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown themes gallery</title>
+    <link rel="stylesheet" href="https://unpkg.com/bytemd/dist/index.min.css" />
+    <script src="https://unpkg.com/bytemd@1.10.13/dist/index.min.js"></script>
+    <!-- <script src="https://unpkg.com/bytemd@1.11.0/dist/index.min.js"></script> -->
+    <!-- https://unpkg.com/@bytemd/index.min.js.map -->
+    <!-- 
+      var one = require('./one')
+      var footer = require('./footer')
+      var handlers = require('./handlers')
+     -->
+<!--     <script src="https://unpkg.com/bytemd"></script> -->
+    <script src="https://unpkg.com/@bytemd/plugin-gfm"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-frontmatter"></script>
+    <script src="https://unpkg.com/@bytemd/plugin-footnotes"></script>
+    <!-- <script src="https://raw.githubusercontent.com/xitu/juejin-markdown-themes/main/themes.js"></script> -->
+    <script src="themes.js"></script>
+    <!-- <script src="theme.js"></script> -->
+    <style>
+      #app {
+        margin: 0 auto;
+        max-width: 1200px;
+      }
+      .bytemd {
+        height: calc(100vh - 40px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const plugins = [
+        bytemdPluginGfm(),
+        bytemdPluginFrontmatter(),
+        bytemdPluginFootnotes(),
+        {
+          viewerEffect({ file }) {
+            console.log('file', file);
+            const $style = document.createElement('style');
+            $style.innerHTML = themes['channing-cyan']?.style ?? themes['channing-cyan'].style;
+            // $style.innerHTML = themes[file.frontmatter.theme]?.style ?? themes.juejin.style;
+            document.head.appendChild($style);
+            return () => {
+              $style.remove();
+            };
+          },
+        },
+      ];
+
+      fetch('./example.md')
+      // fetch('https://raw.githubusercontent.com/xitu/juejin-markdown-themes/main/gallery/example.md')
+        .then((res) => res.text())
+        .then((md) => {
+          md = md.replace(
+            '# themes:',
+            '# themes: ' + Object.keys(themes).join(', ')
+          );
+
+          const editor = new bytemd.Editor({
+            target: document.querySelector('#app'),
+            props: {
+              value: md,
+              plugins,
+            },
+          });
+
+          editor.$on('change', (e) => {
+            editor.$set({ value: e.detail.value });
+          });
+        });
+    </script>
+  </body>
+</html>
