@@ -7,6 +7,8 @@ https://cdn.xgqfrms.xyz/UA/index.html
 
 > archPlatform
 
+https://cdn.xgqfrms.xyz/UA/platform.html
+
 ```js
 
 navigator.platform;
