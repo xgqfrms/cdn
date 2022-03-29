@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
   app.insertAdjacentHTML('beforeend', `<pre>${JSON.stringify(obj, null, 4)}</pre><br/>`);
   // all
   app.insertAdjacentHTML('beforeend', `<pre>${JSON.stringify(UA.getAll(), null, 4)}</pre><br/>`);
+  const archPlatform = navigator.platform;
+  log('archPlatform', archPlatform);
+  app.insertAdjacentHTML('beforeend', `<pre>${JSON.stringify({
+      "archPlatform": archPlatform,
+      "navigator": navigator,
+  }, null, 4)}</pre><br/>`);
 });
 
 
