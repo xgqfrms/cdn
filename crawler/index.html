@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="xgqfrms">
+  <meta name="generator" content="VS code">
+  <title>crawler page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="./index.css"> -->
+</head>
+<body>
+  <header>
+    <h1>crawler page</h1>
+  </header>
+  <main>
+    <article>
+      <section>
+        <span id="article1-user">1</span>
+      </section>
+    </article>
+    <article>
+      <section>
+        <span id="article2-user">2</span>
+      </section>
+    </article>
+    <article>
+      <section>
+        <span id="article3-user">3</span>
+      </section>
+    </article>
+  </main>
+  <footer>
+    <p>copyright&copy; xgqfrms 2021</p>
+  </footer>
+  <!-- js -->
+  <script>
+    const log = console.log;
+    const articles = [...document.querySelectorAll(`[id^="article"]`)];
+    log('articles', articles);
+    for (const [i, item] of articles.entries()) {
+      log(`article${i} =`, item);
+      item.innerText = Math.random() * 100;
+    }
+  </script>
+</body>
+</html>
