@@ -4,33 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>download-link-pdf</title>
+    <title>HTML5 download pdf</title>
 </head>
 <body>
+ <h1>下载方式与服务器返回的文件类型有关，如 zip, page, blob, stream ✅ </h1>
+  
 <secction>
         <div>
-            <a href="https://cdn.xgqfrms.xyz/vscode/keyboard-shortcuts-windows.pdf" target="_blank" download="shortcuts-zh.pdf">download pdf</a>
+            <a href="https://cdn.xgqfrms.xyz/vscode/keyboard-shortcuts-windows" download="shortcuts-zh.pdf">download pdf</a>
         </div>
 <pre>
-    <h1>good (href no extends name) ✅</h1>
+    <h1>good (href no extends name) ❌</h1>
     href="https://cdn.xgqfrms.xyz/vscode/keyboard-shortcuts-windows"
     download="shortcuts-zh.pdf"
 </pre>
     </secction>
     <secction>
         <div>
-            <a href="https://cdn.xgqfrms.xyz/vscode/keyboard-shortcuts-windows.pdf" target="_blank" download="shortcuts-zh.pdf">download pdf</a>
+            <a href="https://cdn.xgqfrms.xyz/vscode/keyboard-shortcuts-windows.pdf" download="shortcuts-zh.pdf">download pdf</a>
 <pre>
-    <h1>bad (href with extends name) ❌</h1>
+    <h1>bad (href with extends name) ✅</h1>
     href="https://cdn.xgqfrms.xyz/vscode/keyboard-shortcuts-windows.pdf"
     download="shortcuts-zh.pdf"
 </pre>
         </div>
     </secction>
+
 <hr/> 
+ <h1>The download method is related to the file type returned by the server, such as zip, page, blob, stream ✅ </h1>
     <secction>
         <div>
-            <a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows" target="_blank" download="shortcuts-zh.pdf">download pdf</a>
+            <a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows"  download="shortcuts-zh.pdf">download pdf</a>
         </div>
 <pre>
     <h1>good (href no extends name) ✅</h1>
@@ -40,7 +44,7 @@
     </secction>
     <secction>
         <div>
-            <a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" target="_blank" download="shortcuts-zh.pdf">download pdf</a>
+            <a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf"  download="shortcuts-zh.pdf">download pdf</a>
 <pre>
     <h1>bad (href with extends name) ❌</h1>
     href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf"
