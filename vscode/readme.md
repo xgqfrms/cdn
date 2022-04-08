@@ -4,6 +4,8 @@
 
 https://cdn.xgqfrms.xyz/vscode/index.html
 
+https://cdn.xgqfrms.xyz/vscode/download/index.html
+
 ## refs
 
 https://codepen.io/xgqfrms/pen/GyEGzG
