@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="xgqfrms">
+  <meta name="generator" content="VS code">
+  <title>XHR Blob</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="./index.css"> -->
+</head>
+<body>
+  <header>
+    <h1>XHR & Blob</h1>
+  </header>
+  <main>
+    <section>
+      <video id="video" controls>
+        loading...
+      </video>
+      <img id="img" />
+    </section>
+  </main>
+  <footer>
+    <p>copyright&copy; xgqfrms 2022</p>
+  </footer>
+  <!-- js -->
+  <script>
+    function generatorBlobVideo(url, type, dom) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      // xhr.responseType = 'arrayBuffer';
+      xhr.responseType = 'arraybuffer';
+      // xhr.responseType = type;
+      // xhr.responseType = 'Blob';
+      // xhr.responseType = 'blob';
+      xhr.onload = function(res) {
+        console.log('res =', res);
+        console.log('xhr.response =', xhr.response);
+        var file = new File([url], "filename", {
+          type: type,
+        });
+        console.log('file =', file);
+        var blob = new Blob(
+          [xhr.response],
+          // [file],
+          // [url],
+          // [new File(xhr.response, 'test')],
+          // ['https://cdn.xgqfrms.xyz/HTML5/Blob/2022-04-07-sh.mp4'],
+          {'type' : type},
+        );
+        var urlBlob = URL.createObjectURL(blob);
+        dom.src = urlBlob;
+        console.log('urlBlob', urlBlob);
+      };
+      xhr.send();
+    }
+    (function() {
+      var type = 'image/png';
+      var url = 'https://cdn.xgqfrms.xyz/logo/icon.png';
+      var dom = document.querySelector('#img');
+      generatorBlobVideo(url, type, dom);
+    })();
+    (function() {
+      var type = 'video/mp4';
+      var url = 'https://cdn.xgqfrms.xyz/HTML5/Blob/2022-04-07-sh.mp4';
+      // var url = './2022-04-07-sh.mp4';
+      var dom = document.querySelector('#video');
+      generatorBlobVideo(url, type, dom);
+    })();
+    /**/
+  </script>
+</body>
+</html>
