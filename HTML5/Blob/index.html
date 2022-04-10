@@ -82,7 +82,11 @@
       // var url = './2022-04-07-sh.mp4';
       var dom = document.querySelector('#video');
       var link = document.querySelector('#video-link');
-      generatorBlobVideo(url, type, dom, link);
+      // generatorBlobVideo(url, type, dom, link);
+      console.log('vidoe link =', link);
+      setTimeout(() => {
+        generatorBlobVideo(url, type, dom, link);
+      }, 3000);
     })();
     /**/
   </script>
