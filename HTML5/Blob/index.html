@@ -25,7 +25,13 @@
       <video id="video" controls>
         loading...
       </video>
+      <div>
+          <a id="video-link" download="2022-sh.mp4">blob:https://cdn.xgqfrms.xyz/8c78c142-9d82-4893-928d-ac4ee5768b7b</a>
+      </div>
       <img id="img" />
+      <div>
+          <a id="img-link" download="logo.png.mp4">blob:https://cdn.xgqfrms.xyz/458a3be2-5bcb-410c-8864-5fb6a0b8122f</a>
+      </div>
     </section>
   </main>
   <footer>
@@ -33,7 +39,7 @@
   </footer>
   <!-- js -->
   <script>
-    function generatorBlobVideo(url, type, dom) {
+    function generatorBlobVideo(url, type, dom, link) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       // xhr.responseType = 'arrayBuffer';
@@ -58,6 +64,7 @@
         );
         var urlBlob = URL.createObjectURL(blob);
         dom.src = urlBlob;
+        link.href = urlBlob;
         console.log('urlBlob', urlBlob);
       };
       xhr.send();
@@ -66,14 +73,16 @@
       var type = 'image/png';
       var url = 'https://cdn.xgqfrms.xyz/logo/icon.png';
       var dom = document.querySelector('#img');
-      generatorBlobVideo(url, type, dom);
+      var link = document.querySelector('#img-link');
+      generatorBlobVideo(url, type, dom, link);
     })();
     (function() {
       var type = 'video/mp4';
       var url = 'https://cdn.xgqfrms.xyz/HTML5/Blob/2022-04-07-sh.mp4';
       // var url = './2022-04-07-sh.mp4';
       var dom = document.querySelector('#video');
-      generatorBlobVideo(url, type, dom);
+      var link = document.querySelector('#video-link');
+      generatorBlobVideo(url, type, dom, link);
     })();
     /**/
   </script>
