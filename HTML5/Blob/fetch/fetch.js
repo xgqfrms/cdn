@@ -1,5 +1,5 @@
 
-async function recover (link, blob) {
+async function recover (pre, link, blob) {
   // 还原 blob
   const text = await (new Response(blob)).text();
   // console.log('text =', text);
@@ -66,6 +66,10 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
   }).then(res => {
     console.log('\nres =', res);
     if(type.includes('json')) {
+      /*
+         在同一个 then 方法里面，不可以同时调用多个 promise 方法 (res.json() 与 res.arrayBuffer())，
+         会导致阻塞 promise pending， 自动返回 Promise.resolve() 结果 ❌ fetch 验证 TODO...
+      */
       // const json = res.json();
       // console.log('res.json =', json);
       // pre.innerText = JSON.stringify(json, null, 4);
@@ -95,7 +99,7 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
     console.log(`type.includes('json') =`, type.includes('json'))
     if(type.includes('json')) {
       console.log('recover ...');
-      recover(link, blob);
+      recover(pre, link, blob);
     } else {
       console.log('urlBlob =', urlBlob);
       link.innerText = urlBlob;
