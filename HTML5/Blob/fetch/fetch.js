@@ -63,9 +63,10 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
     console.log('res =', res);
     if(type.includes('json')) {
       // const json = res.json();
-      console.log('res.json =', json);
+      // console.log('res.json =', json);
       // pre.innerText = JSON.stringify(json, null, 4);
       pre.innerText = JSON.stringify({key: 'value'}, null, 4);
+      console.log('pre =', pre);
       // return json;
     } else {
       // const buffer = res.arrayBuffer();
