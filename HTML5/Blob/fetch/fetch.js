@@ -1,4 +1,4 @@
-async function generatorBlobVideo(url, type, dom, link) {
+async function generatorBlobVideo(url, type, dom, link, pre) {
   const headers = {
     responseType: 'arraybuffer',
   };
@@ -43,15 +43,16 @@ async function generatorBlobVideo(url, type, dom, link) {
     },
   }).then(res => {
     console.log('res =', res);
-//     if(type.includes('json')) {
-//       const json = res.json();
-//       console.log('json =', json);
-//       return json;
-//     } else {
-//       const buffer = res.arrayBuffer();
-//       console.log('buffer =', buffer);
-//       return buffer;
-//     }
+    if(type.includes('json')) {
+      const json = res.json();
+      console.log('res.json =', json);
+      pre.innerText = JSON.stringify(json, null, 4);
+      // return json;
+    } else {
+      // const buffer = res.arrayBuffer();
+      // console.log('buffer =', buffer);
+      // return buffer;
+    }
       return res.arrayBuffer();
   }).then(data => {
     console.log('data =', data);
@@ -67,8 +68,16 @@ async function generatorBlobVideo(url, type, dom, link) {
      const text = await (new Response(blob)).text();
      console.log('text =', text);
      link.innerText = text;
-     const json = await (new Response(blob)).json();
-     console.log('json =', json);
+     // auto click
+     link.click();
+     URL.revokeObjectURL(link.href);
+     // 
+     try {
+        const json = await (new Response(blob)).json();
+        console.log('json =', json);
+     } catch(err) {
+        console.log('err =', err);
+     }
     } else {
       link.innerText = urlBlob;
     }
@@ -106,8 +115,9 @@ async function generatorBlobVideo(url, type, dom, link) {
   var url = 'https://cdn.xgqfrms.xyz/json/honor.json';
   var dom = document.querySelector('#json');
   var link = document.querySelector('#json-link');
+  var pre = document.querySelector('#json-pre');
   // console.log('img link =', link);
-  await generatorBlobVideo(url, type, dom, link);
+  await generatorBlobVideo(url, type, dom, link, pre);
 })();
 (async function() {
   var type = 'image/png';
