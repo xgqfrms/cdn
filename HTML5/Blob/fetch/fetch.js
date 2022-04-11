@@ -1,10 +1,10 @@
 async function generatorBlobVideo(url, type, dom, link) {
   const headers = {
-    // responseType: 'arraybuffer',
+    responseType: 'arraybuffer',
   };
-  if(!type.includes('json')) {
-    headers.responseType = 'arraybuffer';
-  }
+//   if(!type.includes('json')) {
+//     headers.responseType = 'arraybuffer';
+//   }
   // const headers = new Headers({
   //   'Content-Type': 'text/plain',
   //   'X-Custom-Header': 'ProcessThisImmediately',
@@ -43,15 +43,16 @@ async function generatorBlobVideo(url, type, dom, link) {
     },
   }).then(res => {
     console.log('res =', res);
-    if(type.includes('json')) {
-      const json = res.json();
-      console.log('json =', json);
-      return json;
-    } else {
-      const buffer = res.arrayBuffer();
-      console.log('buffer =', buffer);
-      return buffer;
-    }
+//     if(type.includes('json')) {
+//       const json = res.json();
+//       console.log('json =', json);
+//       return json;
+//     } else {
+//       const buffer = res.arrayBuffer();
+//       console.log('buffer =', buffer);
+//       return buffer;
+//     }
+      return res.arrayBuffer();
   }).then(data => {
     console.log('data =', data);
     const blob = new Blob(
