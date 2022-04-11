@@ -2,8 +2,10 @@
 async function recover (link, blob) {
   // 还原 blob
   const text = await (new Response(blob)).text();
-  console.log('text =', text);
-  link.innerText = text;
+  // console.log('text =', text);
+  // link.innerText = text;
+  pre.innerText = text;
+  // console.log('pre =', pre);
   // auto click
   link.click();
   URL.revokeObjectURL(link.href);
@@ -11,6 +13,8 @@ async function recover (link, blob) {
   try {
     const json = await (new Response(blob)).json();
     console.log('json =', json);
+    pre.innerText = JSON.stringify(json, null, 4);
+    // console.log('pre =', pre);
   } catch(err) {
     console.log('err =', err);
   }
@@ -65,8 +69,8 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
       // const json = res.json();
       // console.log('res.json =', json);
       // pre.innerText = JSON.stringify(json, null, 4);
-      pre.innerText = JSON.stringify({key: 'value'}, null, 4);
-      console.log('pre =', pre);
+      // pre.innerText = JSON.stringify({key: 'value'}, null, 4);
+      // console.log('pre =', pre);
       // return json;
     } else {
       // const buffer = res.arrayBuffer();
