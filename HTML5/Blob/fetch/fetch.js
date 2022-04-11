@@ -65,8 +65,10 @@ async function generatorBlobVideo(url, type, dom, link) {
     if(type.includes('json')) {
       // 还原 blob
      const text = await (new Response(blob)).text();
-     // const json = await (new Response(blob)).json();
-      link.innerText = text;
+     console.log('text =', text);
+     link.innerText = text;
+     const json = await (new Response(blob)).json();
+     console.log('json =', json);
     } else {
       link.innerText = urlBlob;
     }
