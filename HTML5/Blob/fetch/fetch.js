@@ -60,7 +60,7 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
       // ...headers,
     },
   }).then(res => {
-    console.log('res =', res);
+    console.log('\nres =', res);
     if(type.includes('json')) {
       // const json = res.json();
       // console.log('res.json =', json);
@@ -75,7 +75,7 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
     }
     return res.arrayBuffer();
   }).then(data => {
-    console.log('data =', data);
+    // console.log('data =', data);
     const blob = new Blob(
       [data],
       {'type' : type},
