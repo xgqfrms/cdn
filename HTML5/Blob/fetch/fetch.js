@@ -62,7 +62,14 @@ async function generatorBlobVideo(url, type, dom, link) {
     const urlBlob = URL.createObjectURL(blob);
     dom.src = urlBlob;
     link.href = urlBlob;
-    link.innerText = urlBlob;
+    if(type.includes('json')) {
+      // 还原 blob
+     const text = await (new Response(blob)).text();
+     // const json = await (new Response(blob)).json();
+      link.innerText = text;
+    } else {
+      link.innerText = urlBlob;
+    }
   }).catch(err => {}).finally(() => {});
   // .then(res => {
   //   // console.log('fetch.response =', res);
