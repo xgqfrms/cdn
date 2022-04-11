@@ -61,7 +61,10 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
       {'type' : type},
     );
     const urlBlob = URL.createObjectURL(blob);
-    dom.src = urlBlob;
+    if(!type.includes('json')) {
+       dom.src = urlBlob;
+    }
+    // dom.src = urlBlob;
     link.href = urlBlob;
     if(type.includes('json')) {
       // 还原 blob
