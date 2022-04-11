@@ -1,3 +1,21 @@
+
+async function recover (link, blob) {
+  // 还原 blob
+  const text = await (new Response(blob)).text();
+  console.log('text =', text);
+  link.innerText = text;
+  // auto click
+  link.click();
+  URL.revokeObjectURL(link.href);
+  //
+  try {
+    const json = await (new Response(blob)).json();
+    console.log('json =', json);
+  } catch(err) {
+    console.log('err =', err);
+  }
+}
+
 async function generatorBlobVideo(url, type, dom, link, pre) {
   const headers = {
     responseType: 'arraybuffer',
@@ -62,26 +80,18 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
     );
     const urlBlob = URL.createObjectURL(blob);
     if(!type.includes('json')) {
-       dom.src = urlBlob;
+      dom.src = urlBlob;
+    } else {
+      dom.dataset.src = urlBlob;
     }
     // dom.src = urlBlob;
     link.href = urlBlob;
+    console.log(`type.includes('json') =`, type.includes('json'))
     if(type.includes('json')) {
-      // 还原 blob
-      const text = await (new Response(blob)).text();
-      console.log('text =', text);
-      link.innerText = text;
-      // auto click
-      link.click();
-      URL.revokeObjectURL(link.href);
-      //
-      try {
-        const json = await (new Response(blob)).json();
-        console.log('json =', json);
-      } catch(err) {
-        console.log('err =', err);
-      }
+      console.log('recover ...');
+      recover(link, blob);
     } else {
+      console.log('urlBlob =', urlBlob);
       link.innerText = urlBlob;
     }
   }).catch(err => {}).finally(() => {});
