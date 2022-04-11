@@ -2,9 +2,9 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
   const headers = {
     responseType: 'arraybuffer',
   };
-//   if(!type.includes('json')) {
-//     headers.responseType = 'arraybuffer';
-//   }
+  // if(!type.includes('json')) {
+  //   headers.responseType = 'arraybuffer';
+  // }
   // const headers = new Headers({
   //   'Content-Type': 'text/plain',
   //   'X-Custom-Header': 'ProcessThisImmediately',
@@ -53,7 +53,7 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
       // console.log('buffer =', buffer);
       // return buffer;
     }
-      return res.arrayBuffer();
+    return res.arrayBuffer();
   }).then(data => {
     console.log('data =', data);
     const blob = new Blob(
@@ -68,19 +68,19 @@ async function generatorBlobVideo(url, type, dom, link, pre) {
     link.href = urlBlob;
     if(type.includes('json')) {
       // 还原 blob
-     const text = await (new Response(blob)).text();
-     console.log('text =', text);
-     link.innerText = text;
-     // auto click
-     link.click();
-     URL.revokeObjectURL(link.href);
-     // 
-     try {
+      const text = await (new Response(blob)).text();
+      console.log('text =', text);
+      link.innerText = text;
+      // auto click
+      link.click();
+      URL.revokeObjectURL(link.href);
+      //
+      try {
         const json = await (new Response(blob)).json();
         console.log('json =', json);
-     } catch(err) {
+      } catch(err) {
         console.log('err =', err);
-     }
+      }
     } else {
       link.innerText = urlBlob;
     }
