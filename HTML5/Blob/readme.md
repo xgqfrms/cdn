@@ -3,10 +3,17 @@
 
 https://www.cnblogs.com/xgqfrms/p/16120530.html
 
+https://www.cnblogs.com/xgqfrms/p/16132504.html
+
 
 https://cdn.xgqfrms.xyz/HTML5/Blob/2022-04-07-sh.mp4
 
 ## demo
 
-https://cdn.xgqfrms.xyz/HTML5/Blob/index.html
+> 仅支持 XMLHttpRequest ✅ & 不支持 Fetch API ❌
+
+https://cdn.xgqfrms.xyz/HTML5/Blob/index.html ✅
+
+https://cdn.xgqfrms.xyz/HTML5/Blob/fetch/index.html ❌
+
 
