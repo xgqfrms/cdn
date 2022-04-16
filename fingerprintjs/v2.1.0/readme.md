@@ -1,5 +1,7 @@
 # fingerprint.js cdn
 
+https://cdn.xgqfrms.xyz/fingerprintjs/v2.1.0/index.html
+
 > new
 
 https://cdn.xgqfrms.xyz/fingerprintjs/v2.1.0/fingerprint2.js
