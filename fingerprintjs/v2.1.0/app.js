@@ -33,7 +33,8 @@ function start() {
         // console.log(`fingerprint 指纹 =`, values.join(''));
         // hash 
         const murmur = Fingerprint2.x64hash128(values.join(''), 31);
-        // 
+        // init
+        view.innerHTML = "";
         view.innerHTML += `<h2>👻 指纹 : <mark>${murmur}</mark></h2>`;
         view.innerHTML += '<p>消耗 : ' + (new Date().getTime() - start) + ' 毫秒</p>';
         view.innerHTML += '<p>使用的参数 : </p>';
