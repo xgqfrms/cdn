@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="xgqfrms">
+  <meta name="generator" content="VS code">
+  <title>fingerprint.js demo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    div {
+      box-sizing: border-box;
+      margin: 10px;
+    }
+
+    #view {
+      background: #000;
+      color: #0f0;
+      padding: 10px;
+      margin: 10px auto;
+    }
+
+    button {
+      font-size: 23px;
+      margin: 10px auto;
+      cursor: pointer;
+    }
+
+  </style>
+  <!-- <link rel="stylesheet" href="./index.css"> -->
+  <script src="https://cdn.staticfile.org/fingerprintjs2/2.1.0/fingerprint2.min.js"></script>
+<!--   <script src="https://cdn.staticfile.org/fingerprintjs2/2.1.0/fingerprint2.js"></script> -->
+</head>
+<body>
+  <h1>fingerprint.js demo</h1>
+  <hr>
+  <h2>fingerprint.js v2</h2>
+  <a href="https://cdn.xgqfrms.xyz/fingerprintjs/v2.1.0/fingerprint2.js">https://cdn.xgqfrms.xyz/fingerprintjs/v2.1.0/fingerprint2.js</a><br>
+  <a href="https://cdn.xgqfrms.xyz/fingerprintjs/v2.1.0/fingerprint2.min.js">https://cdn.xgqfrms.xyz/fingerprintjs/v2.1.0/fingerprint2.min.js</a><br>
+  <h3>👻 指纹 : <mark>f6a35166a8bd7266295e91b046484cba</mark></h3>
+  <h3>👻 指纹 : <mark>2147c1c847928fcf0b4deef788897d59</mark></h3>
+  <div id="control">
+      <button onclick="start()">生成指纹</button>
+      <br />
+      <span>userAgent:</span><input type="checkbox" id="userAgent" checked="checked">
+      <span>fonts:</span><input type="checkbox" id="fonts" checked="checked">
+      <span>fontsFlash:</span><input type="checkbox" id="fontsFlash" checked="checked">
+      <span>canvas:</span><input type="checkbox" id="canvas" checked="checked">
+      <span>webgl:</span><input type="checkbox" id="webgl" checked="checked">
+      <span>audio:</span><input type="checkbox" id="audio" checked="checked">
+      <span>enumerateDevices:</span><input type="checkbox" id="enumerateDevices" checked="checked">
+  </div>
+  <hr>
+  <img id="img" />
+  <div id="view"></div>
+  <hr>
+  <h2>canvas fingerprint</h2>
+  <div id="myCanvas"></div>
+  <script>
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var txt = 'https://security.xgqfrms.xyz/';
+    ctx.textBaseline = "top";
+    ctx.font = "14px 'Arial'";
+    ctx.textBaseline = "tencent";
+    ctx.fillStyle = "#f60";
+    ctx.fillRect(125,1,62,20);
+    ctx.fillStyle = "#069";
+    ctx.fillText(txt, 2, 15);
+    ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+    ctx.fillText(txt, 4, 17);
+
+    var d=document.getElementById("myCanvas");
+    d.appendChild(canvas)
+
+    var b64 = canvas.toDataURL().replace("data:image/png;base64,","");
+    var bin = atob(b64);
+    console.log(bin)
+    var crc = bin2hex(bin.slice(-16,-12));
+    console.log(crc);
+    // 输出crc码，crc在一定程度上标识了浏览器的唯一性，但是，在相同设备，
+    // 相同浏览器上，重复特别严重。（该指纹能够识别出了某种GPU在安装了某种字体下的群体。）
+
+    function bin2hex(str) {
+        var result = "";
+        for (i = 0; i < str.length; i++ ) {
+        var c = str.charCodeAt(i);
+        result += byte2Hex(c>>8 & 0xff); // 高字节
+        result += byte2Hex(c & 0xff);// 低字节
+        }
+        return result;
+    }
+
+    function byte2Hex(b) {
+        if(b < 0x10)
+        return "0" + b.toString(16);
+        else
+        return b.toString(16);
+    }
+</script>
+<script src="./app.js"></script>
+</body>
+</html>
