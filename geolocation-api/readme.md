@@ -31,3 +31,10 @@ window.navigator?.geolocation.?getCurrentPosition((position) => {
 ```
 
 https://www.cnblogs.com/xgqfrms/p/16176891.html
+
+
+## demo
+
+https://cdn.xgqfrms.xyz/geolocation-api/index.html
+
+
