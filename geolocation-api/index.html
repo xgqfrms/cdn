@@ -26,9 +26,9 @@
     <h1>Geolocation API All in One</h1>
   </header>
   <main>
-    <article>
-      <section id="app">...loading</section>
-    </article>
+    <section id="app">...loading</section>
+    <canvas id="canvas"></canvas>
+    <video id="video"></video>
   </main>
   <footer>
     <p>copyright&copy; xgqfrms 2022</p>
@@ -37,9 +37,12 @@
   <!-- <script src="./getGeoByIp.js"></script> -->
   <script type="module">
     import getGeoByIp from "./getGeoByIp.js";
+    import app from "./app.js";
     const log = console.log;
-    log('getGeoByIp', getGeoByIp);
+    // log('getGeoByIp', getGeoByIp);
     getGeoByIp();
+    // log('app', app);
+    app('video', 'canvas');
   </script>
 </body>
 </html>
