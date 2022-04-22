@@ -8,9 +8,9 @@ const getGeoByIp = (dom = '#app') => {
   window.navigator.geolocation.getCurrentPosition((position) => {
       const cords = position.coords;
       console.log(`position = `, position);
-      console.log(`position.coords = `, position.coords);
-      console.log(`Latitude :  ${cords.latitude}`);
-      console.log(`Longitude :  ${cords.longitude}`);
+      console.log(`地理坐标系 position.coords = `, position.coords);
+      console.log(`纬度 Latitude :  ${cords.latitude}`);
+      console.log(`经度 Longitude :  ${cords.longitude}`);
       const json = {
         "纬度 Latitude":  cords.latitude ?? 31.2639786,
         "经度 Longitude":  cords.longitude ?? 121.3897594,
