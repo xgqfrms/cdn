@@ -1,0 +1,110 @@
+<h1>CSS 3D Rotate With Mouse Move Demo</h1>
+
+
+<section id="container">
+    <div id="box" class="box preserve-3d">
+       <span>CSS 3D rotate</span>
+    </div>
+</section>
+
+
+<hr>
+
+<iframe height="500" style="width: 100%;" scrolling="no" title="CSS 3D rotate with mouse move" src="https://codepen.io/xgqfrms/embed/eYVOWZw?default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/xgqfrms/pen/eYVOWZw">
+  CSS 3D rotate with mouse move</a> by xgqfrms (<a href="https://codepen.io/xgqfrms">@xgqfrms</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+
+<style>
+  
+body {
+    width: 100vw;
+    height: 100vh;
+    // display: flex;
+    cursor: pointer;
+}
+
+.box {
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    background: pink;
+    transition: all .1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // flex-wrap: wrap;
+    // align-content: center;
+}
+.preserve-3d {
+    transform-style: preserve-3d;
+    perspective: 300px;
+}
+
+/*
+
+
+display: flex;
+
+===
+
+flex-direction: row;
+flex-wrap: nowrap;
+
+align-content: normal;
+justify-content: normal;
+align-items: normal;
+
+*/
+
+
+/*
+
+只有 wrap 的时候，align-content 的值才会生效 ✅
+
+flex-wrap: wrap;
+
+align-content: center;
+
+
+
+*/
+</style>
+
+
+<script>
+
+function transformElement(div, x, y) {
+  const multiple = 12;
+  const box = div.getBoundingClientRect();
+  // ??? - 
+  const calcX = -(y - box.y - (box.height / 2)) / multiple;
+  const calcY = (x - box.x - (box.width / 2)) / multiple;
+  div.style.transform = `rotateX(${calcX}deg) rotateY(${calcY}deg)`;
+}
+
+const container = document.querySelector('#container');
+const box = document.getElementById("box");
+
+container.addEventListener('mousemove', (e) => {
+  window.requestAnimationFrame(() => {
+    // 动态计算 rotate 的值
+    transformElement(box, e.clientX, e.clientY);
+  });
+});
+
+container.addEventListener('mouseleave', (e) => {
+  window.requestAnimationFrame(() => {
+    // 还原/复位
+    box.style.transform = `rotateX(0) rotateY(0)`;
+  });
+});
+
+/*
+
+https://codepen.io/xgqfrms/pen/eYVOWZw
+
+*/
+</script>
