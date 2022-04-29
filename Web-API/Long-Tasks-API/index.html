@@ -1,0 +1,63 @@
+
+<pre id="pre">...loading</pre>
+
+<div id="app"></div>
+
+
+
+<script>
+
+const pre = document.querSelector('#pre');
+const app = document.querSelector('#app');
+  
+// Catch errors since some browsers throw when using the new `type` option.
+// https://bugs.webkit.org/show_bug.cgi?id=209216
+try {
+  // Create the performance observer.
+  const po = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+      // Log the entry and all associated details.
+      console.log(`entry =`, entry);
+      console.log(`entry.toJSON() =`, entry.toJSON());
+      pre.innerText = JSON.stringify(entry.toJSON(), null, 4);
+    }
+  });
+  // Start listening for `longtask` entries to be dispatched. ✅
+  po.observe({type: 'longtask', buffered: true});
+} catch (e) {
+  // Do nothing if the browser doesn't support this API.
+}
+  
+
+const DOMTask = async () => {
+  const start = Date.now();
+  console.log('\ndom start =', start);
+  for (let i = 0; i < 10000; i++) {
+    app.insertAdjacentHTML('beforeend', `<p>i =${i}</p>`)
+  }
+  const end = Date.now();
+  console.log('dom end =', end);
+  console.log('dom end - start =', end - start);
+}
+
+const JSTask = async () => {
+  // const arr = [];
+  let html = ``;
+  const start = Date.now();
+  console.log('\njs start =', start);
+  for (let i = 0; i < 10000; i++) {
+    html += `<p>i =${i}</p>`;
+    // arr.push(`<p>i =${i}</p>`);
+  }
+  // app.insertAdjacentHTML('beforeend', html);
+  // console.log('html =', html);
+  const end = Date.now();
+  console.log('js end =', end);
+  console.log('js end - start =', end - start);
+}
+
+DOMTask();
+JSTask();
+
+
+</script>
