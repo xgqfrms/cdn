@@ -1,0 +1,55 @@
+<h1>Event Timing API demo</h1>
+
+<div id="app">...loading</div>
+
+<script>
+
+const app = document.querySelector('#app');
+
+// const input = document.createElement('input');
+const input = `
+  <label for="name">name (4 to 8 characters):</label>
+  <input type="text" id="name" name="name" required minlength="4" maxlength="8" size="100" placeholder="please input your name!">
+`;
+
+setTimeout(() => {
+  app.insertAdjacentHTML('beforeend', input);
+}, 0);
+
+
+<script>
+
+// Catch errors since some browsers throw when using the new `type` option.
+// https://bugs.webkit.org/show_bug.cgi?id=209216
+try {
+  const po = new PerformanceObserver((entryList) => {
+    console.log('\n👻 entryList = ', entryList);
+    console.log('entryList.getEntries =',  entryList.getEntries());
+    const firstInput = entryList.getEntries()[0];
+    
+    console.log('✅ firstInput =',  firstInput));
+    // Measure First Input Delay (FID).
+    const firstInputDelay = firstInput.processingStart - firstInput.startTime;
+
+    // Measure the time it takes to run all event handlers
+    // Note: this does not include work scheduled asynchronously using methods like `requestAnimationFrame()` or `setTimeout()`.
+    const firstInputProcessingTime = firstInput.processingEnd - firstInput.processingStart;
+
+    // Measure the entire duration of the event, from when input is received by the browser until the next frame can be painted after processing all event handlers.
+    // Note: similar to above, this value does not include work scheduled asynchronously using `requestAnimationFrame()` or `setTimeout()`.
+    // And for security reasons, this value is rounded to the nearest 8ms.
+    const firstInputDuration = firstInput.duration;
+
+    // Log these values the console.
+    console.log({
+      firstInputDelay,
+      firstInputProcessingTime,
+      firstInputDuration,
+    });
+  });
+  // ✅ first-inpu
+  po.observe({type: 'first-input', buffered: true});
+} catch (err) {
+  // Do nothing if the browser doesn't support this API.
+}
+</script>
