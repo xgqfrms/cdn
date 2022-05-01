@@ -5,9 +5,11 @@
 
 ## CDN for everyone who want to speed his website!
 
-* license under CC licensing!
 
-# Disclaimer
+https://cdn.xgqfrms.xyz/
+
+
+## Disclaimer
 
 * Share — copy and redistribute the material in any medium or format
 * Adapt — remix, transform, and build upon the material
@@ -16,7 +18,7 @@
 ## The licensor cannot revoke these freedoms as long as you follow the license terms.
 
 
-# MIT LICENSE
+## MIT LICENSE
 
 https://opensource.org/licenses/MIT
 
