@@ -26,6 +26,7 @@ https://www.ampproject.org/zh_cn/docs/getting_started/create/basic_markup
 
 ## demo
 
+https://cdn.xgqfrms.xyz/AMP/index.html
 
 ```sh
 # todo
