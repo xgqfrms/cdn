@@ -34,7 +34,7 @@ https://cdn.xgqfrms.xyz/audio/internationale-fr.ogg
     <audio
       controls
       src="https://cdn.xgqfrms.xyz/audio/internationale-zh.ogg"
-      poster="/w/extensions/TimedMediaHandler/resources/poster-audio.svg"
+      poster="https://cdn.xgqfrms.xyz/audio/internationale.jpeg"
       preload="metadata">
        Your browser does not support the <code>audio</code> element.
        <source
