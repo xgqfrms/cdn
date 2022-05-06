@@ -7,15 +7,15 @@ https://zh.wikipedia.org/wiki/%E5%9B%BD%E9%99%85%E6%AD%8C
 
 ## audio
 
-https://cdn.xgqfrms.xyz/audio/international-zh.ogg
+https://cdn.xgqfrms.xyz/audio/internationale-zh.ogg
 
-https://cdn.xgqfrms.xyz/audio/international-fr.ogg
+https://cdn.xgqfrms.xyz/audio/internationale-fr.ogg
 
 ```html
 
 <figure>
     <figcaption>国际歌</figcaption>
-    <audio controls src="/media/cc0-audio/t-rex-roar.mp3">
+    <audio controls src="https://cdn.xgqfrms.xyz/audio/internationale-zh.mp3">
        Your browser does not support the <code>audio</code> element.
     </audio>
 </figure>
@@ -23,8 +23,39 @@ https://cdn.xgqfrms.xyz/audio/international-fr.ogg
 
 <figure>
     <figcaption>国际歌</figcaption>
-    <audio controls src="/media/cc0-audio/t-rex-roar.mp3">
+    <audio controls src="https://cdn.xgqfrms.xyz/audio/internationale-zh.ogg">
        Your browser does not support the <code>audio</code> element.
+    </audio>
+</figure>
+
+
+<figure>
+    <figcaption>国际歌</figcaption>
+    <audio
+      controls
+      src="https://cdn.xgqfrms.xyz/audio/internationale-zh.ogg"
+      poster="/w/extensions/TimedMediaHandler/resources/poster-audio.svg"
+      preload="metadata">
+       Your browser does not support the <code>audio</code> element.
+       <source
+          src="https://cdn.xgqfrms.xyz/audio/internationale-zh.ogg" 
+          type="audio/ogg; codecs=&quot;vorbis&quot;"
+          data-title="原始Ogg文件 (104 kbps)"
+          data-shorttitle="Ogg原始文件"
+          data-width="0"
+          data-height="0"
+          data-bandwidth="104426"
+       />
+       <source
+          src="https://cdn.xgqfrms.xyz/audio/internationale-zh.mp3"
+          type="audio/mpeg"
+          data-title="MP3"
+          data-shorttitle="MP3"
+          data-transcodekey="mp3" 
+          data-width="0"
+          data-height="0"
+          data-bandwidth="122968"
+       />
     </audio>
 </figure>
 
