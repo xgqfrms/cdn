@@ -1,15 +1,18 @@
 # 孙子兵法
 
 
-[zh-Hans](./ArtofWar.pdf)
+[zh-Hans 原文](./ArtofWar.pdf)
 
+[zh-Hant 原文](./sunzibingfa.pdf)
 
-[zh-Hant](./sunzibingfa.pdf)
-
+[zh-Hant 译文](./sunzi.pdf)
 
 https://cdn.xgqfrms.xyz/ebooks/szbf/ArtofWar.pdf
 
 https://cdn.xgqfrms.xyz/ebooks/szbf/sunzibingfa.pdf
+
+
+https://cdn.xgqfrms.xyz/ebooks/szbf/sunzi.pdf
 
 
 ## refs
