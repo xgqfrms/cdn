@@ -7,12 +7,12 @@
 
 
 
-https://cdn.xgqfrms.xyz/apple/apple-iphone-12-pro-bug.m4a
+https://cdn.xgqfrms.xyz/apple/bug/apple-iphone-12-pro-bug.m4a
 
 
-https://cdn.xgqfrms.xyz/apple/apple-iphone-12-pro-bug.mp3
+https://cdn.xgqfrms.xyz/apple/bug/apple-iphone-12-pro-bug.mp3
 
 
-https://cdn.xgqfrms.xyz/apple/apple-iphone-12-pro-bug.mp4
+https://cdn.xgqfrms.xyz/apple/bug/apple-iphone-12-pro-bug.mp4
 
 
