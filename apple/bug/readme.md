@@ -8,4 +8,9 @@
 
 
 
+https://cdn.xgqfrms.xyz/apple/apple-iphone-12-pro-bug.m4a
+
+
+https://cdn.xgqfrms.xyz/apple/apple-iphone-12-pro-bug.mp4
+
 
