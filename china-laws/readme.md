@@ -22,4 +22,4 @@ https://cdn.xgqfrms.xyz/china-laws/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1
 
 https://cdn.xgqfrms.xyz/china-laws/电动自行车安全技术规范.pdf
 
-
+https://cdn.xgqfrms.xyz/china-laws/%E7%94%B5%E5%8A%A8%E8%87%AA%E8%A1%8C%E8%BD%A6%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83.pdf
