@@ -16,3 +16,10 @@ https://cdn.xgqfrms.xyz/china-laws/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1
 
 -->
 
+## 电动自行车安全技术规范
+
+> `GB 17761-2018` 代替 `GB 17761-1999`
+
+https://cdn.xgqfrms.xyz/china-laws/电动自行车安全技术规范.pdf
+
+
