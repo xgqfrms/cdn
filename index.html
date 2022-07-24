@@ -34,6 +34,35 @@
     <!-- preload & prefetch -->
     <link rel="preload"  href="./js-hacks/drc-drm.js" as="script">
     <!-- <link rel="prefetch" href="https://cdn.xgqfrms.xyz/js-hacks/drc-drm.js" as="script"> -->
+    
+
+<script type="module">
+  import {getCLS, getFID, getLCP} from 'https://unpkg.com/web-vitals?module';
+
+  // onReport callback
+  function sendToAnalytics(metric) {
+    console.log('收集的性能指标数据 =', metric);
+    // 收集的性能指标数据
+    /*
+    const body = JSON.stringify(metric);
+    if(navigator.sendBeacon) {
+      // Use `navigator.sendBeacon()` if available
+      navigator.sendBeacon('/analytics', body)
+    } else {
+      // falling back to `fetch()`.
+      fetch('/analytics', {body, method: 'POST', keepalive: true});
+      // keepalive ❓
+    }
+    */
+  }
+
+  getCLS(sendToAnalytics);
+  getFID(sendToAnalytics);
+  getLCP(sendToAnalytics);
+
+</script>
+
+
     <!-- 不会执行,必须js 操作 -->
     <script>
       const usedLaterScript = document.createElement('script');
