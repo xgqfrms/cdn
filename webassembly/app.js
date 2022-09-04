@@ -1,8 +1,7 @@
 // IIFE
 (() => {
-  // const WebA_URL = `https://cdn.xgqfrms.xyz/webassembly/xgqfrms.wasm`;
-  // const WebA_URL = `./math-sqrt-demo.wasm`;
-  const WebA_URL = `https://cdn.xgqfrms.xyz/webassembly/math-sqrt-demo.wasm`;
+  // const WebA_URL = `https://cdn.xgqfrms.xyz/webassembly/math-sqrt-demo.wasm`;
+  const WebA_URL = `./math-sqrt-demo.wasm`;
   const ThrowErrorInfo = () => {throw new Error(`fetch WASM failed!`)};
   fetch(`${WebA_URL}`)
   .then(res => res.ok ? res.arrayBuffer() : ThrowErrorInfo())
@@ -18,12 +17,11 @@
     // window.WebAssembly
     const result = instance.exports.sqrt(4);
     console.log(`sqrt(4)'s result =`, result, result === 2 ? `✅` : `❌`)
+    setTimeout(() => {
+      const app = document.querySelector(`#app`);
+      app.innerHTML = ``;
+      app.insertAdjacentHTML(`beforeend`, `sqrt(4)'s result = ${result} ${result === 2 ? '✅' : '❌'}`);
+    }, 1000);
   });
 })();
 
-
-// const wasmInstance = new WebAssembly.Instance(wasmModule, {});
-// const { addTwo } = wasmInstance.exports;
-// for (let i = 0; i < 10; i++) {
-//   console.log(addTwo(i, i));
-// }
