@@ -64,9 +64,10 @@ fetch('https://cdn.xgqfrms.xyz/webassembly/simple.wasm')
 
 ```
 
-https://cdn.xgqfrms.xyz/webassembly/simple.wat
 
-https://cdn.xgqfrms.xyz/webassembly/simple.wasm
+https://cdn.xgqfrms.xyz/webassembly/imports-exports/simple.wasm
+
+https://cdn.xgqfrms.xyz/webassembly/imports-exports/simple-arg.wasm
 
 https://webassembly.github.io/wabt/demo/wat2wasm/
 
