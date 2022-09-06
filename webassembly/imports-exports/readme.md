@@ -3,7 +3,9 @@
 
 
 ```wat
-;; simple.wasm
+;; simple.wat => simple.wasm
+;; simple.wast => simple.wasm
+;; 使用 s-expr, 手动组装 WebAssembly Module
 (module
   (func $getYear (import "imports" "getYear") (param i32))
   (func (export "printYear")
@@ -15,14 +17,15 @@
 
 ```
 
-??? pass param
+## pass param ✅
 
 ```wat
-;; simple.wasm
+;; simple-arg.wat
+;; local.get
 (module
   (func $getYear (import "imports" "getYear") (param i32))
-  (func (export "printYear")  (param i32)
-    call $getYear(param)
+  (func (export "printYear") (param $year i32)
+    (call $getYear(local.get $year))
   )
 )
 
