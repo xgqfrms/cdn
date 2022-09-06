@@ -1,5 +1,5 @@
-;; msimple.wat => msimple.wasm
-;; msimple.wast => msimple.wasm
+;; simple.wat => simple.wasm
+;; simple.wast => simple.wasm
 ;; 使用 s-expr, 手动组装 WebAssembly Module
 (module
   (func $getYear (import "imports" "getYear") (param i32))
