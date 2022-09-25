@@ -24,6 +24,8 @@
 
 const log = console.log;
 
+log(`❓`)
+
 /*
 
 
@@ -312,3 +314,6 @@ ReactDOM.render(
   <GameRoom></GameRoom>,
   document.getElementById('gameroom')
 );
+
+
+log(`✅`)
