@@ -98,6 +98,8 @@ body {
 }
 
 
+
+
 .game-box {
   background: url(https://img2.baidu.com/it/u=3202063201,1142127465&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=154);
   /* width: 70vw; */
@@ -107,7 +109,7 @@ body {
   bottom: 30px;
   left: 250px;
   width: 60vw;
-  min-width: 500px;
+  min-width: 600px;
   height: 800px;
   /* position: 'absolute',
   display:'block',
@@ -118,6 +120,14 @@ body {
   minWidth: 500,
   height: 800, */
 }
+
+@media (max-device-width: 667px) {
+  .game-box {
+    left: 0px;
+    width: 100vw;
+  }
+}
+
 
 /* .header {
   width: 100%;
