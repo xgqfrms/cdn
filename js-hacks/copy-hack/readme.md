@@ -15,4 +15,4 @@ $ npm install copy-hack
 
 ```
 
-
+https://cdn.xgqfrms.xyz/js-hacks/copy-hack/index.html
