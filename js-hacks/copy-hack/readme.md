@@ -4,6 +4,8 @@
 
 https://heimdalsecurity.com/blog/watch-out-you-might-get-hacked-when-copy-pasting-commands-from-webpages/
 
+https://www.youtube.com/watch?v=LFXZqQL4vTY
+
 
 ## install hack shell script ✅
 
