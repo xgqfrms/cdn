@@ -10,6 +10,8 @@ https://cdn.xgqfrms.xyz/audio/piano/fantastic-tomorrow.mp3
 
 https://cdn.xgqfrms.xyz/audio/piano/active-musical-notation.mp3
 
+[days pianoboy](https://www.youtube.com/watch?v=6QZwUZXEvDw&ab_channel=Kivo)
+
 https://cdn.xgqfrms.xyz/audio/piano/happy-children.mp3
 
 https://cdn.xgqfrms.xyz/audio/piano/thanksgiving-tune.mp3
