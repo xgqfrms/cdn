@@ -10,7 +10,7 @@ https://www.cnblogs.com 发布文章使用：只允许注册用户才可以访�
 const shareToTwitter = (options = {
     uid: 'h1.postTitle',
     author: 'xgqfrms',
-    tags: 'js,cnblogs',
+    tags: 'js,cnblogs,webfullstack,leetcode,web',
   }) => {
   const {uid, author, tags} = options;
   // 一键分享
