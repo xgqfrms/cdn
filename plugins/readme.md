@@ -18,4 +18,7 @@ https://cdn.xgqfrms.xyz/plugins/locked-debugger.js
 https://cdn.xgqfrms.xyz/plugins/seo-flag.js
 
 
+> canvas
+
+https://cdn.xgqfrms.xyz/plugins/cursor-effects.js
 
