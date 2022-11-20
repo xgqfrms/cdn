@@ -19,7 +19,7 @@
     <header>
       <h1>狗了个狗(羊了个羊)小游戏在线网页版</h1>
     </header>
-    <main id="gameroom"></main>
+    <main id="app"></main>
     <footer>
         <p>copyright&copy; xgqfrms 2022</p>
     </footer>
@@ -337,10 +337,9 @@ class Card extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <GameRoom />,
-  document.getElementById('gameroom')
-);
+const app = document.getElementById('app');
+
+ReactDOM.render(<GameRoom />, app);
 
 
 log(`✅`)
