@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="xgqfrms">
+  <meta name="generator" content="VS code">
+  <title>js auto download image with dynamic Canvas</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="./index.css"> -->
+</head>
+<body>
+
+<h1>dynamic Canvas drawImage bug</h1>
+<!-- <canvas id="myCanvas" width="300" height="300"></canvas> -->
+
+<a href="https://codepen.io/xgqfrms/pen/gOKeaPE">https://codepen.io/xgqfrms/pen/gOKeaPE</a>
+<br>
+<script>
+function autoDownloadImageWithDynamicCanvas(src = "https://cdn.xgqfrms.xyz/logo/icon.png") {
+  // const canvas = document.getElementById("myCanvas");
+  const canvas = document.createElement("canvas");
+  canvas.width = 300;
+  canvas.height = 300;
+  canvas.id = 'canvas';
+  canvas.style.border = '1px solid red';
+  document.body.appendChild(canvas);
+  // console.log(`canvas =`,  canvas);
+  const ctx = canvas.getContext("2d");
+  const img = document.createElement(`img`);
+  // 解决浏览器安全限制
+  img.crossorigin = "anonymous";
+  // 最后设置 src
+  img.src = src;
+  // img.onload = function() { ctx.drawImage(img, 0, 0); }
+  ctx.drawImage(img, 0, 0);
+  // Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+  const dataURL = canvas.toDataURL();
+  console.log(`dataURL =`,  dataURL);
+  const a =  document.createElement(`a`);
+  a.href = dataURL;
+  a.download = src.slice(src.lastIndexOf(`/`) + 1);
+  setTimeout(() => {
+    a.click();
+  }, 0);
+  // console.log(`a =`,  a);
+  // 不使用插入 DOM 的 canvas 下载会报错 ❌
+}
+  
+autoDownloadImageWithDynamicCanvas();
+
+/*
+
+https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+
+https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_canvas_drawimage
+
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+
+
+// 不使用插入 DOM 的 canvas 下载会报错 ❌
+
+chrome://downloads/
+
+![](https://img2022.cnblogs.com/blog/740516/202211/740516-20221123152326693-401015478.png)
+
+https://www.cnblogs.com/xgqfrms/p/16917973.html
+
+js create dynamic canavs ??? wiithout append to DOM ???
+
+body.appendChild(canvas);
+
+https://stackoverflow.com/questions/10652513/html5-dynamically-create-canvas
+
+*/
+
+</script>
+
+</body>
+</html>
