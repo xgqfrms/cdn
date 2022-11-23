@@ -43,27 +43,18 @@ function autoDownloadImageWithDynamicCanvas(src = "https://cdn.xgqfrms.xyz/logo/
   img.src = src;
   console.log(`img =`, img);
   // callback
-  // img.onload = function() {
-  //   ctx.drawImage(img, 0, 0);
-  //   // setTimeout(() => {
-  //   //   const dataURL = canvas.toDataURL();
-  //   //   console.log(`dataURL =`,  dataURL);
-  //   //   const a =  document.createElement(`a`);
-  //   //   a.href = dataURL;
-  //   //   a.download = src.slice(src.lastIndexOf(`/`) + 1);
-  //   //   a.click();
-  //   // }, 0);
-  // }
-  ctx.drawImage(img, 0, 0);
+  img.onload = function() {
+    ctx.drawImage(img, 0, 0);
+    setTimeout(() => {
+      const dataURL = canvas.toDataURL();
+      console.log(`dataURL =`,  dataURL);
+      const a =  document.createElement(`a`);
+      a.href = dataURL;
+      a.download = src.slice(src.lastIndexOf(`/`) + 1);
+      a.click();
+    }, 0);
+  }
   // Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
-  setTimeout(() => {
-    const dataURL = canvas.toDataURL();
-    console.log(`dataURL =`,  dataURL);
-    const a =  document.createElement(`a`);
-    a.href = dataURL;
-    a.download = src.slice(src.lastIndexOf(`/`) + 1);
-    a.click();
-  }, 0);
   setTimeout(() => {
     // preview 可选 ✅
     document.body.appendChild(canvas);
@@ -133,6 +124,10 @@ CORS 请求与包含的任何凭据（即 cookie、X.509 证书和授权请求�
 If the attribute has an invalid value, browsers handle it as if the anonymous value was used. See CORS settings attributes for additional information.
 
 如果该属性具有无效值，浏览器会像使用匿名值一样处理它。有关其他信息，请参阅 CORS 设置属性。
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image#security_and_tainted_canvases
 
 
 */
