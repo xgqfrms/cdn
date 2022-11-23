@@ -1,25 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="author" content="xgqfrms">
-  <meta name="generator" content="VS code">
-  <title>js auto download image with dynamic Canvas</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="author" content="xgqfrms">
+<meta name="generator" content="VS code">
+<title>js auto download image with dynamic Canvas</title>
+<style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
   </style>
-  <!-- <link rel="stylesheet" href="./index.css"> -->
+
 </head>
 <body>
-
 <h1>dynamic Canvas drawImage bug</h1>
-<!-- <canvas id="myCanvas" width="300" height="300"></canvas> -->
 
 <a href="https://codepen.io/xgqfrms/pen/gOKeaPE">https://codepen.io/xgqfrms/pen/gOKeaPE</a>
 <br>
@@ -31,29 +30,48 @@ function autoDownloadImageWithDynamicCanvas(src = "https://cdn.xgqfrms.xyz/logo/
   canvas.height = 300;
   canvas.id = 'canvas';
   canvas.style.border = '1px solid red';
-  document.body.appendChild(canvas);
+  // canvas.setAttribute('crossorigin', 'anonymous');
+  // preview 可选???
+  // document.body.appendChild(canvas);
   // console.log(`canvas =`,  canvas);
   const ctx = canvas.getContext("2d");
   const img = document.createElement(`img`);
   // 解决浏览器安全限制
-  img.crossorigin = "anonymous";
+  // img.crossorigin = "anonymous"; // ❌
+  img.setAttribute('crossorigin', 'anonymous'); // ✅
   // 最后设置 src
   img.src = src;
-  // img.onload = function() { ctx.drawImage(img, 0, 0); }
+  console.log(`img =`, img);
+  // callback
+  // img.onload = function() {
+  //   ctx.drawImage(img, 0, 0);
+  //   // setTimeout(() => {
+  //   //   const dataURL = canvas.toDataURL();
+  //   //   console.log(`dataURL =`,  dataURL);
+  //   //   const a =  document.createElement(`a`);
+  //   //   a.href = dataURL;
+  //   //   a.download = src.slice(src.lastIndexOf(`/`) + 1);
+  //   //   a.click();
+  //   // }, 0);
+  // }
   ctx.drawImage(img, 0, 0);
   // Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
-  const dataURL = canvas.toDataURL();
-  console.log(`dataURL =`,  dataURL);
-  const a =  document.createElement(`a`);
-  a.href = dataURL;
-  a.download = src.slice(src.lastIndexOf(`/`) + 1);
   setTimeout(() => {
+    const dataURL = canvas.toDataURL();
+    console.log(`dataURL =`,  dataURL);
+    const a =  document.createElement(`a`);
+    a.href = dataURL;
+    a.download = src.slice(src.lastIndexOf(`/`) + 1);
     a.click();
   }, 0);
+  setTimeout(() => {
+    // preview 可选 ✅
+    document.body.appendChild(canvas);
+  }, 3000);
   // console.log(`a =`,  a);
   // 不使用插入 DOM 的 canvas 下载会报错 ❌
 }
-  
+
 autoDownloadImageWithDynamicCanvas();
 
 /*
@@ -73,15 +91,52 @@ chrome://downloads/
 
 https://www.cnblogs.com/xgqfrms/p/16917973.html
 
-js create dynamic canavs ??? wiithout append to DOM ???
+js create dynamic canvas ??? without append to DOM ???
 
 body.appendChild(canvas);
 
 https://stackoverflow.com/questions/10652513/html5-dynamically-create-canvas
 
+
+*/
+
+
+/*
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-crossorigin
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-crossorigin:~:text=to%20a%20bookmark.-,crossorigin,-Indicates%20if%20the
+
+Indicates if the fetching of the image must be done using a CORS request. Image data from a CORS-enabled image returned from a CORS request can be reused in the <canvas> element without being marked "tainted".
+
+指示是否必须使用 CORS 请求来获取图像。从 CORS 请求返回的支持 CORS 的图像中的图像数据可以在 <canvas> 元素中重复使用，而无需标记为“污染”。
+
+If the crossorigin attribute is not specified, then a non-CORS request is sent (without the Origin request header), and the browser marks the image as tainted and restricts access to its image data, preventing its usage in <canvas> elements.
+
+如果未指定 crossorigin 属性，则会发送一个非 CORS 请求（没有 Origin 请求标头），浏览器将图像标记为已污染并限制对其图像数据的访问，从而阻止其在 <canvas> 元素中使用。
+
+If the crossorigin attribute is specified, then a CORS request is sent (with the Origin request header); but if the server does not opt into allowing cross-origin access to the image data by the origin site (by not sending any Access-Control-Allow-Origin response header, or by not including the site's origin in any Access-Control-Allow-Origin response header it does send), then the browser blocks the image from loading, and logs a CORS error to the devtools console.
+
+如果指定了 crossorigin 属性，则发送 CORS 请求（带有 Origin 请求标头）； 但是如果服务器不选择允许源站点对图像数据进行跨源访问（通过不发送任何 Access-Control-Allow-Origin 响应标头，或者不在任何 Access-Control-Allow 中包含站点的源） -它确实发送了原始响应标头），然后浏览器阻止图像加载，并将 CORS 错误记录到 devtools 控制台。
+
+
+anonymous A CORS request is sent with credentials omitted (that is, no cookies, X.509 certificates, or Authorization request header).
+
+匿名的 发送 CORS 请求时省略凭据（即没有 cookie、X.509 证书或授权请求标头）。
+
+use-credentials
+The CORS request is sent with any credentials included (that is, cookies, X.509 certificates, and the Authorization request header). If the server does not opt into sharing credentials with the origin site (by sending back the Access-Control-Allow-Credentials: true response header), then the browser marks the image as tainted and restricts access to its image data.
+
+使用凭证
+CORS 请求与包含的任何凭据（即 cookie、X.509 证书和授权请求标头）一起发送。 如果服务器不选择与源站点共享凭据（通过发回 Access-Control-Allow-Credentials: true 响应标头），则浏览器会将图像标记为已污染并限制对其图像数据的访问。
+
+If the attribute has an invalid value, browsers handle it as if the anonymous value was used. See CORS settings attributes for additional information.
+
+如果该属性具有无效值，浏览器会像使用匿名值一样处理它。有关其他信息，请参阅 CORS 设置属性。
+
+
 */
 
 </script>
-
 </body>
 </html>
