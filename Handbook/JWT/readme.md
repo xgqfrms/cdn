@@ -3,7 +3,9 @@
 
 
 https://cdn.xgqfrms.xyz/Handbook/JWT/jwt-handbook-v0_14_1.pdf
+
 https://cdn.xgqfrms.xyz/Handbook/JWT/jwt-handbook-v0_14_1.epub
+
 https://cdn.xgqfrms.xyz/Handbook/JWT/jwt-handbook-v0_14_1.mobi
 
 
