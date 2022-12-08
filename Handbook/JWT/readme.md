@@ -1,6 +1,13 @@
 
 # JWT Handbook pdf download
 
+
+https://cdn.xgqfrms.xyz/Handbook/JWT/jwt-handbook-v0_14_1.pdf
+https://cdn.xgqfrms.xyz/Handbook/JWT/jwt-handbook-v0_14_1.epub
+https://cdn.xgqfrms.xyz/Handbook/JWT/jwt-handbook-v0_14_1.mobi
+
+
+
 ![](https://img2023.cnblogs.com/blog/928074/202212/928074-20221209003328444-273196133.png)
 
 
