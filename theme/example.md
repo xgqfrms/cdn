@@ -1,7 +1,27 @@
 ---
-# themes:
 theme: channing-cyan
+highlight: foundation
 ---
+# 2023 first post
+
+
+## js demo
+
+```js
+console.log(`2023 first post!`)
+```
+
+## this is a very very long title that will show animation ❓
+
+> not work at all
+
+
+## refs
+
+https://www.cnblogs.com/xgqfrms/p/16042291.html
+
+https://cdn.xgqfrms.xyz/theme/index.html
+
 
 ## Markdown Basic Syntax
 
