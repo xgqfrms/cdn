@@ -1,7 +1,7 @@
 ---
 theme: channing-cyan
 highlight: foundation
-# jujin Markdown Theme In Action
+# jujin Markdown Theme In Action All In One 🚀
 ---
 
 # first level title 👻
@@ -44,6 +44,7 @@ highlight: foundation
 
 [link](url)
 
+$juejin inline code$ 👎 `github markdown inline code` 👍
 
 
 ```js
@@ -66,6 +67,43 @@ table
 | Header 1| Text 1|
 | Header 2| Text 2|
 | Header 3| Text 3|
+
+## 图片 
+
+images 
+
+```md
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c367de0af4b4ad396c3ba7d515a93d8~tplv-k3u1fbpfcp-watermark.image?)
+```
+
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c367de0af4b4ad396c3ba7d515a93d8~tplv-k3u1fbpfcp-watermark.image?)
+
+images 缩放 50%
+
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c367de0af4b4ad396c3ba7d515a93d8~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" width="50%" />
+
+
+```html
+<img
+  src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c367de0af4b4ad396c3ba7d515a93d8~tplv-k3u1fbpfcp-watermark.image?" 
+  alt="image.png"
+  width="50%"
+/>
+```
+
+## 流程图
+
+```mermaid
+graph TD
+Start --> A --> B --> C --> Stop
+Start --> X --> Y --> Z --> Stop2
+Start --> D --> E --> Stop
+Start2 --> U --> F --> Z --> Stop3
+
+```
+
+
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/235e0f2962144ad7914bb27599e82a63~tplv-k3u1fbpfcp-watermark.image?)
 
 
 
