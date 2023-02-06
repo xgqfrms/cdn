@@ -1,5 +1,6 @@
 # glTF 2.0
 
+https://cdn.xgqfrms.xyz/webgl/gltf-2.0/gltf20-reference-guide.pdf
 
 https://www.khronos.org/files/gltf20-reference-guide.pdf
 
