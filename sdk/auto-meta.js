@@ -8,12 +8,12 @@ const autoGeneratorMeta = (options = {
   const h1 = document.querySelector(`${uid}`);
   const text = window.encodeURIComponent(h1?.innerText ?? '暂无文章标题');
   const post = document.querySelector(`[id="${postId}"]`);
-  const content = post.innerText.slice(0, 200) ?? '暂无文章标内容';
+  const content = post?.innerText.slice(0, 200) ?? '暂无文章标内容';
   // const content = window.encodeURIComponent(post.innerText.slice(0, 200) ?? '暂无文章标内容');
   const domain = window.location.origin;
   const site = window.location.href;
   const flag = `https://s11.flagcounter.com/count2/QIXi/bg_000000/txt_00FF00/border_FF00FF/columns_3/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_1/`;
-  const img = post.querySelector('img')?.src ?? flag;
+  const img = post?.querySelector('img')?.src ?? flag;
   // const imgSrc = window.encodeURIComponent(post.querySelector('img')?.src ?? flag);
   // https://www.cnblogs.com/xgqfrms/p/15990413.html
   /*
