@@ -22,10 +22,18 @@ https://twitter.com/intent/tweet?url=https%3A%2F%2Fstackoverflow.com%2Fa%2F64754
 
 https://cdn.xgqfrms.xyz/sdk/anti-crawler.js
 
+```js
+await new Promise((resolve, reject) => {setTimeout(() => resolve(`OK ✅`), 3000)});
+await new Promise((resolve, reject) => {setTimeout(() => reject(`Error ❌`), 3000)});
+
+```
+
+https://cdn.xgqfrms.xyz/sdk/inject-original-url.js
 
 
 ## refs
 
+https://www.cnblogs.com/xgqfrms/p/17687323.html
 
 https://zzk.cnblogs.com/my/s/blogpost-p?Keywords=twitter
 
