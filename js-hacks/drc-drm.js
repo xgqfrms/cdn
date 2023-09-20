@@ -15,9 +15,30 @@
  * 
  */
 
-let log = console.log;
+
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  let log = console.log;
+  log('DOM fully loaded and parsed', `disabled copy`);
+  document.body.oncontextmenu = 
+  document.body.ondragstart = 
+  document.body.onselectstart = 
+  document.body.onbeforecopy = function() {
+    return false;
+  };
+
+  document.body.onselect = 
+  document.body.oncopy = 
+  document.body.onmouseup = function() {
+    document.selection?.empty();
+  };
+});
+
+/*
 
 (() => {
+  let log = console.log;
   log('DOM fully loaded and parsed', `disabled copy`);
 
   document.body.oncontextmenu = 
@@ -33,24 +54,5 @@ let log = console.log;
     document.selection.empty();
   };
 })();
-
-/*
-
-window.addEventListener('DOMContentLoaded', (event) => {
-  log('DOM fully loaded and parsed', `disabled copy`);
-
-  document.body.oncontextmenu = 
-  document.body.ondragstart = 
-  document.body.onselectstart = 
-  document.body.onbeforecopy = function() {
-    return false;
-  };
-
-  document.body.onselect = 
-  document.body.oncopy = 
-  document.body.onmouseup = function() {
-    document.selection.empty();
-  };
-});
 
 */
