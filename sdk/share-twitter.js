@@ -29,18 +29,22 @@ const shareToTwitter = (options = {
 // console.log('shareToTwitter', shareToTwitter);
 
 const autoGeneratorShareButton = () => {
- // 自动生成 UI (web components ???)
- 
+  // 自动生成 UI (web components ???)
+  const shareBox = document.querySelector("#green_channel");
+  if(shareBox) {
+    console.log(`✅ shareBox`, shareBox);
+    shareBox.insertAdjacentHTML('afterbegin', `<a href="javascript:void(0);" id="green_channel_digg" onclick="shareToTwitter()" title="分享到 Twitter">分享到 Twitter</a>`);
+  } else {
+    console.log(`❌ shareBox`, `https://cdn.xgqfrms.xyz/sdk/share-twitter.js`);
+  }
 };
 
 // export shareToTwitter;
-// export {shareToTwitter, };
+// export {shareToTwitter, autoGeneratorShareButton, copyright};
 // export default shareToTwitter;
 
 // on button click call function `shareToTwitter()`
-
 // twitter svg icon
-
 // https://help.twitter.com/en/using-twitter/add-twitter-share-button
 
 /*
