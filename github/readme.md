@@ -1,6 +1,9 @@
 # github pages to github repo 自动解析
 
 
+https://cdn.xgqfrms.xyz/github/github-page-to-github-repo.js
+
+
 ```js
 // const url = globalThis.window.location.href;
 // const url = window.location.href;
