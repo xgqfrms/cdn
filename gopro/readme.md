@@ -1,14 +1,31 @@
-# GoPro HERO10 Black 使用说明
+# GoPro 产品手册 pdf
+
+
+## GoPro HERO13 Black 官方中文产品手册 pdf
+
+> GoPro 13 使用说明
+
+https://community.gopro.com/s/topic/0TOUv0000001nbNOAQ/hero13-black?language=zh_CN
+
+https://gopro.my.salesforce.com/sfc/p/#o0000000HJuF/a/Uv0000009jcD/VbsNYf.MY2IImfNVu108vR_UNAIevWylehpUg9_XUpY
+
+> GoPro_HERO13_Black_zh-CN.pdf
+
+https://cdn.xgqfrms.xyz/gopro/GoPro_HERO13_Black_zh-CN.pdf
+
+https://cdn.xgqfrms.xyz/gopro/GoPro_HERO13_QSG.pdf
+
+
+
+## GoPro HERO10 Black 使用说明
 
 > GoPro 10 使用说明
 
 https://storage.jd.com/guarantee/10000009251634119135858HERO10Black_UM_zh-CN_REVB.pdf
 
-https://gw-e.jd.com/spec/instructions?tid=88038&pt=4&sku=100027717324&from=3&sid=92f4a63397828d12f4f4b14b99f7f73w&un_area=2_2813_61127_0&_ts=1644901320942&utm_source=iosapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL&ad_od=share
-
 https://gopro.com/en/us/shop/cameras/hero10-black/CHDHX-101-master.html
 
 
-## GoPro-HERO10-Black.pdf
+> GoPro-HERO10-Black.pdf
 
 https://cdn.xgqfrms.xyz/gopro/GoPro-HERO10-Black.pdf
