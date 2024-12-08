@@ -29,3 +29,15 @@ https://gopro.com/en/us/shop/cameras/hero10-black/CHDHX-101-master.html
 > GoPro-HERO10-Black.pdf
 
 https://cdn.xgqfrms.xyz/gopro/GoPro-HERO10-Black.pdf
+
+
+## GoPro GP-LOG LUTs
+
+
+https://cdn.xgqfrms.xyz/gopro/GP-LOG%20Release%20LUTs.zip
+
+
+## refs
+
+https://www.cnblogs.com/xgqfrms/p/18593688
+
