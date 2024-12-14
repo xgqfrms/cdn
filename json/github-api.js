@@ -26,15 +26,13 @@ fetch(`https://api.github.com/users/${username}/${repo}`,{
 
 // https://api.github.com/users/xgqfrms
 
-// https://api.github.com/users/xgqfrms/react2 ???
-
-/*
-
 /**
  * [nct: fetch data]
  * @author: xgqfrms
  * @date: 2017-06-12
  */
+
+/*
 
 const fetch = require('node-fetch');
 const showdata = require('./showdata');
