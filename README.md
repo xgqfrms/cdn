@@ -1,12 +1,16 @@
 # free cdn for everyone
 
-> [https://cdn.xgqfrms.xyz/index.html](https://cdn.xgqfrms.xyz/index.html)
+> ~~[https://cdn.xgqfrms.xyz/index.html](https://cdn.xgqfrms.xyz/index.html)~~
+
+> [https://cdn.777737777.xyz/index.html](https://cdn.777737777.xyz/index.html)
 
 
 ## CDN for everyone who want to speed his website!
 
 
-https://cdn.xgqfrms.xyz/
+~~https://cdn.xgqfrms.xyz/~~
+
+https://cdn.777737777.xyz/
 
 
 ## Disclaimer
