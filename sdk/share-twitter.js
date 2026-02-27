@@ -40,7 +40,7 @@ const autoGeneratorShareButton = () => {
 };
 
 // export shareToTwitter;
-// export {shareToTwitter, autoGeneratorShareButton, copyright};
+export {shareToTwitter, autoGeneratorShareButton, copyright};
 // export default shareToTwitter;
 
 // on button click call function `shareToTwitter()`
